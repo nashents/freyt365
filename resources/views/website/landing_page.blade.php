@@ -45,7 +45,7 @@
 					<div class="sidebar-info-contents headline pera-content">
 						<div class="content-inner">
 							<div class="sidebar-logo">
-								<a href="#"><img src={{asset('assets/img/logo/logo2.png')}} alt=""></a>
+								<a href="#"><img src={{asset('assets/img/logo/logo-header.png')}} alt="" style="width: 25%;height:25%;"></a>
 							</div>
 							<div class="sidebar-menu ul-li-block">
 								<ul>

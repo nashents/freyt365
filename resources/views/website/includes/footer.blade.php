@@ -79,7 +79,7 @@
         <div class="container">
             <div class="bi-footer-logo">
                 <div class="brand-logo text-center">
-                    <a href="#"><img src={{asset('assets/img/logo/logo-footer.png')}} alt=""></a>
+                    <a href="#"><img src={{asset('assets/img/logo/logo-footer.png')}} alt="" style="width: 15%; height:15%"></a>
                 </div>
                 <div class="logo-mail text-center headline">
                     <h3><a href="#">enquires@raysuncapital.com</a></h3>

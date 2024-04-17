@@ -2,7 +2,7 @@
     <div class="container">
         <div class="bi-header-content d-flex justify-content-between align-items-center" data-background="assets/img/bg/header-bg.png">
             <div class="brand-logo">
-                <a href="#"><img src="assets/img/logo/logo-header.png" alt=""></a>
+                <a href="#"><img src="{{asset('assets/img/logo/logo-header.png')}}" alt=""></a>
             </div>
             <div class="bi-header-main-navigation">
                 <nav class="main-navigation clearfix ul-li">
@@ -33,7 +33,7 @@
                         <i class="fal fa-times"></i>
                     </div>
                     <div class="m-brand-logo">
-                        <a href="!#"><img src="assets/img/logo/logo2.png" alt=""></a>
+                        <a href="!#"><img src="{{asset('assets/img/logo/logo-header.png')}}" alt=""></a>
                     </div>
                     <div class="mobile-search-bar position-relative">
                         <form action="#">
