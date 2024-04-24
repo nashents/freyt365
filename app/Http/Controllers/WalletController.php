@@ -13,7 +13,7 @@ class WalletController extends Controller
      */
     public function index()
     {
-        //
+        return view('wallets.index');
     }
 
     /**

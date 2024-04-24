@@ -49,6 +49,8 @@
                 </form>
             </div>
         </div>
+        <a href="{{route('fuel_prices.index')}}" type="button" class="btn btn-outline-primary"><i class="ri-gas-station-fill"></i> View Fuel Prices</a>
+        <a href="{{route('branches.index')}}" type="button" class="btn btn-outline-primary"><i class="bi bi-building-fill-add"></i> View Branches</a>
 
         <ul class="topbar-menu d-flex align-items-center gap-3">
             <li class="dropdown d-lg-none">

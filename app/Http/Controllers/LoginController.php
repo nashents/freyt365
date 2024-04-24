@@ -24,7 +24,7 @@ class LoginController extends Controller
         return view('authentication.login');
     }
 
-    public function signup()
+    public function getSignup()
     {
         $roles = Role::all();
         return view('authentication.signup')->with('roles', $roles);
@@ -51,42 +51,18 @@ class LoginController extends Controller
         if(Auth::attempt(['username'=>$request['username'],'password'=>$request['password']])){
             $user = Auth::user();
             if ($user->active == "1") {
-               
-                if ($user->category == "company") {
-                    Session::flash('success','Welcome to your company dashboard '.Auth::user()->name);
-                    return redirect(route('dashboard.index'));
-                } elseif ($user->category == "agent" || $user->category == "customer" || $user->category == "broker") {
-                    Session::flash('success','Welcome to your company dashboard '.Auth::user()->name);
-                    return redirect(route('dashboard.third_parties'));
-                }
-                 elseif ( $user->category == "transporter") {
-                    $transporter = $user->transporter;
-                    if ($transporter->authorization == "approved") {
-                        Session::flash('success','Welcome to your company dashboard '.Auth::user()->name);
-                        return redirect(route('dashboard.third_parties'));
-                    }else{
-                        Session::flash('error','Failed to login. Account pending authorization');
-                        return redirect()->back();
-                    }
-                  
-                }
-                elseif($user->category == "employee" || $user->category == "driver" || $user->category == "admin") {
-                    if ($user->employee->company->status == "1" ) {
+                if ($user->company->status == "1" ) {
                     $roles = $user->roles; 
-                    $ranks = $user->employee->ranks;
-                    $departments = $user->employee->departments;
-
-                    if ($roles->count()>0 && $ranks->count()>0 && $departments->count()>0) {
+                    if ($roles->count()>0) {
                         Session::flash('success','Welcome to your admin dashboard '.Auth::user()->name ." ". Auth::user()->surname);
                         return redirect(route('dashboard'));
                     }else {
-                        Session::flash('error','Failed to login. User Role | Rank | Department is not defined');
+                        Session::flash('error','Failed to login. User Role is not defined');
                         return redirect()->back();
                     }
                 }else {
                     Session::flash('error','Failed to Login. Company Account Suspended');
                     return redirect()->back();
-                }
                 }
            
             }else {

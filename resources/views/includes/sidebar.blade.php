@@ -43,44 +43,57 @@
             </li>
            
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <i class="bi bi-wallet-fill"></i>
                     <span> Wallet </span>
+                    <span class="menu-arrow"></span>
                 </a>
+                <div class="collapse" id="sidebarExtendedUI">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{ route('transactions.index') }}">Transactions</a>
+                        </li>
+                        <li>
+                            <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
+          
+
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('users.index') }}" class="side-nav-link">
                     <i class="bi bi-people"></i>
-                    <span> Employees </span>
+                    <span> Users </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('horses.index') }}" class="side-nav-link">
                     <i class="bi bi-truck-front-fill"></i>
                     <span> Trucks </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('trailers.index') }}" class="side-nav-link">
                     <i class="bi bi-list-ul"></i>
                     <span> Trailers </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('drivers.index') }}" class="side-nav-link">
                     <i class="bi bi-people"></i>
                     <span> Driver </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('clearing_agents.index') }}" class="side-nav-link">
                     <i class="bi bi-building-fill-add"></i>
                     <span> Clearing Agents </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('service_providers.index') }}" class="side-nav-link">
                     <i class="bi bi-building-fill-add"></i>
                     <span> Service Providers </span>
                 </a>
@@ -94,7 +107,7 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="#">My Trips</a>
+                            <a href="{{ route('trips.index') }}">My Trips</a>
                         </li>
                         <li>
                             <a href="#">My Trip Templates</a>
@@ -117,7 +130,7 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="#">Order List</a>
+                            <a href="{{ route('orders.index') }}">Manage Orders</a>
                         </li>
                         <li>
                             <a href="#">UnAuthorized Orders</a>
@@ -149,19 +162,19 @@
                 </div>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('customers.index') }}" class="side-nav-link">
                     <i class="bi bi-people"></i>
                     <span> Customers </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('quotations.index') }}" class="side-nav-link">
                     <i class="bi bi-file-earmark-text-fill"></i>
                     <span> Quotations </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('invoices.index') }}" class="side-nav-link">
                     <i class="bi bi-file-earmark-text-fill"></i>
                     <span> Invoices </span>
                 </a>

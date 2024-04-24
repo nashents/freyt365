@@ -1,13 +1,13 @@
 <?php
 
 use App\Models\Trip;
+use App\Models\user;
 use App\Models\Cargo;
 use App\Models\Horse;
 use App\Models\Wallet;
 use App\Models\Company;
 use App\Models\Trailer;
 use App\Models\Customer;
-use App\Models\Employee;
 use App\Models\Destination;
 use App\Models\Transporter;
 use App\Models\LoadingPoint;
@@ -19,20 +19,29 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\HorseController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TrailerController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FuelPriceController;
+use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\FuelStationController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransporterController;
 use App\Http\Controllers\LoadingPointController;
 use App\Http\Controllers\ClearingAgentController;
@@ -90,7 +99,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/wallets',WalletController::class);
     Route::resource('/drivers',DriverController::class);
     Route::resource('/clearing_agents',ClearingAgentController::class);
-    Route::resource('/employees',EmployeeController::class);
+    Route::resource('/users', UserController::class);
     Route::resource('/service_providers',ServiceProviderController::class);
     Route::resource('/customers',CustomerController::class);
     Route::resource('/trips',TripController::class);
@@ -98,10 +107,19 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/loading_points',LoadingPointController::class);
     Route::resource('/offloading_points',OffloadingPointController::class);
     Route::resource('/cargos',CargoController::class);
+    Route::resource('/orders',OrderController::class);
+    Route::resource('/quotations',QuotationController::class);
+    Route::resource('/invoices',InvoiceController::class);
+    Route::resource('/fuel_stations',FuelStationController::class);
+    Route::resource('/fuel_prices',FuelPriceController::class);
+    Route::resource('/branches',BranchController::class);
+    Route::resource('/transactions',TransactionController::class);
+    Route::resource('/documents',DocumentController::class);
+    Route::resource('/bank_accounts',BankAccountController::class);
 
-    Route::get('/employees/{id}/profile',[EmployeeController::class,'getProfile'])->name('profile');
-    Route::post('/employees/{id}/change-password',[EmployeeController::class,'changePassword'])->name('password.change');
-    Route::post('/employees/{id}/profile-update',[EmployeeController::class,'profile'])->name('postProfile');
+    Route::get('/users/{id}/profile',[UserController::class,'getProfile'])->name('profile');
+    Route::post('/users/{id}/change-password',[UserController::class,'changePassword'])->name('password.change');
+    Route::post('/users/{id}/profile-update',[UserController::class,'profile'])->name('postProfile');
 
     Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
 

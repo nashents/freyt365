@@ -60,6 +60,9 @@ class User extends Authenticatable implements Auditable
     public function requisitions(){
         return $this->hasMany('App\Models\Requisition');
     }
+    public function company(){
+        return $this->belongsTo('App\Models\Company');
+    }
     public function logs(){
         return $this->hasMany('App\Models\Log');
     }
@@ -162,9 +165,7 @@ class User extends Authenticatable implements Auditable
     public function admin(){
         return $this->hasOne('App\Models\Admin');
     }
-    public function company(){
-        return $this->hasOne('App\Models\Company');
-    }
+   
     public function fitnesses(){
         return $this->hasMany('App\Models\Fitness');
     }

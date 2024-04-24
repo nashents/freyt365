@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('email')->nullable();
+            $table->bigInteger('country_id')->unsigned()->nullable();
             $table->string('name')->nullable();
             $table->string('phonenumber')->nullable();
+            $table->string('email')->nullable();
             $table->text('address')->nullable();
             $table->timestamps();
             $table->softDeletes();

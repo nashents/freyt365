@@ -14,41 +14,39 @@ class CompanySeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function generatePIN($digits = 4){
-        $i = 0; //counter
-        $pin = ""; //our default pin is blank.
-        while($i < $digits){
-            //generate a random number between 0 and 9.
-            $pin .= mt_rand(0, 9);
-            $i++;
-        }
-        return $pin;
-    }
+
 
     public function run()
     {
-        $password = Hash::make('admin12345');
-
-        $user = User::create([
-            'name' => 'Raysun Capital',
-            'category' => 'company',
-            'email' => 'enquires@raysuncapital.com',
-            'password' => $password,
-        ]);
-     
+       
         $company = new Company;
-
-        $company->user_id = $user->id;
         $company->type = "Admin";
         $company->name = "Raysun Capital";
         $company->email = "enquires@raysuncapital.com";
-        $company->noreply = "noreply@gonyetitls.co.zw";
+        $company->noreply = "noreply@gonyetitls.com";
         $company->phonenumber = "0782421799";
         $company->country = "Zimbabwe";
         $company->city = "Harare";
         $company->suburb = "Eastlea";
         $company->street_address = "20 Ray Amm Rd";
+        $company->status = 1;
         $company->save();
+
+        $password = Hash::make('admin12345');
+
+        $user = new User;
+        $user->company_id = $company->id;
+        $user->name = 'Panashe';
+        $user->surname = 'Ngorima';
+        $user->category = 'admin';
+        $user->is_admin = 1;
+        $user->use_email_as_username = 1;
+        $user->email = 'admin@admin';
+        $user->phonenumber = '0782421799';
+        $user->username = 'admin@admin';
+        $user->password = $password;
+        $user->save();
+        $user->roles()->attach(1);
 
 
 

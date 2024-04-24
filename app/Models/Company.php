@@ -12,8 +12,8 @@ class Company extends Model  implements Auditable
     use HasFactory, SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
-    public function user(){
-        return $this->belongsTo('App\Models\User');
+    public function users(){
+        return $this->hasMany('App\Models\User');
     }
     public function receipts(){
         return $this->hasMany('App\Models\Receipt');
