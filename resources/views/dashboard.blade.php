@@ -43,6 +43,24 @@
                         <!-- end page title -->
 
                         <div class="row">
+
+                            <div class="col-xxl-3 col-sm-6">
+                                <div class="card widget-flat text-bg-purple">
+                                    <div class="card-body">
+                                        <div class="float-end">
+                                            <i class="ri-wallet-2-line widget-icon"></i>
+                                        </div>
+                                        <h6 class="text-uppercase mt-0" title="Customers">Wallet</h6>
+                                        <h2 class="my-2">{{Auth::user()->company->wallet->currency->name}} {{Auth::user()->company->wallet->currency->symbol}}{{number_format(Auth::user()->company->wallet->balance,2)}}</h2>
+                                        <p class="mb-0">
+                                            {{-- <span class="badge bg-white bg-opacity-10 me-1">18.25%</span>
+                                            <span class="text-nowrap">Since last month</span> --}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> <!-- end col-->
+
+                            
                             <div class="col-xxl-3 col-sm-6">
                                 <div class="card widget-flat text-bg-pink">
                                     <div class="card-body">
@@ -59,22 +77,7 @@
                                 </div>
                             </div> <!-- end col-->
 
-                            <div class="col-xxl-3 col-sm-6">
-                                <div class="card widget-flat text-bg-purple">
-                                    <div class="card-body">
-                                        <div class="float-end">
-                                            <i class="ri-wallet-2-line widget-icon"></i>
-                                        </div>
-                                        <h6 class="text-uppercase mt-0" title="Customers">Revenue</h6>
-                                        <h2 class="my-2">0</h2>
-                                        <p class="mb-0">
-                                            {{-- <span class="badge bg-white bg-opacity-10 me-1">18.25%</span>
-                                            <span class="text-nowrap">Since last month</span> --}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div> <!-- end col-->
-
+                           
                             <div class="col-xxl-3 col-sm-6">
                                 <div class="card widget-flat text-bg-info">
                                     <div class="card-body">

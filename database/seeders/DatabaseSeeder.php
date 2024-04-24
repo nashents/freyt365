@@ -43,13 +43,14 @@ class DatabaseSeeder extends Seeder
            $this->call(RoleSeeder::class);
            $this->call(DepartmentSeeder::class);
            $this->call(RankSeeder::class);
+           $this->call(CurrencySeeder::class);
            $this->call(CompanySeeder::class);
            $this->call(JobTitleSeeder::class);
         //    $this->call(EmployeeSeeder::class);
            $this->call(TripTypeSeeder::class);
            $this->call(FuelTypeSeeder::class);
            $this->call(VendorTypeSeeder::class);
-           $this->call(CurrencySeeder::class);
+
            $this->call(AccountTypeGroupSeeder::class);
            $this->call(AccountTypeSeeder::class);
            $this->call(AccountSeeder::class);

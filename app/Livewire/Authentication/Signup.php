@@ -88,6 +88,7 @@ class Signup extends Component
         $this->company_id = $company->id;
 
         $wallet = new Wallet;
+        $wallet->company_id = $company->id;
         $wallet->wallet_name = $company->name;
         $wallet->wallet_number = $this->walletNumber();
         $wallet->currency_id = 1;

@@ -15,6 +15,11 @@ class Company extends Model  implements Auditable
     public function users(){
         return $this->hasMany('App\Models\User');
     }
+
+    public function wallet(){
+        return $this->hasOne('App\Models\Wallet');
+    }
+
     public function receipts(){
         return $this->hasMany('App\Models\Receipt');
     }
