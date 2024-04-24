@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Employee</a>
+                    <a href="" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New User</a>
                   
                 </div>
                 <div class="card-body">

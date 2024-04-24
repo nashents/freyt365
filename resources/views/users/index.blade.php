@@ -1,17 +1,14 @@
 @extends('layouts.app')
 
 @section('title')
-    Employees 
+    Users 
 @endsection
 
 
 @section('content')
     
-
-
-        
         <!-- ========== Topbar Start ========== -->
-       {{-- @include('includes.navbar') --}}
+       @include('includes.navbar')
         <!-- ========== Topbar End ========== -->
         
 
@@ -36,16 +33,16 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                                        <li class="breadcrumb-item" active><a href="javascript: void(0);">Employees</a></li>
+                                        <li class="breadcrumb-item" active><a href="javascript: void(0);">Users</a></li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Employees</h4>
+                                <h4 class="page-title">Users</h4>
                             </div>
                         </div>
                     </div>
                     <!-- end page title -->
 
-                    @livewire('employees.index')
+                    @livewire('users.index')
 
                 </div> <!-- container -->
 

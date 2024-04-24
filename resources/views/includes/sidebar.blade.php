@@ -71,7 +71,7 @@
             <li class="side-nav-item">
                 <a href="{{ route('horses.index') }}" class="side-nav-link">
                     <i class="bi bi-truck-front-fill"></i>
-                    <span> Trucks </span>
+                    <span> Horses </span>
                 </a>
             </li>
             <li class="side-nav-item">
@@ -93,9 +93,9 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{ route('service_providers.index') }}" class="side-nav-link">
+                <a href="{{ route('vendors.index') }}" class="side-nav-link">
                     <i class="bi bi-building-fill-add"></i>
-                    <span> Service Providers </span>
+                    <span> Vendors </span>
                 </a>
             </li>
             <li class="side-nav-item">

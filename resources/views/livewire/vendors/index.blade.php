@@ -3,21 +3,18 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Bank Account</a>
+                    <a href="" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Vendor</a>
                   
                 </div>
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
+                                <th>Vendor Type</th>
                                 <th>Name</th>
-                                <th>Type</th>
-                                <th>Currency</th>
-                                <th>Acc Name</th>
-                                <th>Acc #</th>
-                                <th>Branch</th>
-                                <th>Branch Code</th>
-                                <th>Swift Code</th>
+                                <th>Email</th>
+                                <th>Phonenumber</th>
+                                <th>Address</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -26,9 +23,6 @@
 
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

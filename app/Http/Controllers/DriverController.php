@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClearingAgent;
-use App\Http\Requests\StoreClearingAgentRequest;
-use App\Http\Requests\UpdateClearingAgentRequest;
+use App\Models\Driver;
+use App\Http\Requests\StoreDriverRequest;
+use App\Http\Requests\UpdateDriverRequest;
 
-class ClearingAgentController extends Controller
+class DriverController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('clearing_agents.index');
+        return view('drivers.index');
     }
 
     /**
@@ -27,7 +27,7 @@ class ClearingAgentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClearingAgentRequest $request)
+    public function store(StoreDriverRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ClearingAgentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ClearingAgent $clearingAgent)
+    public function show(Driver $driver)
     {
         //
     }
@@ -43,7 +43,7 @@ class ClearingAgentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ClearingAgent $clearingAgent)
+    public function edit(Driver $driver)
     {
         //
     }
@@ -51,7 +51,7 @@ class ClearingAgentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClearingAgentRequest $request, ClearingAgent $clearingAgent)
+    public function update(UpdateDriverRequest $request, Driver $driver)
     {
         //
     }
@@ -59,7 +59,7 @@ class ClearingAgentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClearingAgent $clearingAgent)
+    public function destroy(Driver $driver)
     {
         //
     }

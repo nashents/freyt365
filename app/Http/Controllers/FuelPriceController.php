@@ -13,7 +13,7 @@ class FuelPriceController extends Controller
      */
     public function index()
     {
-        //
+        return view('fuel_prices.index');
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Service Providers 
+    Drivers
 @endsection
 
 
@@ -11,7 +11,7 @@
 
         
         <!-- ========== Topbar Start ========== -->
-       {{-- @include('includes.navbar') --}}
+        @include('includes.navbar')
         <!-- ========== Topbar End ========== -->
         
 
@@ -36,16 +36,16 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                                        <li class="breadcrumb-item" active><a href="javascript: void(0);">Service Providers</a></li>
+                                        <li class="breadcrumb-item" active><a href="javascript: void(0);">Drivers</a></li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Service Providers</h4>
+                                <h4 class="page-title">Drivers</h4>
                             </div>
                         </div>
                     </div>
                     <!-- end page title -->
 
-                    @livewire('service-providers.index')
+                    @livewire('drivers.index')
 
                 </div> <!-- container -->
 

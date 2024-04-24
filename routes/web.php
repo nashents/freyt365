@@ -26,6 +26,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InvoiceController;
@@ -116,6 +118,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/transactions',TransactionController::class);
     Route::resource('/documents',DocumentController::class);
     Route::resource('/bank_accounts',BankAccountController::class);
+    Route::resource('/drivers',DriverController::class);
+    Route::resource('/vendors',VendorController::class);
 
     Route::get('/users/{id}/profile',[UserController::class,'getProfile'])->name('profile');
     Route::post('/users/{id}/change-password',[UserController::class,'changePassword'])->name('password.change');

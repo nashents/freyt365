@@ -13,7 +13,7 @@ class HorseController extends Controller
      */
     public function index()
     {
-        //
+        return view('horses.index');
     }
 
     /**

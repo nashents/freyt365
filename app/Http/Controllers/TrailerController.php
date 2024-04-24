@@ -13,7 +13,7 @@ class TrailerController extends Controller
      */
     public function index()
     {
-        //
+        return view('trailers.index');
     }
 
     /**
