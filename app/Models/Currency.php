@@ -13,4 +13,19 @@ class Currency extends Model
     public function wallets(){
         return $this->hasMany('App\Models\Wallet');
     }
+    
+    public function fuel_prices(){
+        return $this->hasMany('App\Models\FuelPrice');
+    }
+   
+    public function bank_accounts(){
+        return $this->hasMany('App\Models\BankAccount');
+    }
+    public function transactions(){
+        return $this->hasMany('App\Models\Transaction');
+    }
+
+    public function branches(){
+        return $this->belongsToMany('App\Models\Branch');
+    }
 }

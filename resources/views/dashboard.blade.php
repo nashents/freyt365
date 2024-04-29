@@ -43,6 +43,9 @@
                         <!-- end page title -->
 
                         <div class="row">
+                            <div>
+                                @include('includes.messages')
+                           </div>
 
                             <div class="col-xxl-3 col-sm-6">
                                 <div class="card widget-flat text-bg-purple">

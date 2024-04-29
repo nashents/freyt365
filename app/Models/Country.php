@@ -2,10 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Country extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    public function fuel_prices(){
+        return $this->hasMany('App\Models\FuelPrice');
+    }
+    public function fuel_stations(){
+        return $this->hasMany('App\Models\FuelStation');
+    }
 }

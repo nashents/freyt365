@@ -34,7 +34,9 @@
                                         <p class="text-muted mb-3">Enter your email address and password to access
                                             account.
                                         </p>
-
+                                        <div>
+                                            @include('includes.messages')
+                                       </div>
                                         <!-- form -->
                                         <form action="{{route('postLogin')}}" method="POST">
                                             {{ csrf_field() }}

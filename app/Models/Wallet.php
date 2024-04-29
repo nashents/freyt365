@@ -16,4 +16,8 @@ class Wallet extends Model
     public function currency(){
         return $this->belongsTo('App\Models\Currency');
     }
+    public function transactions(){
+        return $this->hasMany('App\Models\Transaction');
+    }
+
 }

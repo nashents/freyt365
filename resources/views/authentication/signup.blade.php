@@ -35,6 +35,9 @@
                                     <p class="text-muted mb-3">Enter your email address and password to access
                                         account.</p>
                                     <!-- form -->
+                                    <div>
+                                        @include('includes.messages')
+                                   </div>
                                     @livewire('authentication.signup')
                                     <!-- end form-->
                                 </div>
