@@ -15,6 +15,25 @@ class CompanySeeder extends Seeder
      * Run the database seeds.
      */
 
+
+     public function companyNumber(){
+
+        $initials = 'F365';
+
+            $company = Company::orderBy('id','desc')->first();
+
+        if (!$company) {
+            $company_number =  $initials .'C'. str_pad(1, 5, "0", STR_PAD_LEFT);
+        }else {
+            $number = $company->id + 1;
+            $company_number =  $initials .'C'. str_pad($number, 5, "0", STR_PAD_LEFT);
+        }
+
+        return  $company_number;
+
+
+    }
+
      public function walletNumber(){
 
         $initials = 'F365';
@@ -39,6 +58,7 @@ class CompanySeeder extends Seeder
        
         $company = new Company;
         $company->type = "Admin";
+        $company->company_number = $this->companyNumber();
         $company->name = "Raysun Capital";
         $company->email = "enquires@raysuncapital.com";
         $company->noreply = "noreply@gonyetitls.com";
@@ -48,7 +68,6 @@ class CompanySeeder extends Seeder
         $company->suburb = "Eastlea";
         $company->street_address = "20 Ray Amm Rd";
         $company->status = 1;
-        $company->authorization = "approved";
         $company->save();
 
 

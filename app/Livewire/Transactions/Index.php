@@ -29,6 +29,8 @@ class Index extends Component
     public $reason;
     public $verification_reason;
     public $mop;
+    public $amount;
+    public $type;
 
     public function mount(){
 

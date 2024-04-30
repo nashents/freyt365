@@ -37,16 +37,16 @@
                                         <td>{{$bank_account->branch}}</td>
                                         <td>{{$bank_account->branch_code}}</td>
                                         <td>{{$bank_account->swift_code}}</td>
-                                        <td>{{$bank_account->status}}</td>
+                                        <td><span class="badge bg-{{$bank_account->status == 1 ? "primary" : "danger"}}">{{$bank_account->status == 1 ? "Active" : "Inactive"}}</span></td>
                                         <td class="w-10 line-height-35 table-dropdown">
                                             <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
                                                     <i class="fa fa-bars"></i>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href=""><i class="fa fa-edit color-success"></i> Edit</a></li>
-                                                    <li><a href="#" ><i class="fa fa-trash color-danger"></i>Delete</a></li>
+                                                    <li><a href="" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                                    <li><a href="#" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a></li>
                                                 </ul>
                                             </div>
                                     </td>
@@ -84,25 +84,21 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Bank Name<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.debounce.300ms="name"
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
                                         placeholder="Bank name" required>
-                                    <div class="valid-feedback">
                                         @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                    </div>
                                 </div>
                             </div>
                            <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom02">Currencies<span class="required" style="color: red">*</span></label>
-                                <select class="form-control" wire:model.debounce.300ms="currency_id" required>
+                                <select class="form-control" wire:model.live.debounce.300ms="currency_id" required>
                                     <option value="">Select Currency</option>
                                     @foreach ($currencies as $currency)
                                         <option value="{{$currency->id}}">{{$currency->name}}</option>
                                     @endforeach
                                 </select>
-                                <div class="valid-feedback">
-                                    @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                                @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                            </div>
                           
@@ -111,21 +107,17 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Account Name<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.debounce.300ms="account_name"
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="account_name"
                                         placeholder="Bank name" required>
-                                    <div class="valid-feedback">
                                         @error('account_name') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Account Number<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.debounce.300ms="account_number"
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="account_number"
                                         placeholder="Account Number" required>
-                                    <div class="valid-feedback">
                                         @error('account_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -133,38 +125,28 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Branch Name</label>
-                                    <input type="text" class="form-control" wire:model.debounce.300ms="branch_name"
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="branch"
                                         placeholder="Branch name" >
-                                    <div class="valid-feedback">
-                                        @error('branch_name') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                    </div>
+                                        @error('branch') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Branch Code</label>
-                                    <input type="text" class="form-control" wire:model.debounce.300ms="brach_code"
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="branch_code"
                                         placeholder="Branch Code" >
-                                    <div class="valid-feedback">
-                                        @error('brach_code') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                    </div>
+                                        @error('branch_code') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Swift Code</label>
-                                    <input type="text" class="form-control" wire:model.debounce.300ms="swift_code"
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="swift_code"
                                         placeholder="Swift Code" >
-                                    <div class="valid-feedback">
                                         @error('swift_code') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                    </div>
                                 </div>
                             </div>
                         </div>
-              
-                        
-                           
-
                     </div>
                     <div class="modal-footer">
                         <div class="btn-group" role="group">
@@ -177,5 +159,11 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+
+
+
+
+
 
 </div>

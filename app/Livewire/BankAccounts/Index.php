@@ -4,8 +4,10 @@ namespace App\Livewire\BankAccounts;
 
 use Livewire\Component;
 use App\Models\Currency;
+use App\Events\ModalClosed;
 use App\Models\BankAccount;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Features\SupportEvents\Event;
 
 class Index extends Component
 {
@@ -58,24 +60,37 @@ class Index extends Component
         $this->status = "";
     }
 
+    public function updated($value){
+        $this->validateOnly($value);
+    }
+    protected $rules = [
+        'account_name' => 'required',
+        'account_number' => 'required',
+        'currency_id' => 'required',
+        'name' => 'required',
+    ];
+
     public function store(){
         try{
 
-                    $bank_account = new BankAccount;
-                    $bank_account->user_id = Auth::user()->id;
-                    $bank_account->company_id = $this->company_id;
-                    $bank_account->name = $this->name;
-                    $bank_account->currency_id = $this->currency_id;
-                    $bank_account->account_number = $this->account_number;
-                    $bank_account->account_name = $this->account_name;
-                    $bank_account->branch = $this->branch;
-                    $bank_account->branch_code = $this->branch_code;
-                    $bank_account->swift_code = $this->swift_code;
-                    $bank_account->status = 1;
-                    $bank_account->save();
+            $bank_account = new BankAccount;
+            $bank_account->user_id = Auth::user()->id;
+            $bank_account->company_id = $this->company_id;
+            $bank_account->name = $this->name;
+            $bank_account->currency_id = $this->currency_id;
+            $bank_account->account_number = $this->account_number;
+            $bank_account->account_name = $this->account_name;
+            $bank_account->branch = $this->branch;
+            $bank_account->branch_code = $this->branch_code;
+            $bank_account->swift_code = $this->swift_code;
+            $bank_account->status = 1;
+            $bank_account->save();
         
 
+            // Event::dispatch(new ModalClosed());
+            
             $this->dispatch('hide-bank_accountModal');
+            
             $this->resetInputFields();
             $this->dispatch('alert',[
                 'type'=>'success',

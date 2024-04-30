@@ -28,7 +28,7 @@
 
         <!-- Icons css -->
         <link href="{{ asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-
+        <script src="https://kit.fontawesome.com/0154e08647.js" crossorigin="anonymous"></script>
        
         <!-- Icons css -->
         
@@ -119,16 +119,19 @@
      })
  </script>
 
+
  <script type="text/javascript">
     window.addEventListener('show-bank_accountModal', event => {
         $('#bank_accountModal').modal('show');
     })
 </script>
 
- <script type="text/javascript">
-    window.addEventListener('hide-bank_accountModal', event => {
-        $('#bank_accountModal').modal('hide');
-    })
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-bank_accountModal', (event) => {
+        $('#bank_accountsModal').modal('hide');
+       });
+    });
 </script>
 
 <script type="text/javascript">
@@ -157,6 +160,7 @@
 </script>
 @yield('timeout-js')
 @yield('extra-js')
+@stack('scripts')
 
 </body>
 </html> 

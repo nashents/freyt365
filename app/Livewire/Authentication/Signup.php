@@ -21,43 +21,39 @@ class Signup extends Component
     public $phonenumber;
     public $password;
     public $password_confirmation;
+    public $use_email_as_username;
     public $company_id;
 
     public function updated($value){
         $this->validateOnly($value);
     }
     protected $rules =[
-        'name' => 'required|alpha|min:2',
-        'company_name' => 'required|alpha|min:2',
-        'surname' => 'required|alpha|min:2',
+        'name' => 'required',
+        'company_name' => 'required',
+        'surname' => 'required',
         'email' => 'required|email|unique:users',
         'password' => 'required|min:2|confirmed',
 
     ];
 
-    public function employeeNumber(){
+    public function companyNumber(){
 
-        $str = Company::find($this->company_id)->name;
-        $words = explode(' ', $str);
-        if (isset($words[1][0])) {
-            $initials = $words[0][0].$words[1][0];
+        $initials = 'F365';
+
+            $company = Company::orderBy('id','desc')->first();
+
+        if (!$company) {
+            $company_number =  $initials .'C'. str_pad(1, 5, "0", STR_PAD_LEFT);
         }else {
-            $initials = $words[0][0];
+            $number = $company->id + 1;
+            $company_number =  $initials .'C'. str_pad($number, 5, "0", STR_PAD_LEFT);
         }
 
-            $employee = Employee::orderBy('id','desc')->first();
-
-        if (!$employee) {
-            $employee_number =  $initials .'E'. str_pad(1, 5, "0", STR_PAD_LEFT);
-        }else {
-            $number = $employee->id + 1;
-            $employee_number =  $initials .'E'. str_pad($number, 5, "0", STR_PAD_LEFT);
-        }
-
-        return  $employee_number;
+        return  $company_number;
 
 
     }
+
 
     public function walletNumber(){
 
@@ -80,10 +76,12 @@ class Signup extends Component
     public function store(){
 
         $company = new Company;
+        $company->company_number = $this->companyNumber();
         $company->name = $this->company_name;
         $company->email = $this->company_email;
         $company->phonenumber = $this->company_phonenumber;
-        $company->authorization = "pending";
+        $company->type = "Transporter";
+        $company->status = "0";
         $company->save();
         $this->company_id = $company->id;
 
@@ -96,31 +94,28 @@ class Signup extends Component
         $wallet->save();
 
         $user = new User;
-        $user->name = $this->name;
-        $user->surname = $this->surname;
-        $user->email = $this->email;
-        $user->phonenumber = $this->phonenumber;
-        $user->username = $this->email;
         if (isset($company)) {
             $user->company_id = $company->id;
+        }
+        $user->name = $this->name;
+        $user->surname = $this->surname;
+        $user->is_admin = 0;
+        $user->active = 1;
+        $user->email = $this->email;
+        $user->phonenumber = $this->phonenumber;
+        if ($this->use_email_as_username == "email") {
+            $user->use_email_as_username = 1;
+            $user->username = $this->email;
+        }elseif($this->use_email_as_username == "phonenumber"){
+            $user->use_email_as_username = 0;
+            $user->username = $this->phonenumber;
         }
         $user->password = bcrypt($this->password);
         $user->save();
         $user->roles()->sync(1);
-        Auth::login($user);
-
-        // $employee = new Employee;
-        // $employee->company_id = $company->id;
-        // $employee->user_id = $user->id;
-        // $employee->employee_number = $this->employeeNumber();
-        // $employee->name = $this->name;
-        // $employee->surname = $this->surname;
-        // $employee->phonenumber = $this->phonenumber;
-        // $employee->email = $this->email;
-        // $employee->save();
-     
-        Session::flash('success','Welcome to your Freyt365 Dashboard');
-        return redirect(route('dashboard'));
+       
+        Session::flash('success','Thank you for registering. Our admin team will get in touch for your company verification.');
+        return redirect()->route('login');
 
 }
    

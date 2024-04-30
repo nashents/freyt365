@@ -106,27 +106,23 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">Type<span class="required" style="color: red">*</span></label>
-                               <select  class="form-control" wire:model.debounce.300ms="type" required>
+                               <select  class="form-control" wire:model.live.debounce.300ms="type" required>
                                     <option value="">Select Transaction Type</option>
                                     <option value="Deposit">Deposit</option>
                                     <option value="Withdrawal">Withdrawal</option>
                                </select>
-                                <div class="valid-feedback">
-                                    @error('type') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                               @error('type') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">Method Of payment<span class="required" style="color: red">*</span></label>
-                               <select  class="form-control" wire:model.debounce.300ms="mop" required>
+                               <select  class="form-control" wire:model.live.debounce.300ms="mop" required>
                                     <option value="">Select Method Of Payment</option>
                                     <option value="cash">Cash</option>
                                     <option value="transfer">Transfer</option>
                                </select>
-                                <div class="valid-feedback">
-                                    @error('mop') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                               @error('mop') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
                     
@@ -136,32 +132,27 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">From</label>
-                               <select  class="form-control" wire:model.debounce.300ms="from" disabled>
+                               <select  class="form-control" wire:model.live.debounce.300ms="from" disabled>
                                     <option value="">Select From Bank Account</option>
                                     @foreach ($from_bank_accounts as $bank_account)
                                         <option value="{{$bank_account->id}}">{{$bank_account->name}} {{$bank_account->account_name}} {{$bank_account->account_number}}</option>
                                     @endforeach
                                </select>
-                              
-                                <div class="valid-feedback">
-                                    @error('from') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                               @error('from') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         @else
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">From<span class="required" style="color: red">*</span></label>
-                               <select  class="form-control" wire:model.debounce.300ms="from" required>
+                               <select  class="form-control" wire:model.live.debounce.300ms="from" required>
                                     <option value="">Select From Bank Account</option>
                                     @foreach ($from_bank_accounts as $bank_account)
                                         <option value="{{$bank_account->id}}">{{$bank_account->name}} {{$bank_account->account_name}} {{$bank_account->account_number}}</option>
                                     @endforeach
                                </select>
                                <small>  <a href="{{ route('bank_accounts.index') }}" target="_blank"><i class="ri-add-circle-line"></i> New Bank Account</a></small> 
-                                <div class="valid-feedback">
-                                    @error('from') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                               @error('from') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         @endif
@@ -169,13 +160,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">To<span class="required" style="color: red">*</span></label>
-                               <select  class="form-control" wire:model.debounce.300ms="from" required>
+                               <select  class="form-control" wire:model.live.debounce.300ms="to" required>
                                     <option value="">Select To Bank Account</option>
                                     @foreach ($to_bank_accounts as $bank_account)
                                         <option value="{{$bank_account->id}}">{{$bank_account->name}} {{$bank_account->account_name}} {{$bank_account->account_number}}</option>
                                     @endforeach
                                </select>
-                               @error('from') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                               @error('to') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
               
@@ -184,21 +175,19 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">Currencies<span class="required" style="color: red">*</span></label>
-                               <select  class="form-control" wire:model.debounce.300ms="currency_id" required>
+                               <select  class="form-control" wire:model.live.debounce.300ms="currency_id" required>
                                     <option value="">Select Currency</option>
                                     @foreach ($currencies as $currency)
                                         <option value="{{$currency->id}}">{{$currency->name}} </option>
                                     @endforeach
                                </select>
-                                <div class="valid-feedback">
-                                    @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                               @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">Amount<span class="required" style="color: red">*</span></label>
-                                <input type="number" step="any" min="0" class="form-control" wire:model.debounce.300ms="amount"
+                                <input type="number" step="any" min="0" class="form-control" wire:model.live.debounce.300ms="amount"
                                     placeholder="Enter amount" required>
                                     @error('amount') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
@@ -210,21 +199,17 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">Transaction Date<span class="required" style="color: red">*</span></label>
-                                <input type="date"  class="form-control" wire:model.debounce.300ms="transaction_date" 
+                                <input type="date"  class="form-control" wire:model.live.debounce.300ms="transaction_date" 
                                     placeholder="Enter transaction date" required>
-                                <div class="valid-feedback">
                                     @error('transaction_date') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="validationCustom01">Reference Code</label>
-                                <input type="text" class="form-control" wire:model.debounce.300ms="reference_code"
+                                <input type="text" class="form-control" wire:model.live.debounce.300ms="reference_code"
                                     placeholder="Enter reference code" >
-                                <div class="valid-feedback">
                                     @error('reference_code') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
                             </div>
                         </div>
                     </div>
