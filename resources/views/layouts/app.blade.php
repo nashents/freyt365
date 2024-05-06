@@ -45,10 +45,9 @@
             type="text/css" />
 
         @yield('extra-css')
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
 
         @livewireStyles
-
-        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -120,33 +119,203 @@
  </script>
 
 
- <script type="text/javascript">
-    window.addEventListener('show-bank_accountModal', event => {
-        $('#bank_accountModal').modal('show');
-    })
-</script>
+
 
 <script>
     document.addEventListener('livewire:init', () => {
-       Livewire.on('hide-bank_accountModal', (event) => {
-        $('#bank_accountsModal').modal('hide');
+       Livewire.on('show-verificationModal', (event) => {
+        $('#verificationModal').modal('show');
        });
     });
 </script>
 
-<script type="text/javascript">
-    window.addEventListener('show-bank_accountEditModal', event => {
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-verificationModal', (event) => {
+        $('#verificationModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-authorizationModal', (event) => {
+        $('#authorizationModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-authorizationModal', (event) => {
+        $('#authorizationModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-transactionModal', (event) => {
+        $('#transactionModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-transactionModal', (event) => {
+        $('#transactionModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-transactionEditModal', (event) => {
+        $('#transactionEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-transactionEditModal', (event) => {
+        $('#transactionEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-driverModal', (event) => {
+        $('#driverModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-driverModal', (event) => {
+        $('#driverModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-driverEditModal', (event) => {
+        $('#driverEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-driverEditModal', (event) => {
+        $('#driverEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-trailerModal', (event) => {
+        $('#trailerModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-trailerModal', (event) => {
+        $('#trailerModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-trailerEditModal', (event) => {
+        $('#trailerEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-trailerEditModal', (event) => {
+        $('#trailerEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-horseModal', (event) => {
+        $('#horseModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-horseModal', (event) => {
+        $('#horseModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-horseEditModal', (event) => {
+        $('#horseEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-horseEditModal', (event) => {
+        $('#horseEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-bank_accountModal', (event) => {
+        $('#bank_accountModal').modal('show');
+       });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-bank_accountModal', (event) => {
+        $('#bank_accountModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-bank_accountEditModal', (event) => {
         $('#bank_accountEditModal').modal('show');
-    })
+       });
+    });
 </script>
-
-<script type="text/javascript">
-    window.addEventListener('hide-bank_accountEditModal', event => {
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-bank_accountEditModal', (event) => {
         $('#bank_accountEditModal').modal('hide');
-    })
+       });
+    });
 </script>
 
- @livewireScripts
+
+
+
 
  <script>
     $(function(){
@@ -162,5 +331,7 @@
 @yield('extra-js')
 @stack('scripts')
 
+
+    @livewireScripts
 </body>
 </html> 

@@ -18,6 +18,7 @@ class Signup extends Component
     public $name;
     public $surname;
     public $email;
+    public $username;
     public $phonenumber;
     public $password;
     public $password_confirmation;
@@ -100,16 +101,10 @@ class Signup extends Component
         $user->name = $this->name;
         $user->surname = $this->surname;
         $user->is_admin = 0;
-        $user->active = 1;
+        $user->status = 1;
         $user->email = $this->email;
         $user->phonenumber = $this->phonenumber;
-        if ($this->use_email_as_username == "email") {
-            $user->use_email_as_username = 1;
-            $user->username = $this->email;
-        }elseif($this->use_email_as_username == "phonenumber"){
-            $user->use_email_as_username = 0;
-            $user->username = $this->phonenumber;
-        }
+        $user->username = $this->username;
         $user->password = bcrypt($this->password);
         $user->save();
         $user->roles()->sync(1);

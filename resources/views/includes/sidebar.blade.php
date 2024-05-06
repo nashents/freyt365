@@ -107,7 +107,7 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{{ route('trips.index') }}">My Trips</a>
+                            <a href="#">My Trips</a>
                         </li>
                         <li>
                             <a href="#">My Trip Templates</a>
@@ -130,7 +130,7 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{{ route('orders.index') }}">Manage Orders</a>
+                            <a href="#">Manage Orders</a>
                         </li>
                         <li>
                             <a href="#">UnAuthorized Orders</a>
@@ -162,19 +162,19 @@
                 </div>
             </li>
             <li class="side-nav-item">
-                <a href="{{ route('customers.index') }}" class="side-nav-link">
+                <a href="#" class="side-nav-link">
                     <i class="bi bi-people"></i>
                     <span> Customers </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{ route('quotations.index') }}" class="side-nav-link">
+                <a href="#" class="side-nav-link">
                     <i class="bi bi-file-earmark-text-fill"></i>
                     <span> Quotations </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{ route('invoices.index') }}" class="side-nav-link">
+                <a href="#" class="side-nav-link">
                     <i class="bi bi-file-earmark-text-fill"></i>
                     <span> Invoices </span>
                 </a>

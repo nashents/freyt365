@@ -14,13 +14,14 @@ class Index extends Component
     public $currencies;
     public $currency_id;
     public $transactions;
+    public $transaction;
     public $transaction_id;
     public $transaction_date;
     public $transaction_number;
     public $reference_code;
     public $from_bank_accounts;
-    public $from;
-    public $to;
+    public $selectedFrom;
+    public $selectedTo;
     public $to_bank_accounts;
     public $verification;
     public $verified_by_id;
@@ -30,15 +31,43 @@ class Index extends Component
     public $verification_reason;
     public $mop;
     public $amount;
-    public $type;
+    public $selectedType;
+    public $wallet_balance;
+    public $wallet;
+    public $wallet_id;
 
     public function mount(){
 
-        $this->to_bank_accounts = BankAccount::where('company_id', 1)->orderBy('name','asc')->get();
-        $this->from_bank_accounts = BankAccount::where('company_id', Auth::user()->company->id)->orderBy('name','asc')->get();
+        $this->selectedType = "deposit";
         $this->currencies = Currency::orderBy('name','asc')->get();
-        $this->transactions = Transaction::orderBy('created_at','desc')->get();
+        if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
+            $this->transactions = Transaction::orderBy('created_at','desc')->get();
 
+        }else {
+            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->get();
+
+        }
+
+        $this->wallet = Auth::user()->company->wallet;
+        if (isset($this->wallet)) {
+            $this->currency_id = $this->wallet->currency_id;
+            $this->to_bank_accounts = BankAccount::where('company_id', 1)->where('currency_id',$this->wallet->currency_id)->orderBy('name','asc')->get();
+            $this->from_bank_accounts = BankAccount::where('company_id', Auth::user()->company->id)->where('currency_id',$this->wallet->currency_id)->orderBy('name','asc')->get();
+        }else{
+            $this->to_bank_accounts = BankAccount::where('company_id', 1)->orderBy('name','asc')->get();
+            $this->from_bank_accounts = BankAccount::where('company_id', Auth::user()->company->id)->orderBy('name','asc')->get();
+        }
+
+       
+       
+    }
+
+    public function updatedSelectedType($type){
+            if (!is_null($type)) {
+                if ($type == "withdrawal") {
+                    $this->wallet_balance = $this->wallet->balance;
+                }
+            }
     }
 
     private function resetInputFields(){
@@ -47,9 +76,13 @@ class Index extends Component
         $this->mop = "";
         $this->transaction_date = "";
         $this->amount = "";
-        $this->from = "";
-        $this->to = "";
-        $this->type = "";
+        $this->selectedFrom = "";
+        $this->selectedTo = "";
+        $this->selectedType = "";
+        $this->authorization = "";
+        $this->verification = "";
+        $this->reason = "";
+        $this->verification_reason = "";
     }
 
     public function transactionNumber(){
@@ -86,10 +119,10 @@ class Index extends Component
     protected $rules = [
         'amount' => 'required',
         'currency_id' => 'required',
-        'type' => 'required',
+        'selectedType' => 'required',
         'mop' => 'required',
         'transaction_date' => 'required',
-        'to' => 'required',
+        'selectedTo' => 'required',
     ];
 
     public function store(){
@@ -102,10 +135,10 @@ class Index extends Component
         $transaction->wallet_id = Auth::user()->company->wallet ? Auth::user()->company->wallet->id : Null;
         $transaction->transaction_date = $this->transaction_date;
         $transaction->reference_code = $this->reference_code;
-        $transaction->type = $this->type;
+        $transaction->type = $this->selectedType;
         $transaction->mop = $this->mop;
-        $transaction->from = $this->from;
-        $transaction->to = $this->to;
+        $transaction->from = $this->selectedFrom;
+        $transaction->to = $this->selectedTo;
         $transaction->amount = $this->amount;
         $transaction->currency_id = $this->currency_id;
         $transaction->save();
@@ -127,11 +160,160 @@ class Index extends Component
       
     }
 
+
+    public function edit($id){
+       
+        $transaction = Transaction::find($id);
+        $this->mop = $transaction->mop;
+        $this->reference_code = $transaction->reference_code;
+        $this->selectedType = $transaction->type;
+        $this->selectedFrom = $transaction->from;
+        $this->selectedTo = $transaction->to;
+        $this->amount = $transaction->amount;
+        $this->currency_id = $transaction->currency_id;
+        $this->transaction_date = $transaction->transaction_date;
+        $this->transaction_id = $id;
+        $this->dispatch('show-transactionEditModal');
+
+    }
+
+    public function update(){
+
+        try{
+
+        $transaction =  Transaction::find($this->transaction_id);
+        $transaction->transaction_date = $this->transaction_date;
+        $transaction->reference_code = $this->reference_code;
+        $transaction->type = $this->selectedType;
+        $transaction->mop = $this->mop;
+        $transaction->from = $this->selectedFrom;
+        $transaction->to = $this->selectedTo;
+        $transaction->amount = $this->amount;
+        $transaction->currency_id = $this->currency_id;
+        $transaction->update();
+
+        $this->dispatch('hide-transactionEditModal');
+        $this->resetInputFields();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Transaction Updated Successfully!!"
+        ]);
+
+    }catch(\Exception $e){
+        // Set Flash Message
+        $this->dispatch('alert',[
+            'type'=>'error',
+            'message'=>"Something went wrong while creating transaction!!"
+        ]);
+    }
+      
+    }
+
+    public function showAuthorize($id){
+        $this->transaction_id = $id;
+        $this->transaction = Transaction::find($id);
+        $this->dispatch('show-authorizationModal');
+    }
+
+    public function saveAuthorization(){
+
+        $transaction = Transaction::find($this->transaction_id);
+        $transaction->authorized_by_id = Auth::user()->id;
+        $transaction->authorization = $this->authorization;
+        $transaction->reason = $this->reason;
+        $transaction->update();
+
+        if ($this->authorization == "approved") {
+            $this->dispatch('hide-authorizationModal');
+            $this->resetInputFields();
+            $this->dispatch('alert',[
+                'type'=>'success',
+                'message'=>"Transaction Approved Successfully!!"
+            ]);
+        }else {
+            $this->dispatch('hide-authorizationModal');
+            $this->resetInputFields();
+            $this->dispatch('alert',[
+                'type'=>'success',
+                'message'=>"Transaction Rejected Successfully!!"
+            ]);
+        }
+
+      
+      
+        
+    }
+
+    public function delete($id){
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Transaction Deleted Successfully!!"
+        ]);
+    }
+
+    public function saveVerification(){
+
+        $transaction = Transaction::find($this->transaction_id);
+        $transaction->verified_by_id = Auth::user()->id;
+        $transaction->verification = $this->verification;
+        $transaction->verification_reason = $this->verification_reason;
+        $transaction->update();
+
+        if ($this->verification == "verified") {
+            $wallet = $transaction->wallet;
+            if ($transaction->type == "deposit") {
+                $wallet = $wallet->balance + $transaction->amount;
+                $wallet->update();
+            }elseif ($transaction->type == "withdrawal") {
+                    if ($wallet->balance > $transaction->amount) {
+                        $wallet = $wallet->balance - $transaction->amount;
+                        $wallet->update();
+                    }   
+            }
+
+        $this->dispatch('hide-authorizationModal');
+        $this->resetInputFields();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Transaction Verified Successfully!!"
+        ]);
+          
+        }else {
+            $this->dispatch('hide-authorizationModal');
+            $this->resetInputFields();
+            $this->dispatch('alert',[
+                'type'=>'success',
+                'message'=>"Transaction Declined Successfully!!"
+            ]);
+        }
+
+        
+      
+        
+    }
+
+    public function showVerify($id){
+        $this->transaction_id = $id;
+        $this->transaction = Transaction::find($id);
+        $this->dispatch('show-verificationModal');
+    }
+
     public function render()
     {
         $this->from_bank_accounts = BankAccount::where('company_id', Auth::user()->company->id)->orderBy('name','asc')->get();
+
+        if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
+            $this->transactions = Transaction::orderBy('created_at','desc')->get();
+
+        }else {
+            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->get();
+
+        }
         return view('livewire.transactions.index',[
-            'from_bank_accounts' => $this->from_bank_accounts
+            'from_bank_accounts' => $this->from_bank_accounts,
+            'transactions' => $this->transactions
         ]);
     }
 }

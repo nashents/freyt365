@@ -57,7 +57,7 @@ class CompanySeeder extends Seeder
     {
        
         $company = new Company;
-        $company->type = "Admin";
+        $company->type = "admin";
         $company->company_number = $this->companyNumber();
         $company->name = "Raysun Capital";
         $company->email = "enquires@raysuncapital.com";

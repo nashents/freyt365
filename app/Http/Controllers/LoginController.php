@@ -50,7 +50,7 @@ class LoginController extends Controller
             }
         if(Auth::attempt(['username'=>$request['username'],'password'=>$request['password']])){
             $user = Auth::user();
-            if ($user->active == "1") {
+            if ($user->status == "1") {
                 if ($user->company->status == "1" ) {
                     $roles = $user->roles; 
                     if ($roles->count()>0) {

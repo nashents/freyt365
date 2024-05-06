@@ -20,6 +20,15 @@ class Company extends Model  implements Auditable
         return $this->hasOne('App\Models\Wallet');
     }
 
+    public function drivers(){
+        return $this->hasMany('App\Models\Driver');
+    }
+    public function horse(){
+        return $this->hasMany('App\Models\Horse');
+    }
+    public function trailer(){
+        return $this->hasMany('App\Models\Trailer');
+    }
     public function receipts(){
         return $this->hasMany('App\Models\Receipt');
     }

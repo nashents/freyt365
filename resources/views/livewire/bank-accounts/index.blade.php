@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#bank_accountsModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Bank Account</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#bank_accountModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Bank Account</a>
                   
                 </div>
                 <div class="card-body">
@@ -71,7 +71,7 @@
     </div> <!-- end row-->
 
 
-    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="bank_accountsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="bank_accountModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">

@@ -51,16 +51,11 @@
                 @error('email') <span class="error" style="color:red">{{ $message }}</span> @enderror
         </div>
         <div class="mb-3">
-            <label for="name">Username?</label> <br>
-                <label class="radio-inline">
-                    <input type="radio" wire:model.live.debounce.300ms="use_email_as_username" value="email" name="optradio" >Email
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" wire:model.live.debounce.300ms="use_email_as_username" value="phonenumber" name="optradio">Phonenumber
-                  </label>
-                  @error('use_email_as_username') <span class="error" style="color:red">{{ $message }}</span> @enderror
+            <label for="emailaddress" class="form-label">Username<span class="required" style="color: red">*</span></label>
+            <input class="form-control" type="text"  wire:model.live.debounce.300ms="username" required
+                placeholder="Enter your email">
+                @error('username') <span class="error" style="color:red">{{ $message }}</span> @enderror
         </div>
-
         <div class="mb-3">
             <label for="password" class="form-label">Password<span class="required" style="color: red">*</span></label>
             <input class="form-control" type="password" required wire:model.live.debounce.300ms="password"

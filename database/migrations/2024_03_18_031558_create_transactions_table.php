@@ -34,7 +34,7 @@ return new class extends Migration
             $table->bigInteger('verified_by_id')->unsigned()->nullable();
             $table->foreign('verified_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('verification')->default('pending');
-            $table->text('_verification_reason')->nullable();
+            $table->text('verification_reason')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
