@@ -264,16 +264,16 @@ class Index extends Component
         if ($this->verification == "verified") {
             $wallet = $transaction->wallet;
             if ($transaction->type == "deposit") {
-                $wallet = $wallet->balance + $transaction->amount;
+                $wallet->balance = $wallet->balance + $transaction->amount;
                 $wallet->update();
             }elseif ($transaction->type == "withdrawal") {
                     if ($wallet->balance > $transaction->amount) {
-                        $wallet = $wallet->balance - $transaction->amount;
+                        $wallet->balance = $wallet->balance - $transaction->amount;
                         $wallet->update();
                     }   
             }
 
-        $this->dispatch('hide-authorizationModal');
+        $this->dispatch('hide-verificationModal');
         $this->resetInputFields();
         $this->dispatch('alert',[
             'type'=>'success',
@@ -281,7 +281,7 @@ class Index extends Component
         ]);
           
         }else {
-            $this->dispatch('hide-authorizationModal');
+            $this->dispatch('hide-verificationModal');
             $this->resetInputFields();
             $this->dispatch('alert',[
                 'type'=>'success',

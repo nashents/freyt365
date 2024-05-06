@@ -29,8 +29,8 @@
                         <div class="float-end">
                             <i class="ri-wallet-2-line widget-icon"></i>
                         </div>
-                        <h6 class="text-uppercase mt-0" title="Customers">Wallet</h6>
-                        <h2 class="my-2">{{Auth::user()->company->wallet->currency->name}} {{Auth::user()->company->wallet->currency->symbol}}{{number_format(Auth::user()->company->wallet->balance,2)}}</h2>
+                        <h6 class="text-uppercase mt-0" title="Customers">Wallet ({{Auth::user()->company->wallet->currency->name}})</h6>
+                        <h2 class="my-2">{{Auth::user()->company->wallet->currency->symbol}}{{number_format(Auth::user()->company->wallet->balance,2)}}</h2>
                         <p class="mb-0">
                             {{-- <span class="badge bg-white bg-opacity-10 me-1">18.25%</span>
                             <span class="text-nowrap">Since last month</span> --}}
