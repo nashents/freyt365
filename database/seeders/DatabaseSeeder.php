@@ -13,6 +13,7 @@ use Database\Seeders\AccountSeeder;
 use Database\Seeders\CompanySeeder;
 use Database\Seeders\CountrySeeder;
 use Database\Seeders\ExpenseSeeder;
+use Database\Seeders\ServiceSeeder;
 use Database\Seeders\CurrencySeeder;
 use Database\Seeders\EmployeeSeeder;
 use Database\Seeders\FuelTypeSeeder;
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
            $this->call(BankAccountSeeder::class);
            $this->call(TripTypeSeeder::class);
            $this->call(FuelTypeSeeder::class);
+           $this->call(ServiceSeeder::class);
            $this->call(VendorTypeSeeder::class);
            $this->call(AccountTypeGroupSeeder::class);
            $this->call(AccountTypeSeeder::class);

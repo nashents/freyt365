@@ -19,4 +19,7 @@ class FuelStation extends Model
     public function fuel_prices(){
         return $this->hasMany('App\Models\FuelPrice');
     }
+    public function working_schedule(){
+        return $this->hasOne('App\Models\WorkingSchedule');
+    }
 }

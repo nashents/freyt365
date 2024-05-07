@@ -16,6 +16,8 @@ return new class extends Migration
             $table->bigInteger('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->bigInteger('vendor_id')->unsigned()->nullable();
+            $table->bigInteger('branch_id')->unsigned()->nullable();
+            $table->bigInteger('fuel_station_id')->unsigned()->nullable();
             $table->bigInteger('clearing_agent_id')->unsigned()->nullable();
             $table->string('category')->nullable();
             $table->string('name')->nullable();

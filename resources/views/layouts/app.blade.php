@@ -283,6 +283,96 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-vendorModal', (event) => {
+        $('#vendorModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-vendorModal', (event) => {
+        $('#vendorModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-vendorEditModal', (event) => {
+        $('#vendorEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-vendorEditModal', (event) => {
+        $('#vendorEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-fuel_stationModal', (event) => {
+        $('#fuel_stationModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-fuel_stationModal', (event) => {
+        $('#fuel_stationModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-fuel_stationEditModal', (event) => {
+        $('#fuel_stationEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-fuel_stationEditModal', (event) => {
+        $('#fuel_stationEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-branchModal', (event) => {
+        $('#branchModal').modal('show');
+       });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-branchModal', (event) => {
+        $('#branchModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-branchEditModal', (event) => {
+        $('#branchEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-branchEditModal', (event) => {
+        $('#branchEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-bank_accountModal', (event) => {
         $('#bank_accountModal').modal('show');
        });

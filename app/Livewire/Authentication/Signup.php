@@ -100,10 +100,11 @@ class Signup extends Component
         }
         $user->name = $this->name;
         $user->surname = $this->surname;
+        $user->category = "user";
         $user->is_admin = 0;
         $user->status = 1;
         $user->email = $this->email;
-        $user->phonenumber = $this->phonenumber;
+        $user->phonenumber = $this->phonenumber; 
         $user->username = $this->username;
         $user->password = bcrypt($this->password);
         $user->save();

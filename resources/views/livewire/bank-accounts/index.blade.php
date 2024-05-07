@@ -45,8 +45,11 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
-                                                    <li><a href="#" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a></li>
+                                                    <li><a href="#" wire:click.prevent="edit({{$bank_account->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                                    <li>
+                                                        <a href="#" wire:click="delete({{$bank_account->id}})"
+                                                        wire:confirm="Are you sure you want to delete this bank account?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                     </td>

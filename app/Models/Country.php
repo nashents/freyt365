@@ -16,4 +16,7 @@ class Country extends Model
     public function fuel_stations(){
         return $this->hasMany('App\Models\FuelStation');
     }
+    public function branches(){
+        return $this->hasMany('App\Models\Branch');
+    }
 }

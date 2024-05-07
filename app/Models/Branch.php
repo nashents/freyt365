@@ -10,6 +10,12 @@ class Branch extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
+    public function country(){
+        return $this->belongsTo('App\Models\Country');
+    }
     public function currencies(){
         return $this->belongsToMany('App\Models\Currency');
     }
@@ -18,6 +24,9 @@ class Branch extends Model
     }
     public function services(){
         return $this->belongsToMany('App\Models\Service');
+    }
+    public function working_schedule(){
+        return $this->hasOne('App\Models\WorkingSchedule');
     }
 
 }

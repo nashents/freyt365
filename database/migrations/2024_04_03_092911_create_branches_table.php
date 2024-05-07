@@ -19,7 +19,12 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('phonenumber')->nullable();
             $table->string('email')->nullable();
-            $table->text('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('suburb')->nullable();
+            $table->string('street_address')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

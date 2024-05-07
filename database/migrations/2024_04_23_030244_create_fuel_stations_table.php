@@ -18,9 +18,13 @@ return new class extends Migration
             $table->bigInteger('country_id')->unsigned()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->string('name')->nullable();
+            $table->string('phonenumber')->nullable();
+            $table->string('email')->nullable();
             $table->string('city')->nullable();
             $table->string('suburb')->nullable();
             $table->string('street_address')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
