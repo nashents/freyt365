@@ -26,6 +26,7 @@ use Database\Seeders\AccountTypeSeeder;
 use Database\Seeders\BankAccountSeeder;
 use Database\Seeders\MeasurementSeeder;
 use Database\Seeders\ExpenseCategorySeeder;
+use Database\Seeders\TransactionTypeSeeder;
 use Database\Seeders\AccountTypeGroupSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -52,11 +53,11 @@ class DatabaseSeeder extends Seeder
            $this->call(TripTypeSeeder::class);
            $this->call(FuelTypeSeeder::class);
            $this->call(ServiceSeeder::class);
-           $this->call(VendorTypeSeeder::class);
            $this->call(AccountTypeGroupSeeder::class);
            $this->call(AccountTypeSeeder::class);
            $this->call(AccountSeeder::class);
            $this->call(ExpenseCategorySeeder::class);
+           $this->call(TransactionTypeSeeder::class);
            $this->call(ExpenseSeeder::class);
            $this->call(HorseMakeSeeder::class);
            $this->call(HorseModelSeeder::class);

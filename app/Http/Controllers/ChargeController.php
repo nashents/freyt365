@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ServiceProvider;
-use App\Http\Requests\StoreServiceProviderRequest;
-use App\Http\Requests\UpdateServiceProviderRequest;
+use App\Models\Charge;
+use App\Http\Requests\StoreChargeRequest;
+use App\Http\Requests\UpdateChargeRequest;
 
-class ServiceProviderController extends Controller
+class ChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('service_providers.index');
+        //
     }
 
     /**
@@ -27,7 +27,7 @@ class ServiceProviderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreServiceProviderRequest $request)
+    public function store(StoreChargeRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ServiceProviderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ServiceProvider $serviceProvider)
+    public function show(Charge $charge)
     {
         //
     }
@@ -43,7 +43,7 @@ class ServiceProviderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ServiceProvider $serviceProvider)
+    public function edit(Charge $charge)
     {
         //
     }
@@ -51,7 +51,7 @@ class ServiceProviderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateServiceProviderRequest $request, ServiceProvider $serviceProvider)
+    public function update(UpdateChargeRequest $request, Charge $charge)
     {
         //
     }
@@ -59,7 +59,7 @@ class ServiceProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ServiceProvider $serviceProvider)
+    public function destroy(Charge $charge)
     {
         //
     }

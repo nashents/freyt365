@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Currency;
 use App\Models\BankAccount;
 use App\Models\Transaction;
+use App\Models\TransactionType;
 use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
@@ -32,14 +33,19 @@ class Index extends Component
     public $mop;
     public $amount;
     public $selectedType;
+    public $charge;
+    public $transaction_types;
+    public $transaction_type_id;
+    public $transaction_type;
     public $wallet_balance;
     public $wallet;
     public $wallet_id;
 
     public function mount(){
+       
 
-        $this->selectedType = "deposit";
         $this->currencies = Currency::orderBy('name','asc')->get();
+        $this->transaction_types = TransactionType::orderBy('name','asc')->get();
         if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
             $this->transactions = Transaction::orderBy('created_at','desc')->get();
 
@@ -64,7 +70,7 @@ class Index extends Component
 
     public function updatedSelectedType($type){
             if (!is_null($type)) {
-                if ($type == "withdrawal") {
+                if ($type == "Withdrawal") {
                     $this->wallet_balance = $this->wallet->balance;
                 }
             }
@@ -134,8 +140,11 @@ class Index extends Component
         $transaction->user_id = Auth::user()->id;
         $transaction->wallet_id = Auth::user()->company->wallet ? Auth::user()->company->wallet->id : Null;
         $transaction->transaction_date = $this->transaction_date;
-        $transaction->reference_code = $this->reference_code;
-        $transaction->type = $this->selectedType;
+        $transaction->reference_code = $this->reference_code;   
+        $this->transaction_type = TransactionType::where('name',$this->selectedType)->first();
+        if (isset($this->transaction_type)) {
+            $transaction->transaction_type_id =  $this->transaction_type->id;
+        }   
         $transaction->mop = $this->mop;
         $transaction->from = $this->selectedFrom;
         $transaction->to = $this->selectedTo;
@@ -166,7 +175,10 @@ class Index extends Component
         $transaction = Transaction::find($id);
         $this->mop = $transaction->mop;
         $this->reference_code = $transaction->reference_code;
-        $this->selectedType = $transaction->type;
+        $this->transaction_type = TransactionType::find($transaction->transaction_type_id);
+        if (isset($this->transaction_type)) {
+            $this->selectedType = $this->transaction_type->name;
+        }
         $this->selectedFrom = $transaction->from;
         $this->selectedTo = $transaction->to;
         $this->amount = $transaction->amount;
@@ -184,7 +196,10 @@ class Index extends Component
         $transaction =  Transaction::find($this->transaction_id);
         $transaction->transaction_date = $this->transaction_date;
         $transaction->reference_code = $this->reference_code;
-        $transaction->type = $this->selectedType;
+        $this->transaction_type = TransactionType::where('name',$this->selectedType)->first();
+        if (isset($this->transaction_type)) {
+            $transaction->transaction_type_id =  $this->transaction_type->id;
+        }
         $transaction->mop = $this->mop;
         $transaction->from = $this->selectedFrom;
         $transaction->to = $this->selectedTo;
@@ -259,16 +274,29 @@ class Index extends Component
         $transaction->verified_by_id = Auth::user()->id;
         $transaction->verification = $this->verification;
         $transaction->verification_reason = $this->verification_reason;
+
+        $transaction_type = TransactionType::find($transaction->transaction_type_id);
+        if (isset($transaction_type)) {
+            $percentage = $transaction_type->charge->percentage;
+            if (isset($percentage)) {
+                $this->charge = ($percentage/100) * $this->amount;
+                $transaction->charge = $this->charge;
+            }
+            
+        }
         $transaction->update();
+
+        
 
         if ($this->verification == "verified") {
             $wallet = $transaction->wallet;
-            if ($transaction->type == "deposit") {
+            if ($transaction->type == "Deposit") {
                 $wallet->balance = $wallet->balance + $transaction->amount;
                 $wallet->update();
-            }elseif ($transaction->type == "withdrawal") {
+            }elseif ($transaction->type == "Withdrawal") {
                     if ($wallet->balance > $transaction->amount) {
                         $wallet->balance = $wallet->balance - $transaction->amount;
+                        $wallet->balance = $wallet->balance - $this->charge;
                         $wallet->update();
                     }   
             }

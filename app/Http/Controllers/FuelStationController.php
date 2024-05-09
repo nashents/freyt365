@@ -13,7 +13,7 @@ class FuelStationController extends Controller
      */
     public function index()
     {
-        //
+        return view('fuel_stations.index');
     }
 
     /**

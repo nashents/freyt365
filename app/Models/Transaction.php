@@ -13,6 +13,9 @@ class Transaction extends Model
     public function currency(){
         return $this->belongsTo('App\Models\Currency');
     }
+    public function transaction(){
+        return $this->belongsTo('App\Models\Transaction');
+    }
     public function wallet(){
         return $this->belongsTo('App\Models\Wallet');
     }

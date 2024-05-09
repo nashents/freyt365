@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_types', function (Blueprint $table) {
+        Schema::create('charges', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name')->nullable();
-            $table->text('description')->nullable();
+            $table->bigInteger('transaction_type_id')->unsigned()->nullable();
+            $table->string('percentage')->nullable();
+            $table->string('amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_types');
+        Schema::dropIfExists('charges');
     }
 };

@@ -14,45 +14,6 @@
                 </div>
                 <div class="card-body">
                     <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                    aria-expanded="true" aria-controls="collapseOne">
-                                   Other
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>Office</th>
-                                                <th>Currencies</th>
-                                                <th>Fuel</th>
-                                                <th>Services</th>
-                                                @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
-                                                    <th>Actions</th>
-                                                @endif
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                         
-                                            <tr>
-                                                <td colspan="4">
-                                                    <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                                        No Collection Offices Recorded ....
-                                                    </div>
-                                                   
-                                                </td>
-                                            </tr>
-                                          
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                         @if (isset($countries))
                             @foreach ($countries as $country)
                             <div class="accordion-item">

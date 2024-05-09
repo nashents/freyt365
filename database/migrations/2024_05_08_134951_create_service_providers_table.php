@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fuel_prices', function (Blueprint $table) {
+        Schema::create('service_providers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('country_id')->unsigned()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
-            $table->bigInteger('fuel_station_id')->unsigned()->nullable();
-            $table->foreign('fuel_station_id')->references('id')->on('fuel_stations')->onDelete('cascade');
-            $table->bigInteger('currency_id')->unsigned()->nullable();
-            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
-            $table->bigInteger('fuel_type_id')->unsigned()->nullable();
-            $table->string('pump_price')->nullable();
-            $table->string('retail_price')->nullable();
-            $table->string('stock_level')->nullable();
-            $table->text('description')->nullable();
+            $table->string('name');
+            $table->string('phonenumber')->nullable();
+            $table->string('email')->nullable();
+            $table->string('contact_name')->nullable();
+            $table->string('contact_surname')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('contact_phonenumber')->nullable();
+            $table->string('city')->nullable();
+            $table->string('suburb')->nullable();
+            $table->string('street_address')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -36,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fuel_prices');
+        Schema::dropIfExists('service_providers');
     }
 };

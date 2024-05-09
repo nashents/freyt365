@@ -13,6 +13,9 @@ class Service extends Model
     public function branches(){
         return $this->belongsToMany('App\Models\Branch');
     }
+    public function service_providers(){
+        return $this->belongsToMany('App\Models\ServiceProvider');
+    }
 
     public function vendors(){
         return $this->belongsToMany('App\Models\Vendor');

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
             $table->string('transaction_number')->nullable();
-            $table->string('type')->nullable();
+            $table->bigInteger('transaction_type_id')->unsigned()->nullable();
             $table->string('mop')->nullable();
+            $table->string('charge')->nullable();
             $table->string('amount')->nullable();
             $table->string('wallet_balance')->nullable();
             $table->string('transaction_date')->nullable();

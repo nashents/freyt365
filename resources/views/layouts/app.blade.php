@@ -312,6 +312,93 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-service_providerModal', (event) => {
+        $('#service_providerModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-service_providerModal', (event) => {
+        $('#service_providerModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-service_providerEditModal', (event) => {
+        $('#service_providerEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-service_providerEditModal', (event) => {
+        $('#service_providerEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-fuel_priceModal', (event) => {
+        $('#fuel_priceModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-fuel_priceModal', (event) => {
+        $('#fuel_priceModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-fuel_priceEditModal', (event) => {
+        $('#fuel_priceEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-fuel_priceEditModal', (event) => {
+        $('#fuel_priceEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-fuel_stationModal', (event) => {
+        $('#fuel_stationModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-fuel_stationModal', (event) => {
+        $('#fuel_stationModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-fuel_stationEditModal', (event) => {
+        $('#fuel_stationEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-fuel_stationEditModal', (event) => {
+        $('#fuel_stationEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-fuel_stationModal', (event) => {
         $('#fuel_stationModal').modal('show');
        });

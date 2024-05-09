@@ -51,7 +51,7 @@
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{{ route('transactions.index') }}">Transactions</a>
+                            <a href="{{ route('transactions.index') }}">Manage Transactions</a>
                         </li>
                         <li>
                             <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>
@@ -93,9 +93,15 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{ route('vendors.index') }}" class="side-nav-link">
+                <a href="{{ route('fuel_stations.index') }}" class="side-nav-link">
+                    <i class="bi bi-fuel-pump-fill"></i>
+                    <span> Fuel Stations </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{ route('service_providers.index') }}" class="side-nav-link">
                     <i class="bi bi-building-fill-add"></i>
-                    <span> Vendors </span>
+                    <span> Service Providers </span>
                 </a>
             </li>
             <li class="side-nav-item">

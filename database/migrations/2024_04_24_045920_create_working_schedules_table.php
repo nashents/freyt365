@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->bigInteger('vendor_id')->unsigned()->nullable();
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
+            $table->bigInteger('office_id')->unsigned()->nullable();
+            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
             $table->bigInteger('fuel_station_id')->unsigned()->nullable();
             $table->foreign('fuel_station_id')->references('id')->on('fuel_stations')->onDelete('cascade');
             $table->bigInteger('branch_id')->unsigned()->nullable();

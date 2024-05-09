@@ -181,7 +181,6 @@ class Index extends Component
    
     public function update(){
         $branch =  Branch::find($this->branch_id);
-        $branch->user_id = Auth::user()->id;
         $branch->country_id = $this->country_id;
         $branch->name = $this->name;
         $branch->email = $this->email;
