@@ -92,6 +92,15 @@ class Index extends Component
     }
     }
 
+    public function delete($id){
+        $trailer = Trailer::find($id);
+        $trailer->delete();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Trailer Deleted Successfully!!"
+        ]);
+    }
+
     public function render()
     {
         $this->trailers = Trailer::where('company_id', Auth::user()->company_id)->orderBy('registration_number','asc')->get();

@@ -16,6 +16,10 @@ class CompanyController extends Controller
         return view('companies.index');
     }
 
+    public function getProfile(Company $company){
+        return view('companies.profile')->with('company', $company);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

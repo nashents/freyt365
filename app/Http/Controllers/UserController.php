@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -12,6 +15,37 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index');
+    }
+
+
+    public function getProfile($id)
+    {
+        return view('users.profile')->with([
+           'id' => $id,
+        ]);
+    }
+
+    public function profile(Request $request, $id){
+        $this->validate($request,[
+            'file'=> 'required|image'
+        ]);
+
+        if($request->hasFile('file')){
+            $image =  $request->file('file');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(300,300,function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path('/images/uploads/' . $filename));
+            $user = Auth::user();
+            $user->profile = $filename;
+            $user->update();
+            Session::flash('success','Profile picture successfully uploaded');
+            return redirect()->back();
+
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

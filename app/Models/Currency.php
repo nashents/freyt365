@@ -28,4 +28,10 @@ class Currency extends Model
     public function branches(){
         return $this->belongsToMany('App\Models\Branch');
     }
+    public function trips(){
+        return $this->hasMany('App\Models\Trip');
+    }
+    public function invoices(){
+        return $this->hasMany('App\Models\Invoice');
+    }
 }

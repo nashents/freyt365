@@ -57,6 +57,7 @@ class User extends Authenticatable implements Auditable
         }
 
     }
+  
     public function requisitions(){
         return $this->hasMany('App\Models\Requisition');
     }
@@ -72,9 +73,7 @@ class User extends Authenticatable implements Auditable
     public function company(){
         return $this->belongsTo('App\Models\Company');
     }
-    public function logs(){
-        return $this->hasMany('App\Models\Log');
-    }
+ 
     public function quotations(){
         return $this->hasMany('App\Models\Quotation');
     }
@@ -112,27 +111,8 @@ class User extends Authenticatable implements Auditable
     public function accounts(){
         return $this->hasMany('App\Models\Account');
     }
-    public function transporter(){
-        return $this->hasOne('App\Models\Transporter');
-    }
-    public function trip_locations(){
-        return $this->hasMany('App\Models\TripLocation');
-    }
-    public function loan_types(){
-        return $this->hasMany('App\Models\LoanType');
-    }
-    public function loans(){
-        return $this->hasMany('App\Models\Loan');
-    }
-    public function payrolls(){
-        return $this->hasMany('App\Models\Payroll');
-    }
-    public function salary_items(){
-        return $this->hasMany('App\Models\SalaryItem');
-    }
-    public function salary(){
-        return $this->hasMany('App\Models\Salary');
-    }
+  
+  
     public function loading_points(){
         return $this->hasMany('App\Models\LoadingPoint');
     }
@@ -145,9 +125,7 @@ class User extends Authenticatable implements Auditable
     public function cargos(){
         return $this->hasMany('App\Models\Cargo');
     }
-    public function income_streams(){
-        return $this->hasMany('App\Models\IncomeStream');
-    }
+  
     public function vendor(){
         return $this->hasOne('App\Models\Vendor');
     }
@@ -157,35 +135,12 @@ class User extends Authenticatable implements Auditable
     public function invoices(){
         return $this->hasMany('App\Models\Invoice');
     }
-    public function agent(){
-        return $this->hasOne('App\Models\Agent');
-    }
-    public function trip_positions(){
-        return $this->hasMany('App\Models\TripPosition');
-    }
-    public function recoveries(){
-        return $this->hasMany('App\Models\Recovery');
-    }
+  
     public function customer(){
         return $this->hasOne('App\Models\Customer');
     }
     public function invoice_trips(){
         return $this->hasMany('App\Models\InvoiceTrip');
-    }
-    public function containers(){
-        return $this->hasMany('App\Models\Container');
-    }
-    public function credit_notes(){
-        return $this->hasMany('App\Models\CreditNote');
-    }
-    public function tyres(){
-        return $this->hasMany('App\Models\Tyre');
-    }
-    public function top_ups(){
-        return $this->hasMany('App\Models\TopUp');
-    }
-    public function tyre_assignment(){
-        return $this->hasMany('App\Models\TyreAssignment');
     }
     public function vehicles(){
         return $this->hasMany('App\Models\Vehicle');

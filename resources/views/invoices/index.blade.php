@@ -11,7 +11,7 @@
 
         
         <!-- ========== Topbar Start ========== -->
-       {{-- @include('includes.navbar') --}}
+       @include('includes.navbar')
         <!-- ========== Topbar End ========== -->
         
 

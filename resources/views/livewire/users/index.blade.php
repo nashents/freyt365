@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New User</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#userModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New User</a>
                   
                 </div>
                 <div class="card-body">
@@ -47,8 +47,11 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
-                                            <li><a href="#" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a></li>
+                                            <li><a href="#" wire:click.prevent="edit({{$user->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                            <li>
+                                                <a href="#" wire:click="delete({{$user->id}})"
+                                                wire:confirm="Are you sure you want to delete this user?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                            </li>
                                         </ul>
                                     </div>
                             </td>
@@ -83,4 +86,206 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div> <!-- end row-->
+
+
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="userModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Create User</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="store()" >
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Enter name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Surname <span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="surname"
+                                        placeholder="Enter surname" required>
+                                        @error('surname') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Email<span class="required" style="color: red">*</span></label>
+                                    <input type="email" class="form-control" wire:model.live.debounce.300ms="email"
+                                        placeholder="Enter email" required>
+                                        @error('email') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Phonenumber<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="phonenumber"
+                                        placeholder="Enter phonenumber" required>
+                                        @error('phonenumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Username<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="username"
+                                    placeholder="Enter username"  required >
+                                        @error('username') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Roles<span class="required" style="color: red">*</span></label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="role_id" multiple>
+                                        <option value="">Select User Role(s)</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{$role->id}}">{{$role->name}}</option>
+                                        @endforeach
+                                    </select>
+                                        @error('role_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Password<span class="required" style="color: red">*</span></label>
+                                    <input type="password" class="form-control" wire:model.live.debounce.300ms="password"
+                                    placeholder="Enter password" required>
+                                        @error('password') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Confirm Password<span class="required" style="color: red">*</span></label>
+                                    <input type="password" class="form-control" wire:model.live.debounce.300ms="password_confirmation"
+                                        placeholder="Confirm your password" required>
+                                        @error('password_confirmation') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Save</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="userEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i>Edit User</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="update()" >
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Enter name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Surname <span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="surname"
+                                        placeholder="Enter surname" required>
+                                        @error('surname') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Email<span class="required" style="color: red">*</span></label>
+                                    <input type="email" class="form-control" wire:model.live.debounce.300ms="email"
+                                        placeholder="Enter email" required>
+                                        @error('email') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Phonenumber<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="phonenumber"
+                                        placeholder="Enter phonenumber" required>
+                                        @error('phonenumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Username<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="username"
+                                    placeholder="Enter username"  required >
+                                        @error('username') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Roles<span class="required" style="color: red">*</span></label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="role_id" multiple>
+                                        <option value="">Select User Role(s)</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{$role->id}}">{{$role->name}}</option>
+                                        @endforeach
+                                    </select>
+                                        @error('role_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Password<span class="required" style="color: red">*</span></label>
+                                    <input type="password" class="form-control" wire:model.live.debounce.300ms="password"
+                                    placeholder="Enter password" required>
+                                        @error('password') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Confirm Password<span class="required" style="color: red">*</span></label>
+                                    <input type="password" class="form-control" wire:model.live.debounce.300ms="password_confirmation"
+                                        placeholder="Confirm your password" required>
+                                        @error('password_confirmation') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-refresh"></i>Update</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 </div>

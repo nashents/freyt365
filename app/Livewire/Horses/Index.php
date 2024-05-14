@@ -17,7 +17,7 @@ class Index extends Component
     public $registration_number;
     public $fleet_number;
     public $registration_date;
-    public $trailer_id;
+    public $trailer_id = [];
     public $trailers;
     public $status;
     public $color;
@@ -33,9 +33,12 @@ class Index extends Component
         array_push($this->inputs ,$i);
     }
 
-    public function remove($i)
+   
+
+    public function remove()
     {
-        unset($this->inputs[$i]);
+        $this->inputs = [];
+        // unset($this->inputs[$i]);
     }
 
     private function resetInputFields(){
@@ -45,7 +48,7 @@ class Index extends Component
         $this->registration_date = "" ;
         $this->registration_number = "" ;
         $this->fleet_number = "";
-        $this->trailer_id = "";
+        $this->trailer_id = [];
       
     }
 
@@ -67,7 +70,6 @@ class Index extends Component
 
     public function store(){
         try{
-    
         $horse = new Horse;
         $horse->user_id = Auth::user()->id;
         $horse->company_id = Auth::user()->company_id;
@@ -78,7 +80,9 @@ class Index extends Component
         $horse->make = $this->make;
         $horse->model = $this->model;
         $horse->save();
-        $horse->trailers()->sync($this->trailer_id);
+
+        $horse->trailers()->attach($this->trailer_id);
+
         $this->dispatch('hide-horseModal');
         $this->resetInputFields();
         $this->dispatch('alert',[
@@ -126,22 +130,36 @@ class Index extends Component
         $horse->model = $this->model;
         $horse->update();
         $horse->trailers()->detach();
-        $horse->trailers()->sync([$this->trailer_id]);
+        $horse->trailers()->sync($this->trailer_id);
 
         $this->dispatch('hide-horseEditModal');
         $this->resetInputFields();
         $this->dispatch('alert',[
             'type'=>'success',
-            'message'=>"Horse Created Successfully!!"
+            'message'=>"Horse Updated Successfully!!"
         ]);
 
     }catch(\Exception $e){
         // Set Flash Message
         $this->dispatch('alert',[
             'type'=>'error',
-            'message'=>"Something went wrong while creating horse!!"
+            'message'=>"Something went wrong while updating horse!!"
         ]);
     }
+    }
+
+
+    public function delete($id){
+        $horse = Horse::find($id);
+        $trailers = $horse->trailers;
+        if (isset($trailers)) {
+            $horse->trailers->detach();
+        }
+        $horse->delete();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Horse Deleted Successfully!!"
+        ]);
     }
 
     public function render()

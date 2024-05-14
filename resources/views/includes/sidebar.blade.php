@@ -93,6 +93,12 @@
                 </a>
             </li>
             <li class="side-nav-item">
+                <a href="{{route('customers.index')}}" class="side-nav-link">
+                    <i class="bi bi-people"></i>
+                    <span> Customers </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a href="{{ route('fuel_stations.index') }}" class="side-nav-link">
                     <i class="bi bi-fuel-pump-fill"></i>
                     <span> Fuel Stations </span>
@@ -104,53 +110,50 @@
                     <span> Service Providers </span>
                 </a>
             </li>
+          
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
-                    <i class="bi bi-map-fill"></i>
-                    <span> Trips </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarExtendedUI">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="#">My Trips</a>
-                        </li>
-                        <li>
-                            <a href="#">My Trip Templates</a>
-                        </li>
-                        <li>
-                            <a href="#">Standard Trip Template</a>
-                        </li>
-                        <li>
-                            <a href="#">UnAuthorized Trips</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="orders" class="side-nav-link">
                     <i class="bi bi-list-ol"></i>
                     <span> Orders </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="sidebarExtendedUI">
+                <div class="collapse" id="orders">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="#">Manage Orders</a>
-                        </li>
-                        <li>
-                            <a href="#">UnAuthorized Orders</a>
+                            <a href="{{route('orders.index')}}">Manage Orders</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="#trips" aria-expanded="false" aria-controls="trips" class="side-nav-link">
+                    <i class="bi bi-map-fill"></i>
+                    <span> Trips </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="trips">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('trips.index')}}">Manage Trips</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{{route('invoices.index')}}" class="side-nav-link">
+                    <i class="bi bi-file-earmark-text-fill"></i>
+                    <span> Invoices </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#reports" aria-expanded="false" aria-controls="reports" class="side-nav-link">
                     <i class="bi bi-graph-up-arrow"></i>
                     <span> Reports </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse" id="sidebarExtendedUI">
+                <div class="collapse" id="reports">
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="#">Account Statement</a>
@@ -167,38 +170,21 @@
                     </ul>
                 </div>
             </li>
+          
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
-                    <i class="bi bi-people"></i>
-                    <span> Customers </span>
+                <a href="{{route('company-profile',Auth::user()->company->id)}}" class="side-nav-link">
+                    <i class="bi bi-person-gear"></i>
+                    <span> Company Profile </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
-                    <i class="bi bi-file-earmark-text-fill"></i>
-                    <span> Quotations </span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
-                    <i class="bi bi-file-earmark-text-fill"></i>
-                    <span> Invoices </span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
-                    <i class="bi bi-files"></i>
-                    <span> Documents </span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{route('profile',Auth::user()->id)}}" class="side-nav-link">
                     <i class="bi bi-person-gear"></i>
                     <span> My Account </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{route('logout')}}" class="side-nav-link">
                     <i class="bi bi-box-arrow-right" style="color: red"></i>
                     <span> Log Out </span>
                 </a>

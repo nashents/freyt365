@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
+                {{-- <div class="card-header">
                     <a href="" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Company</a>
                   
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
@@ -39,7 +39,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a href="#" wire:click.prevent="showAuthorize({{$company->id}})" class="dropdown-item"><i class="fa fa-gavel color-success"></i> Authorize</a></li>
-                                                    <li><a href="#" wire:click.prevent="edit({{$company->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                                    {{-- <li><a href="#" wire:click.prevent="edit({{$company->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li> --}}
                                                     <li>
                                                         <a href="#" wire:click="delete({{$company->id}})"
                                                         wire:confirm="Are you sure you want to delete this company?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>

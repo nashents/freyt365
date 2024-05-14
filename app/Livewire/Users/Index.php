@@ -2,9 +2,14 @@
 
 namespace App\Livewire\Users;
 
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Company;
 use Livewire\Component;
+use App\Jobs\AccountCreationSMS;
+use App\Mail\AccountCreationMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Index extends Component
 {
@@ -14,21 +19,27 @@ class Index extends Component
     public $surname;
     public $email;
     public $phonenumber;
+    public $username;
+    public $password;
+    public $password_confirmation;
+    public $roles;
+    public $role_id = [];
     public $status;
   
 
     private function resetInputFields(){
         $this->name = "" ;
         $this->surname = "";
-        $this->license_number = "";
-        $this->passport_number = "";
-        $this->gender = "";
-        $this->dob = "";
+        $this->username = "";
+        $this->email = "";
+        $this->role_id = [];
+        $this->status = "";
         $this->phonenumber = "";
     }
 
     public function mount(){
         $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $this->roles = Role::orderBy('name','asc')->get();
     }
 
     public function updated($value){
@@ -37,9 +48,11 @@ class Index extends Component
     protected $rules = [
         'name' => 'required',
         'surname' => 'required',
-        'username' => 'required',
-        'email' => 'required',
-        'phonenumber' => 'required',
+        'username' => 'required|unique:users,username,NULL,id,deleted_at,NULL',
+        'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
+        'phonenumber' => 'required|unique:users,phonenumber,NULL,id,deleted_at,NULL',
+        'password' => 'required|confirmed',
+        
     ];
 
     public function store(){
@@ -48,11 +61,25 @@ class Index extends Component
         $user->user_id = Auth::user()->id;
         $user->company_id = Auth::user()->company_id;
         $user->name = $this->name;
+        $user->category = "Employee";
+        $user->is_admin = 0;
+        $user->status = 1;
         $user->surname = $this->surname;
         $user->username = $this->username;
         $user->email = $this->email;
         $user->phonenumber = $this->phonenumber;
+        $user->password = bcrypt($this->password);
         $user->save();
+        $user->roles()->sync($this->role_id);
+
+        $company = Company::find(Auth::user()->company_id);
+
+        if (isset($this->email)) {
+            Mail::to($this->email)->send(new AccountCreationMail($user, $company, $this->password));
+        }
+       
+        dispatch(new AccountCreationSMS($user, $this->password));
+
         $this->dispatch('hide-userModal');
         $this->resetInputFields();
         $this->dispatch('alert',[
@@ -76,9 +103,15 @@ class Index extends Component
         $this->surname = $user->surname;
         $this->email = $user->email;
         $this->phonenumber = $user->phonenumber;
+        $this->username = $user->username;
         $this->status = $user->status;
-        $this->user_id = $user->id;
+        $user_roles = $user->roles;
 
+        foreach ($user_roles as $role) {
+            $this->role_id[] = $role->id;
+        }
+        $this->user_id = $user->id;
+        
         $this->dispatch('show-userEditModal');
     }
 
@@ -87,26 +120,42 @@ class Index extends Component
 
         $user =  User::find($this->user_id);
         $user->name = $this->name;
+        $user->category = "Employee";
+        $user->is_admin = 0;
+        $user->status = 1;
         $user->surname = $this->surname;
         $user->username = $this->username;
         $user->email = $this->email;
         $user->phonenumber = $this->phonenumber;
+        $user->password = bcrypt($this->password);
         $user->update();
+        $user->roles()->detach();
+        $user->roles()->sync($this->role_id);
 
         $this->dispatch('hide-userEditModal');
         $this->resetInputFields();
         $this->dispatch('alert',[
             'type'=>'success',
-            'message'=>"user Created Successfully!!"
+            'message'=>"User Updated Successfully!!"
         ]);
 
     }catch(\Exception $e){
         // Set Flash Message
         $this->dispatch('alert',[
             'type'=>'error',
-            'message'=>"Something went wrong while creating user!!"
+            'message'=>"Something went wrong while updating user!!"
         ]);
     }
+    }
+
+    public function delete($id){
+        $user = User::find($id);
+        $user->roles()->detach();
+        $user->delete();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"User Deleted Successfully!!"
+        ]);
     }
 
     public function render()

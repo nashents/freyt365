@@ -121,6 +121,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/drivers',DriverController::class);
     Route::resource('/vendors',VendorController::class);
 
+    Route::get('/companies/{company}/profile',[CompanyController::class,'getProfile'])->name('company-profile');
+
     Route::get('/users/{id}/profile',[UserController::class,'getProfile'])->name('profile');
     Route::post('/users/{id}/change-password',[UserController::class,'changePassword'])->name('password.change');
     Route::post('/users/{id}/profile-update',[UserController::class,'profile'])->name('postProfile');

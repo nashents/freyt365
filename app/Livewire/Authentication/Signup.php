@@ -100,7 +100,7 @@ class Signup extends Component
         }
         $user->name = $this->name;
         $user->surname = $this->surname;
-        $user->category = "user";
+        $user->category = "Admin";
         $user->is_admin = 0;
         $user->status = 1;
         $user->email = $this->email;

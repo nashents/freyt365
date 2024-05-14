@@ -46,7 +46,7 @@
 
         @yield('extra-css')
         <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
-
+        @stack('styles')
         @livewireStyles
     </head>
 
@@ -75,6 +75,8 @@
 
  <!-- App js -->
  <script src="{{ asset('js/app.min.js')}}"></script>
+
+ <script src="{{asset('js/pages/profile.init.js')}}"></script>
 
  {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --}}
 
@@ -219,6 +221,70 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-customerModal', (event) => {
+        $('#customerModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-customerModal', (event) => {
+        $('#customerModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-customerEditModal', (event) => {
+        $('#customerEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-customerEditModal', (event) => {
+        $('#customerEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-clearing_agentModal', (event) => {
+        $('#clearing_agentModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-clearing_agentModal', (event) => {
+        $('#clearing_agentModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-clearing_agentEditModal', (event) => {
+        $('#clearing_agentEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-clearing_agentEditModal', (event) => {
+        $('#clearing_agentEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-trailerModal', (event) => {
         $('#trailerModal').modal('show');
        });
@@ -249,6 +315,37 @@
     });
 </script>
 
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-userModal', (event) => {
+        $('#userModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-userModal', (event) => {
+        $('#userModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-userEditModal', (event) => {
+        $('#userEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-userEditModal', (event) => {
+        $('#userEditModal').modal('hide');
+       });
+    });
+</script>
 <script>
     document.addEventListener('livewire:init', () => {
        Livewire.on('show-horseModal', (event) => {
@@ -335,6 +432,93 @@
     document.addEventListener('livewire:init', () => {
        Livewire.on('hide-service_providerEditModal', (event) => {
         $('#service_providerEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-tripModal', (event) => {
+        $('#tripModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-tripModal', (event) => {
+        $('#tripModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-tripEditModal', (event) => {
+        $('#tripEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-tripEditModal', (event) => {
+        $('#tripEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-invoiceModal', (event) => {
+        $('#invoiceModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-invoiceModal', (event) => {
+        $('#invoiceModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-invoiceEditModal', (event) => {
+        $('#invoiceEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-invoiceEditModal', (event) => {
+        $('#invoiceEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-orderModal', (event) => {
+        $('#orderModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-orderModal', (event) => {
+        $('#orderModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-orderEditModal', (event) => {
+        $('#orderEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-orderEditModal', (event) => {
+        $('#orderEditModal').modal('hide');
        });
     });
 </script>

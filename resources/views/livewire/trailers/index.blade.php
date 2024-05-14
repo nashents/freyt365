@@ -33,8 +33,11 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
-                                            <li><a href="#" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a></li>
+                                            <li><a href="#" wire:click.prevent="edit({{$trailer->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                            <li>
+                                                <a href="#" wire:click="delete({{$trailer->id}})"
+                                                wire:confirm="Are you sure you want to delete this trailer?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                            </li>
                                         </ul>
                                     </div>
                             </td>
@@ -98,6 +101,41 @@
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
                             <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Save</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="trailerEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i> Edit Trailer</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="update()" >
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Registration Number<span class="required" style="color: red">*</span></label>
+                            <input type="text" class="form-control" wire:model.live.debounce.300ms="registration_number"
+                                placeholder="Enter registration number" required>
+                                @error('registration_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Fleet Number</label>
+                            <input type="text" class="form-control" wire:model.live.debounce.300ms="fleet_number"
+                                placeholder="Enter trailer fleet number" >
+                                @error('fleet_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        </div>
+           
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-refresh"></i>Update</button>
                         </div>
                         <!-- /.btn-group -->
                     </div>

@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('invoice_payments', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('customer_id')->unsigned()->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->bigInteger('invoice_id')->unsigned()->nullable();
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->bigInteger('payment_id')->unsigned()->nullable();
+            $table->bigInteger('currency_id')->unsigned()->nullable();
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
+            $table->string('amount')->default(0);
+            $table->string('balance')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -16,5 +16,8 @@ class Driver extends Model
     public function company(){
         return $this->belongsTo('App\Models\Company');
     }
+    public function trips(){
+        return $this->hasMany('App\Models\Trip');
+    }
     
 }

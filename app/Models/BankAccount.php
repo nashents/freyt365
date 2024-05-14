@@ -16,4 +16,7 @@ class BankAccount extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+    public function invoices(){
+        return $this->hasMany('App\Models\Invoice');
+    }
 }

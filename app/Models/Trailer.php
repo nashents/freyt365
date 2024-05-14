@@ -19,4 +19,8 @@ class Trailer extends Model
     public function horses(){
         return $this->belongsToMany('App\Models\Horse');
     }
+
+    public function trips(){
+        return $this->belongsToMany('App\Models\Trip');
+    }
 }

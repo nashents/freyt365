@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('invoice_id')->unsigned()->nullable();
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->bigInteger('trip_id')->unsigned()->nullable();
+            $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');
+            $table->text('trip_details')->nullable();
+            $table->text('description')->nullable();
+            $table->string('qty')->nullable();
+            $table->string('amount')->nullable();
+            $table->string('subtotal')->nullable();
+            $table->string('subtotal_incl')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

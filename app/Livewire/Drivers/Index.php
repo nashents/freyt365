@@ -105,13 +105,14 @@ class Index extends Component
         $driver->phonenumber = $this->phonenumber;
         $driver->gender = $this->gender;
         $driver->dob = $this->dob;
+        $driver->status = $this->status;
         $driver->update();
 
         $this->dispatch('hide-driverEditModal');
         $this->resetInputFields();
         $this->dispatch('alert',[
             'type'=>'success',
-            'message'=>"Driver Created Successfully!!"
+            'message'=>"Driver Updated Successfully!!"
         ]);
 
     }catch(\Exception $e){
@@ -121,6 +122,15 @@ class Index extends Component
             'message'=>"Something went wrong while creating driver!!"
         ]);
     }
+    }
+
+    public function delete($id){
+        $driver = Driver::find($id);
+        $driver->delete();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Driver Deleted Successfully!!"
+        ]);
     }
 
     public function render()
