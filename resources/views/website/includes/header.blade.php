@@ -12,7 +12,7 @@
                         <li class="nav-item"><a class="nav-link" href="#bi-what-we-offer">Service</a></li>		
                         <li class="nav-item"><a class="nav-link" href="#bi-team-3">Team</a></li>						
                         <li class="nav-item"><a class="nav-link" href="#bi-testimonial-3">Review</a></li>
-                        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li> --}}
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                     </ul>
                 </nav>
             </div>
