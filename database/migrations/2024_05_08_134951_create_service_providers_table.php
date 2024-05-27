@@ -26,7 +26,10 @@ return new class extends Migration
             $table->string('contact_phonenumber')->nullable();
             $table->string('city')->nullable();
             $table->string('suburb')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
             $table->string('street_address')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();

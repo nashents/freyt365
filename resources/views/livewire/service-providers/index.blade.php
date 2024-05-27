@@ -31,8 +31,9 @@
                                     <div class="accordion-body">
                                         <div class="row" style="float: right">
                                             <div class="d-flex flex-wrap gap-2" style="float: right">
-                                                <a href="#" type="button" class="btn btn-primary rounded-pill">Edit Service Provider</a>
-                                                <a href="#" type="button" class="btn btn-danger rounded-pill">Delete Service Provider</a>
+                                                <a href="#" wire:click.prevent="edit({{$service_provider->id}})" type="button" class="btn btn-primary rounded-pill">Edit Service Provider</a>
+                                                <a href="#" wire:click="delete({{$service_provider->id}})"
+                                                    wire:confirm="Are you sure you want to delete this service provider?" type="button" class="btn btn-danger rounded-pill">Delete Service Provider</a>
                                             </div>
                                         </div>
                                        <br>
@@ -202,17 +203,34 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Add Service Provider Office</h4>
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Add Office</h4>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form wire:submit.prevent="storeOffice()" >
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
-                                placeholder="Enter office name" required>
-                                @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Enter office name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Country</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="country_id" >
+                                            <option value="">Select Country</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                            @endforeach
+                                    </select>
+                                    @error('country_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
+                       
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -231,20 +249,9 @@
                                 </div>
                             </div>
                         </div>
+                     
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Country</label>
-                                    <select class="form-control" wire:model.live.debounce.300ms="country_id" >
-                                            <option value="">Select Country</option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{$country->id}}">{{$country->name}}</option>
-                                            @endforeach
-                                    </select>
-                                    @error('country_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">City</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="city"
@@ -252,10 +259,7 @@
                                         @error('city') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                           
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Suburb</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="suburb"
@@ -263,7 +267,7 @@
                                         @error('suburb') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Street Address</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="street_address"
@@ -407,10 +411,7 @@
                             </div>
                         </div>
                         @endif
-                        
-       
-          
-                 
+                                 
                     </div>
                     <div class="modal-footer">
                         <div class="btn-group" role="group">
@@ -433,11 +434,27 @@
                 </div>
                 <form wire:submit.prevent="updateOffice()" >
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
-                                placeholder="Enter office name" required>
-                                @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Enter office name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Country</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="country_id" >
+                                            <option value="">Select Country</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                            @endforeach
+                                    </select>
+                                    @error('country_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -457,20 +474,9 @@
                                 </div>
                             </div>
                         </div>
+                       
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Country</label>
-                                    <select class="form-control" wire:model.live.debounce.300ms="country_id" >
-                                            <option value="">Select Country</option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{$country->id}}">{{$country->name}}</option>
-                                            @endforeach
-                                    </select>
-                                    @error('country_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">City</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="city"
@@ -478,10 +484,7 @@
                                         @error('city') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                           
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Suburb</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="suburb"
@@ -489,7 +492,7 @@
                                         @error('suburb') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Street Address</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="street_address"
@@ -633,7 +636,8 @@
                             </div>
                         </div>
                         @endif
-                        
+
+          
        
           
                  
@@ -663,6 +667,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Enter service provider name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
                                     <label class="form-label" for="validationCustom02">Countries<span class="required" style="color: red">*</span></label>
                                     <select class="form-control" wire:model.live.debounce.300ms="country_id" required>
                                         <option value="">Select Country</option>
@@ -671,14 +683,6 @@
                                         @endforeach
                                     </select>
                                     @error('country_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Service Provider Name<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
-                                        placeholder="Enter service provider name" required>
-                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>
@@ -763,7 +767,142 @@
                                         @error('street_address') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
+                        </div>   
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Latitude</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
+                                        placeholder="Enter latitude" >
+                                        @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Longitude</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
+                                        placeholder="Enter longitude" >
+                                        @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
+
+                        <h5 class="underline mt-30">Office Hours</h5> 
+                        <br>
+                        <div class="row">
+                            <div class="mb-10">
+                                <input type="checkbox" wire:model.live.debounce.300ms="everyday" class="line-style" />
+                                <label for="one" class="radio-label">Everyday ?</label>
+                                @error('everyday') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                           
+                        </div>
+                        <br>
+                        @if ($everyday == False)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">First Day</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="first_day">
+                                        <option value="">Select First Day</option>
+                                        <option value="Mon">Mon</option>
+                                        <option value="Tue">Tue</option>
+                                        <option value="Wed">Wed</option>
+                                        <option value="Thur">Thur</option>
+                                        <option value="Fri">Fri</option>
+                                        <option value="Sat">Sat</option>
+                                        <option value="Sun">Sun</option>
+                                    </select>
+                                        @error('first_day') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Last Day</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="last_day">
+                                        <option value="">Select Last Day</option>
+                                        <option value="Mon">Mon</option>
+                                        <option value="Tue">Tue</option>
+                                        <option value="Wed">Wed</option>
+                                        <option value="Thur">Thur</option>
+                                        <option value="Fri">Fri</option>
+                                        <option value="Sat">Sat</option>
+                                        <option value="Sun">Sun</option>
+                                    </select>
+                                        @error('last_day') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Starting Time</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="start_time">
+                                        <option value="">Select Starting Time</option>
+                                        <option value="0100">0100</option>
+                                        <option value="0200">0200</option>
+                                        <option value="0300">0300</option>
+                                        <option value="0400">0400</option>
+                                        <option value="0500">0500</option>
+                                        <option value="0600">0600</option>
+                                        <option value="0700">0700</option>
+                                        <option value="0800">0800</option>
+                                        <option value="0900">0900</option>
+                                        <option value="1000">1000</option>
+                                        <option value="1100">1100</option>
+                                        <option value="1200">1200</option>
+                                        <option value="1300">1300</option>
+                                        <option value="1400">1400</option>
+                                        <option value="1500">1500</option>
+                                        <option value="1600">1600</option>
+                                        <option value="1700">1700</option>
+                                        <option value="1800">1800</option>
+                                        <option value="1900">1900</option>
+                                        <option value="2000">2000</option>
+                                        <option value="2100">2100</option>
+                                        <option value="2200">2200</option>
+                                        <option value="2300">2300</option>
+                                        <option value="2400">2400</option>
+                                    </select>
+                                        @error('start_time') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Finishing Time</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="end_time">
+                                        <option value="">Select Finishing Time</option>
+                                        <option value="0100">0100</option>
+                                        <option value="0200">0200</option>
+                                        <option value="0300">0300</option>
+                                        <option value="0400">0400</option>
+                                        <option value="0500">0500</option>
+                                        <option value="0600">0600</option>
+                                        <option value="0700">0700</option>
+                                        <option value="0800">0800</option>
+                                        <option value="0900">0900</option>
+                                        <option value="1000">1000</option>
+                                        <option value="1100">1100</option>
+                                        <option value="1200">1200</option>
+                                        <option value="1300">1300</option>
+                                        <option value="1400">1400</option>
+                                        <option value="1500">1500</option>
+                                        <option value="1600">1600</option>
+                                        <option value="1700">1700</option>
+                                        <option value="1800">1800</option>
+                                        <option value="1900">1900</option>
+                                        <option value="2000">2000</option>
+                                        <option value="2100">2100</option>
+                                        <option value="2200">2200</option>
+                                        <option value="2300">2300</option>
+                                        <option value="2400">2400</option>
+                                    </select>
+                                        @error('end_time') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <div style="height: 150px; overflow: auto">
                             <div class="form-group">
@@ -793,10 +932,71 @@
                             </div>
                    
                         </div>
-                
+                        <br>
+                        <div style="height: 150px; overflow: auto">
+                            <div class="form-group">
+                                <table  class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%" >
+                                    <thead>
+                                      <tr>
+                                        <th class="th-sm">Currencies Available<span class="required" style="color: red">*</span></th>
+                                      </tr>
+                                    </thead>
+                                    @if ($currencies->count()>0)
+                                    <tbody>
+                                        @foreach ($currencies as $currency)
+                                      <tr>
+                                        <td>
+                                            <div class="mb-10">
+                                                <input type="checkbox" wire:model.live.debounce.300ms="currency_id.{{$currency->id}}"  wire:key="{{ $currency->id }}" value="{{$currency->id}}"  class="line-style"  />
+                                                <label for="one" class="radio-label">{{$currency->name}} </label>
+                                                @error('currency_id.'.$currency->id) <span class="text-danger error">{{ $message }}</span>@enderror
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                    @endif
+                                  </table>  
+                            </div>
+                   
+                        </div>
+                        <br>
+                        <div style="height: 150px; overflow: auto">
+                            <div class="form-group">
+                                <table  class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%" >
+                                    <thead>
+                                      <tr>
+                                        <th class="th-sm">Fuel Types Available<span class="required" style="color: red">*</span></th>
+                                      </tr>
+                                    </thead>
+                                    @if ($fuel_types->count()>0)
+                                    <tbody>
+                                        @foreach ($fuel_types as $fuel_type)
+                                      <tr>
+                                        <td>
+                                            <div class="mb-10">
+                                                <input type="checkbox" wire:model.live.debounce.300ms="fuel_type_id.{{$fuel_type->id}}"  wire:key="{{ $fuel_type }}" value="{{$fuel_type->id}}"  class="line-style"  />
+                                                <label for="one" class="radio-label">{{$fuel_type->name}} </label>
+                                                @error('fuel_type_id.'.$fuel_type->id) <span class="text-danger error">{{ $message }}</span>@enderror
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                    @endif
+                                  </table>  
+                            </div>
+                   
+                        </div>
 
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                            <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                            placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                                @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        </div>
+    
 
-                       
 
                     </div>
                     <div class="modal-footer">
@@ -823,6 +1023,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Enter service_provider name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
                                     <label class="form-label" for="validationCustom02">Countries<span class="required" style="color: red">*</span></label>
                                     <select class="form-control" wire:model.live.debounce.300ms="country_id" required>
                                         <option value="">Select Country</option>
@@ -833,14 +1041,7 @@
                                     @error('country_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Service Provider Name<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
-                                        placeholder="Enter service_provider name" required>
-                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
+                           
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -928,6 +1129,141 @@
                         </div>
 
                         
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Latitude</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
+                                        placeholder="Enter latitude" >
+                                        @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Longitude</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
+                                        placeholder="Enter longitude" >
+                                        @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="underline mt-30">Office Hours</h5> 
+                        <br>
+                        <div class="row">
+                            <div class="mb-10">
+                                <input type="checkbox" wire:model.live.debounce.300ms="everyday" class="line-style" />
+                                <label for="one" class="radio-label">Everyday ?</label>
+                                @error('everyday') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+                           
+                        </div>
+                        <br>
+                        @if ($everyday == False)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">First Day</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="first_day">
+                                        <option value="">Select First Day</option>
+                                        <option value="Mon">Mon</option>
+                                        <option value="Tue">Tue</option>
+                                        <option value="Wed">Wed</option>
+                                        <option value="Thur">Thur</option>
+                                        <option value="Fri">Fri</option>
+                                        <option value="Sat">Sat</option>
+                                        <option value="Sun">Sun</option>
+                                    </select>
+                                        @error('first_day') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Last Day</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="last_day">
+                                        <option value="">Select Last Day</option>
+                                        <option value="Mon">Mon</option>
+                                        <option value="Tue">Tue</option>
+                                        <option value="Wed">Wed</option>
+                                        <option value="Thur">Thur</option>
+                                        <option value="Fri">Fri</option>
+                                        <option value="Sat">Sat</option>
+                                        <option value="Sun">Sun</option>
+                                    </select>
+                                        @error('last_day') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Starting Time</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="start_time">
+                                        <option value="">Select Starting Time</option>
+                                        <option value="0100">0100</option>
+                                        <option value="0200">0200</option>
+                                        <option value="0300">0300</option>
+                                        <option value="0400">0400</option>
+                                        <option value="0500">0500</option>
+                                        <option value="0600">0600</option>
+                                        <option value="0700">0700</option>
+                                        <option value="0800">0800</option>
+                                        <option value="0900">0900</option>
+                                        <option value="1000">1000</option>
+                                        <option value="1100">1100</option>
+                                        <option value="1200">1200</option>
+                                        <option value="1300">1300</option>
+                                        <option value="1400">1400</option>
+                                        <option value="1500">1500</option>
+                                        <option value="1600">1600</option>
+                                        <option value="1700">1700</option>
+                                        <option value="1800">1800</option>
+                                        <option value="1900">1900</option>
+                                        <option value="2000">2000</option>
+                                        <option value="2100">2100</option>
+                                        <option value="2200">2200</option>
+                                        <option value="2300">2300</option>
+                                        <option value="2400">2400</option>
+                                    </select>
+                                        @error('start_time') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Finishing Time</label>
+                                    <select  class="form-control" wire:model.live.debounce.300ms="end_time">
+                                        <option value="">Select Finishing Time</option>
+                                        <option value="0100">0100</option>
+                                        <option value="0200">0200</option>
+                                        <option value="0300">0300</option>
+                                        <option value="0400">0400</option>
+                                        <option value="0500">0500</option>
+                                        <option value="0600">0600</option>
+                                        <option value="0700">0700</option>
+                                        <option value="0800">0800</option>
+                                        <option value="0900">0900</option>
+                                        <option value="1000">1000</option>
+                                        <option value="1100">1100</option>
+                                        <option value="1200">1200</option>
+                                        <option value="1300">1300</option>
+                                        <option value="1400">1400</option>
+                                        <option value="1500">1500</option>
+                                        <option value="1600">1600</option>
+                                        <option value="1700">1700</option>
+                                        <option value="1800">1800</option>
+                                        <option value="1900">1900</option>
+                                        <option value="2000">2000</option>
+                                        <option value="2100">2100</option>
+                                        <option value="2200">2200</option>
+                                        <option value="2300">2300</option>
+                                        <option value="2400">2400</option>
+                                    </select>
+                                        @error('end_time') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        
                        <div class="mb-3">
                         <label class="form-label" for="validationCustom01">Services</label>
                         <select class=" form-control" wire:model.debounce.live.300ms="service_id" multiple>
@@ -938,6 +1274,35 @@
                         </select>
                         @error('service_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                        </div>
+
+                       <div class="mb-3">
+                        <label class="form-label" for="validationCustom01">Currencies</label>
+                        <select class=" form-control" wire:model.debounce.live.300ms="currency_id" multiple>
+                            <option value="">Select Currencies</option>
+                            @foreach ($currencies as $currency)
+                                <option value="{{$currency->id}}">{{$currency->name}}</option>
+                            @endforeach
+                        </select>
+                        @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                       </div>
+
+                       <div class="mb-3">
+                        <label class="form-label" for="validationCustom01">Fuel Types</label>
+                        <select class=" form-control" wire:model.debounce.live.300ms="fuel_type_id" multiple>
+                            <option value="">Select Fuel Type(s)</option>
+                            @foreach ($fuel_types as $fuel_type)
+                                <option value="{{$fuel_type->id}}">{{$fuel_type->name}}</option>
+                            @endforeach
+                        </select>
+                        @error('fuel_type_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                       </div>
+
+                       <div class="mb-3">
+                        <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                        <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                        placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                            @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                    </div>
 
                     </div>
                     <div class="modal-footer">

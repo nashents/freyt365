@@ -6,6 +6,8 @@ use App\Models\Office;
 use App\Models\Country;
 use App\Models\Service;
 use Livewire\Component;
+use App\Models\Currency;
+use App\Models\FuelType;
 use App\Models\ServiceProvider;
 use App\Models\WorkingSchedule;
 use Illuminate\Support\Facades\Auth;
@@ -32,13 +34,21 @@ class Index extends Component
     public $email;
     public $phonenumber;
     public $service_providers;
+    public $service_provider;
     public $service_provider_id;
+    public $description;
     public $services;
     public $service_id = [];
+    public $fuel_types;
+    public $fuel_type_id = [];
+    public $currencies;
+    public $currency_id = [];
   
 
     public function mount(){
         $this->countries = Country::orderBy('name','asc')->get();
+        $this->currencies = Currency::orderBy('name','asc')->get();
+        $this->fuel_types = FuelType::orderBy('name','asc')->get();
         $this->services = Service::orderBy('name','asc')->get();
     }
 
@@ -51,11 +61,21 @@ class Index extends Component
         $this->street_address = "";
         $this->phonenumber = "";
         $this->email = "";
-        $this->service_id = "";
         $this->contact_name = "";
+        $this->description = "";
+        $this->lat = "";
+        $this->long = "";
         $this->contact_surname = "";
         $this->contact_email = "";
         $this->contact_phonenumber = "";
+        $this->first_day = "";
+        $this->last_day = "";
+        $this->start_time = "";
+        $this->end_time = "";
+        $this->everyday = True;
+        $this->currency_id = [];
+        $this->service_id = [];
+        $this->fuel_type_id = [];
     }
 
     public function store(){
@@ -73,14 +93,35 @@ class Index extends Component
         $service_provider->city = $this->city;
         $service_provider->suburb = $this->suburb;
         $service_provider->street_address = $this->street_address;
-        $service_provider->save();
+        $service_provider->lat = $this->lat;
+        $service_provider->long = $this->long;
+        $service_provider->description = $this->description;
+        $service_provider->save();   
 
-        if (isset($this->service_id)) {
-           foreach ($this->service_id as $key => $value) {
-            $service_provider->services()->attach($key);
-           }
+        $working_schedule = new WorkingSchedule;
+        $working_schedule->service_provider_id = $service_provider->id;
+        $working_schedule->first_day = $this->first_day;
+        $working_schedule->last_day = $this->last_day;
+        $working_schedule->start_time = $this->start_time;
+        $working_schedule->everyday = $this->everyday;
+        $working_schedule->save();
+
+        if (isset($this->fuel_type_id)) {
+            foreach ($this->fuel_type_id as $key =>  $value) {
+                $service_provider->fuel_types()->attach($key);
+            }
         }
-       
+        if (isset($this->currency_id)) {
+            foreach ($this->currency_id as $key => $value) {
+                $service_provider->currencies()->attach($key);
+            }
+        }
+
+       if (isset($this->service_id)) {
+          foreach ($this->service_id as $key => $value) {
+           $service_provider->services()->attach($key);
+          }
+       }
 
         $this->dispatch('hide-service_providerModal');
             $this->resetInputFields();
@@ -102,7 +143,7 @@ class Index extends Component
 
         $office = new Office;
         $office->user_id = Auth::user()->id;
-        $office->service_provider_id = $this->service_provider->id;
+        $office->service_provider_id = $this->service_provider_id;
         $office->country_id = $this->country_id;
         $office->name = $this->name;
         $office->email = $this->email;
@@ -214,6 +255,7 @@ class Index extends Component
         $this->phonenumber = $service_provider->phonenumber;
         $this->email = $service_provider->email;
         $this->city = $service_provider->city;
+        $this->description = $service_provider->description;
         $this->contact_name = $service_provider->contact_name;
         $this->contact_surname = $service_provider->contact_surname;
         $this->contact_email = $service_provider->contact_email;
@@ -221,6 +263,35 @@ class Index extends Component
         $this->suburb = $service_provider->suburb;
         $this->street_address = $service_provider->street_address;
         $this->status = $service_provider->status;   
+        $this->lat = $service_provider->lat;   
+        $this->long = $service_provider->long;   
+
+        $working_schedule = $service_provider->working_schedule;
+        if (isset($working_schedule)) {
+            $this->first_day = $working_schedule->first_day;
+            $this->last_day = $working_schedule->last_day;
+            $this->start_time = $working_schedule->start_time;
+            $this->end_time = $working_schedule->end_time;
+            $this->everyday = $working_schedule->everyday;
+        }
+      
+
+       
+
+        $service_provider_currencies = $service_provider->currencies;
+        if (isset($service_provider_currencies)) {
+            foreach ($service_provider_currencies as $currency) {
+                $this->currency_id[] = $currency->id;
+            }
+        }
+
+        $service_provider_fuel_types = $service_provider->fuel_types;
+        if (isset($service_provider_fuel_types)) {
+            foreach ($service_provider_fuel_types as $fuel_type) {
+                $this->fuel_type_id[] = $fuel_type->id;
+            }
+        }
+
 
         $service_provider_services = $service_provider->services;
         if (isset($service_provider_services)) {
@@ -237,6 +308,7 @@ class Index extends Component
 
    
     public function update(){
+
         $service_provider =  ServiceProvider::find($this->service_provider_id);
         $service_provider->country_id = $this->country_id;
         $service_provider->name = $this->name;
@@ -249,9 +321,40 @@ class Index extends Component
         $service_provider->city = $this->city;
         $service_provider->suburb = $this->suburb;
         $service_provider->street_address = $this->street_address;
+        $service_provider->lat = $this->lat;
+        $service_provider->long = $this->long;
+        $service_provider->description = $this->description;
         $service_provider->update();
+        
         $service_provider->services()->detach();
+        $service_provider->fuel_types()->detach();
+        $service_provider->currencies()->detach();
         $service_provider->services()->sync($this->service_id);
+        $service_provider->fuel_types()->sync($this->fuel_type_id);
+        $service_provider->currencies()->sync($this->currency_id);
+
+        
+        $working_schedule = $service_provider->working_schedule ;
+        if (isset($working_schedule)) {
+            $working_schedule->service_provider_id = $service_provider->id;
+            $working_schedule->first_day = $this->first_day;
+            $working_schedule->last_day = $this->last_day;
+            $working_schedule->start_time = $this->start_time;
+            $working_schedule->end_time = $this->end_time;
+            $working_schedule->everyday = $this->everyday;
+            $working_schedule->update();
+        }else {
+            $working_schedule = new WorkingSchedule;
+            $working_schedule->service_provider_id = $service_provider->id;
+            $working_schedule->first_day = $this->first_day;
+            $working_schedule->last_day = $this->last_day;
+            $working_schedule->start_time = $this->start_time;
+            $working_schedule->end_time = $this->end_time;
+            $working_schedule->everyday = $this->everyday;
+            $working_schedule->save();
+        }
+       
+
 
         $this->dispatch('hide-service_providerEditModal');
         $this->resetInputFields();
@@ -263,12 +366,12 @@ class Index extends Component
 
     public function delete($id){
         $service_provider = ServiceProvider::find($id);
-        $services = $service_provider->services;
-    
-        if (isset($services)) {
-            foreach ($services as $service) {
-              $service->delete();
-            }
+        $service_provider->services()->detach();
+        $service_provider->currencies()->detach();
+        $service_provider->fuel_types()->detach();
+        $working_schedule = $service_provider->working_schedule;
+        if ($working_schedule) {
+            $working_schedule->delete();
         }
 
         $service_provider->delete();

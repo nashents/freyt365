@@ -22,4 +22,13 @@ class FuelStation extends Model
     public function working_schedule(){
         return $this->hasOne('App\Models\WorkingSchedule');
     }
+    public function currencies(){
+        return $this->belongsToMany('App\Models\Currency');
+    }
+    public function fuel_types(){
+        return $this->belongsToMany('App\Models\FuelType');
+    }
+    public function services(){
+        return $this->belongsToMany('App\Models\Service');
+    }
 }

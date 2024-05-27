@@ -62,9 +62,9 @@ class Index extends Component
         $this->start_time = "";
         $this->end_time = "";
         $this->everyday = "";
-        $this->currency_id = "";
-        $this->service_id = "";
-        $this->fuel_type_id = "";
+        $this->currency_id = [];
+        $this->service_id = [];
+        $this->fuel_type_id = [];
     }
 
     public function store(){

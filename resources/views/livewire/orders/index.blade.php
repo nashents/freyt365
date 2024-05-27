@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#orderModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New order</a>
+                    <a href="{{route('orders.create')}}" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New order</a>
                   
                 </div>
                 <div class="card-body">
@@ -94,39 +94,6 @@
     </div> <!-- end row-->
 
 
-    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="orderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Create order</h4>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form wire:submit.prevent="store()" >
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Registration Number<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control" wire:model.live.debounce.300ms="registration_number"
-                                placeholder="Enter registration number" required>
-                                @error('registration_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Fleet Number</label>
-                            <input type="text" class="form-control" wire:model.live.debounce.300ms="fleet_number"
-                                placeholder="Enter order fleet number" >
-                                @error('fleet_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                        </div>
-           
-                    </div>
-                    <div class="modal-footer">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
-                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Save</button>
-                        </div>
-                        <!-- /.btn-group -->
-                    </div>
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+
 
 </div>

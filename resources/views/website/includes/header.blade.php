@@ -12,7 +12,7 @@
                         <li class="nav-item"><a class="nav-link" href="#bi-what-we-offer">Service</a></li>		
                         <li class="nav-item"><a class="nav-link" href="#bi-team-3">Team</a></li>						
                         <li class="nav-item"><a class="nav-link" href="#bi-testimonial-3">Review</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                        {{-- <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li> --}}
                     </ul>
                 </nav>
             </div>
@@ -43,12 +43,11 @@
                     </div>
                     <nav class="mobile-main-navigation  clearfix ul-li">
                         <ul id="m-main-nav" class="nav navbar-nav clearfix">
-                            <li class="nav-item"><a class="nav-link active" href="#bi-banner">Home</a></li>				
-                            <li class="nav-item"><a class="nav-link" href="#bi-service-2">Service</a></li>		
-                            <li class="nav-item"><a class="nav-link" href="#bi-portfolio-2">Portfolio</a></li>		
-                            <li class="nav-item"><a class="nav-link" href="#bi-pricing-2">Pricing</a></li>				
-                            <li class="nav-item"><a class="nav-link" href="#bi-testimonial-2">Testimonial</a></li>		
-                            <li class="nav-item"><a class="nav-link" href="#bi-blog-2">Blog</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#bi-slider-3">Home</a></li>	
+                            <li class="nav-item"><a class="nav-link" href="#bi-about-3">About</a></li>				
+                            <li class="nav-item"><a class="nav-link" href="#bi-what-we-offer">Service</a></li>		
+                            <li class="nav-item"><a class="nav-link" href="#bi-team-3">Team</a></li>						
+                            <li class="nav-item"><a class="nav-link" href="#bi-testimonial-3">Review</a></li>
                         </ul>
                     </nav>
                     <div class="bi-mobile-header-social text-center">

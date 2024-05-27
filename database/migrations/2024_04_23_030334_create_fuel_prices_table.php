@@ -18,7 +18,6 @@ return new class extends Migration
             $table->bigInteger('country_id')->unsigned()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->bigInteger('fuel_station_id')->unsigned()->nullable();
-            $table->foreign('fuel_station_id')->references('id')->on('fuel_stations')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->bigInteger('fuel_type_id')->unsigned()->nullable();

@@ -20,6 +20,13 @@ class ServiceProvider extends Model
         return $this->hasMany('App\Models\Office');
     }
 
+  
+    public function currencies(){
+        return $this->belongsToMany('App\Models\Currency');
+    }
+    public function fuel_types(){
+        return $this->belongsToMany('App\Models\FuelType');
+    }
     public function services(){
         return $this->belongsToMany('App\Models\Service');
     }

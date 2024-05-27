@@ -3,8 +3,12 @@
 namespace App\Livewire\FuelStations;
 
 use App\Models\Country;
+use App\Models\Service;
 use Livewire\Component;
+use App\Models\Currency;
+use App\Models\FuelType;
 use App\Models\FuelStation;
+use App\Models\WorkingSchedule;
 use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
@@ -23,23 +27,45 @@ class Index extends Component
     public $status;
     public $lat;
     public $long;
+    public $first_day;
+    public $last_day;
+    public $start_time;
+    public $end_time;
+    public $everyday = True;
+    public $services;
+    public $service_id = [];
+    public $fuel_types;
+    public $fuel_type_id = [];
+    public $currencies;
+    public $currency_id = [];
 
     public function mount(){
         $this->fuel_stations = FuelStation::orderBy('name','asc')->get();
         $this->countries = Country::orderBy('name','asc')->get();
+        $this->currencies = Currency::orderBy('name','asc')->get();
+        $this->fuel_types = FuelType::orderBy('name','asc')->get();
+        $this->services = Service::orderBy('name','asc')->get();
     }
 
     private function resetInputFields(){
       
-        $this->country_id = "";
         $this->name = "";
-        $this->email = "";
-        $this->phonenumber = "";
+        $this->country_id = "";
         $this->city = "";
         $this->suburb = "";
         $this->street_address = "";
+        $this->phonenumber = "";
+        $this->email = "";
         $this->lat = "";
         $this->long = "";
+        $this->first_day = "";
+        $this->last_day = "";
+        $this->start_time = "";
+        $this->end_time = "";
+        $this->everyday = "";
+        $this->currency_id = [];
+        $this->service_id = [];
+        $this->fuel_type_id = [];
     }
 
     public function updated($value){
@@ -65,6 +91,36 @@ class Index extends Component
         $fuel_station->lat = $this->lat;
         $fuel_station->long = $this->long;
         $fuel_station->save();
+
+        if (isset($this->service_id)) {
+            foreach ($this->service_id as $key => $value) {
+             $fuel_station->services()->attach($key);
+            }
+         }
+         if (isset($this->fuel_type_id)) {
+             foreach ($this->fuel_type_id as $key =>  $value) {
+                 $fuel_station->fuel_types()->attach($key);
+             }
+         }
+         if (isset($this->currency_id)) {
+             foreach ($this->currency_id as $key => $value) {
+                 $fuel_station->currencies()->attach($key);
+             }
+         }
+       
+       
+       
+ 
+         $working_schedule = new WorkingSchedule;
+         $working_schedule->user_id = Auth::user()->id;
+         $working_schedule->fuel_station_id = $fuel_station->id;
+         $working_schedule->first_day = $this->first_day;
+         $working_schedule->last_day = $this->last_day;
+         $working_schedule->start_time = $this->start_time;
+         $working_schedule->end_time = $this->end_time;
+         $working_schedule->everyday = $this->everyday;
+         $working_schedule->save();
+
 
         $this->dispatch('hide-fuel_stationModal');
         $this->resetInputFields();
