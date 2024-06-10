@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('transaction_type_id')->unsigned()->nullable();
             $table->string('mop')->nullable();
             $table->string('charge')->nullable();
+            $table->string('charge_amount')->nullable();
             $table->string('amount')->nullable();
             $table->string('wallet_balance')->nullable();
             $table->string('transaction_date')->nullable();

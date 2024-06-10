@@ -41,6 +41,25 @@
                     <span> Companies </span>
                 </a>
             </li>
+
+            @if (Auth::user()->is_admin())
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#master1" aria-expanded="false" aria-controls="master1" class="side-nav-link">
+                    <i class="bi bi-gear-fill"></i>
+                    <span> Master </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="master1">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{ route('charges.index') }}">Transaction Charges
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            @endif
+
+           
            
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">

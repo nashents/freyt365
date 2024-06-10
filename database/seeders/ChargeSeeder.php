@@ -12,6 +12,6 @@ class ChargeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+       
     }
 }

@@ -26,6 +26,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ChargeController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WalletController;
@@ -120,6 +121,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/bank_accounts',BankAccountController::class);
     Route::resource('/drivers',DriverController::class);
     Route::resource('/vendors',VendorController::class);
+    Route::resource('/transactions',TransactionController::class);
+    Route::resource('/charges',ChargeController::class);
 
     Route::get('/companies/{company}/profile',[CompanyController::class,'getProfile'])->name('company-profile');
 

@@ -55,6 +55,7 @@ class Index extends Component
         }
 
         $this->wallet = Auth::user()->company->wallet;
+
         if (isset($this->wallet)) {
             $this->currency_id = $this->wallet->currency_id;
             $this->to_bank_accounts = BankAccount::where('company_id', 1)->where('currency_id',$this->wallet->currency_id)->orderBy('name','asc')->get();
@@ -230,7 +231,7 @@ class Index extends Component
         $this->dispatch('show-authorizationModal');
     }
 
-    public function saveAuthorization(){
+    public function saveAuthorize(){
 
         $transaction = Transaction::find($this->transaction_id);
         $transaction->authorized_by_id = Auth::user()->id;
@@ -259,45 +260,52 @@ class Index extends Component
         
     }
 
-    public function delete($id){
-        $transaction = Transaction::find($id);
-        $transaction->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Deleted Successfully!!"
-        ]);
+  
+
+    public function showVerify($id){
+        $this->transaction_id = $id;
+        $this->transaction = Transaction::find($id);
+        $this->dispatch('show-verificationModal');
     }
 
-    public function saveVerification(){
+    public function saveVerify(){
 
         $transaction = Transaction::find($this->transaction_id);
         $transaction->verified_by_id = Auth::user()->id;
         $transaction->verification = $this->verification;
-        $transaction->verification_reason = $this->verification_reason;
-
+        $transaction->verification_reason = $this->reason;
         $transaction_type = TransactionType::find($transaction->transaction_type_id);
+
         if (isset($transaction_type)) {
-            $percentage = $transaction_type->charge->percentage;
-            if (isset($percentage)) {
-                $this->charge = ($percentage/100) * $this->amount;
-                $transaction->charge = $this->charge;
+            $charge = $transaction_type->charge;
+            if (isset($charge)) {
+                if (isset($charge->percentage) && isset($transaction->amount)) {
+                    $this->charge_amount = ($charge->percentage/100) * $transaction->amount;
+                    $transaction->charge = $charge->percentage;
+                    $transaction->charge_amount = $this->charge_amount;
+                }
+                
             }
             
         }
+
         $transaction->update();
 
         
 
         if ($this->verification == "verified") {
             $wallet = $transaction->wallet;
-            if ($transaction->type == "Deposit") {
+            if ($transaction->transaction_type->name == "Deposit") {
                 $wallet->balance = $wallet->balance + $transaction->amount;
                 $wallet->update();
-            }elseif ($transaction->type == "Withdrawal") {
+            }elseif ($transaction->transaction_type->name == "Withdrawal") {
                     if ($wallet->balance > $transaction->amount) {
                         $wallet->balance = $wallet->balance - $transaction->amount;
-                        $wallet->balance = $wallet->balance - $this->charge;
-                        $wallet->update();
+                        if (isset($this->charge_amount)) {
+                            $wallet->balance = $wallet->balance - $this->charge_amount;
+                            $wallet->update();
+                        }
+                       
                     }   
             }
 
@@ -322,10 +330,13 @@ class Index extends Component
         
     }
 
-    public function showVerify($id){
-        $this->transaction_id = $id;
-        $this->transaction = Transaction::find($id);
-        $this->dispatch('show-verificationModal');
+    public function delete($id){
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+        $this->dispatch('alert',[
+            'type'=>'success',
+            'message'=>"Transaction Deleted Successfully!!"
+        ]);
     }
 
     public function render()

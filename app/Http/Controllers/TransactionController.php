@@ -37,7 +37,7 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        return view('transactions.show')->with('transaction',$transaction);
     }
 
     /**

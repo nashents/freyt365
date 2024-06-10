@@ -189,6 +189,38 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-chargeModal', (event) => {
+        $('#chargeModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-chargeModal', (event) => {
+        $('#chargeModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-chargeEditModal', (event) => {
+        $('#chargeEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-chargeEditModal', (event) => {
+        $('#chargeEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-driverModal', (event) => {
         $('#driverModal').modal('show');
        });

@@ -163,6 +163,95 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="bank_accountEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fa fa-edit"></i> Edit Bank Account</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="update()" >
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Bank Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="name"
+                                        placeholder="Bank name" required>
+                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                           <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom02">Currencies<span class="required" style="color: red">*</span></label>
+                                <select class="form-control" wire:model.live.debounce.300ms="currency_id" required>
+                                    <option value="">Select Currency</option>
+                                    @foreach ($currencies as $currency)
+                                        <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                            </div>
+                           </div>
+                          
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Account Name<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="account_name"
+                                        placeholder="Bank name" required>
+                                        @error('account_name') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Account Number<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="account_number"
+                                        placeholder="Account Number" required>
+                                        @error('account_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Branch Name</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="branch"
+                                        placeholder="Branch name" >
+                                        @error('branch') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Branch Code</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="branch_code"
+                                        placeholder="Branch Code" >
+                                        @error('branch_code') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Swift Code</label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="swift_code"
+                                        placeholder="Swift Code" >
+                                        @error('swift_code') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fa fa-refresh"></i>Update</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 
 
 
