@@ -29,12 +29,12 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fuel Station</th>
-                                                    <th>Address</th>
                                                     <th>Product Description</th>
                                                     <th>Stock Level</th>
                                                     <th>Currency</th>
                                                     <th>Price</th>
                                                     @if (Auth::user()->is_admin() || Auth::user()->company->type == "Admin")
+                                                        <th>Status</th>
                                                         <th>Actions</th>
                                                     @endif
                                                    
@@ -46,12 +46,33 @@
                                                 @if (isset($country->fuel_prices))
                                                     @forelse ($country->fuel_prices as $fuel_price)
                                                         <tr>
-                                                            <td>{{$fuel_price->fuel_station ? $fuel_price->fuel_station->name : ""}}</td>
-                                                            <td>{{$fuel_price->fuel_station ? $fuel_price->fuel_station->street_address : ""}} {{$fuel_price->fuel_station ? $fuel_price->fuel_station->suburb.", " : ""}} {{$fuel_price->fuel_station ? $fuel_price->fuel_station->city : ""}}</td>
-                                                            <td>{{$fuel_price->fuel_type ? $fuel_price->fuel_type->name : ""}}</td>
-                                                            <td><span class="badge bg-primary">{{$fuel_price->stock_level}}</span></td>
-                                                            <td>{{$fuel_price->currency ? $fuel_price->currency->name : ""}}</td>
+                                                            <td>
+                                                                <strong>{{$fuel_price->fuel_station ? $fuel_price->fuel_station->name : ""}}</strong> <br>
+                                                                <i class="fas fa-envelope"></i> {{$fuel_price->fuel_station ? $fuel_price->fuel_station->email : ""}} | <i class="fas fa-phone"></i> {{$fuel_price->fuel_station ? $fuel_price->fuel_station->phonenumber : ""}} <br>
+                                                                <i class="fas fa-map-marker"></i> {{$fuel_price->fuel_station ? $fuel_price->fuel_station->street_address : ""}} {{$fuel_price->fuel_station->suburb ? $fuel_price->fuel_station->suburb.", " : ""}} {{$fuel_price->fuel_station ? $fuel_price->fuel_station->city : ""}} <br>
+                                                                <i class="fa fa-clock-o"></i> Office Hours: 
+                                                                @if (isset($fuel_price->fuel_station->working_schedule) && $fuel_price->fuel_station->working_schedule->everyday == False)
+                                                                    {{$fuel_price->fuel_station->working_schedule ? $fuel_price->fuel_station->working_schedule->first_day : ""}} - {{$fuel_price->fuel_station->working_schedule ? $fuel_price->fuel_station->working_schedule->last_day : ""}} {{$fuel_price->fuel_station->working_schedule ? $fuel_price->fuel_station->working_schedule->start_time : ""}} - {{$fuel_price->fuel_station->working_schedule ? $fuel_price->fuel_station->working_schedule->end_time : ""}}
+                                                                @else
+                                                                Open Everyday
+                                                                @endif
+                                                               
+                                                            </td>
+                                                            
+                                                            <td>
+                                                                <span class="badge bg-success">
+                                                                {{$fuel_price->fuel_type ? $fuel_price->fuel_type->name : ""}}
+                                                                </span>
+                                                            </td>
+                                                            <td><span class="badge bg-warning">{{$fuel_price->stock_level}}</span></td>
+                                                            <td>
+                                                                <span class="badge bg-primary">
+                                                                {{$fuel_price->currency ? $fuel_price->currency->name : ""}}
+                                                                </span>
+                                                            </td>
                                                             <td>{{$fuel_price->currency ? $fuel_price->currency->symbol : ""}}{{number_format($fuel_price->retail_price,2)}}</td>
+                                                            @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
+                                                            <td><span class="badge bg-{{$fuel_price->status == 1 ? "primary" : "danger"}}">{{$fuel_price->status == 1 ? "Active" : "Inactive"}}</span></td>
                                                             <td class="w-10 line-height-35 table-dropdown">
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
@@ -67,6 +88,7 @@
                                                                     </ul>
                                                                 </div>
                                                         </td>
+                                                        @endif
                                                         </tr>
                                                         @empty
                                                             <tr>
@@ -194,7 +216,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Status</label>
                                     <select class="form-control" wire:model.live.debounce.300ms="status">
-                                    <option value="">Select Stock level</option>
+                                    <option value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                    </select>
@@ -216,7 +238,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="fuel_priceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="fuel_priceEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
@@ -314,7 +336,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Status</label>
                                     <select class="form-control" wire:model.live.debounce.300ms="status">
-                                    <option value="">Select Stock level</option>
+                                    <option value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                    </select>

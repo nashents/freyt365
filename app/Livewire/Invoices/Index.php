@@ -219,11 +219,12 @@ class Index extends Component
       
         $this->dispatch('hide-invoiceModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Invoice Created Successfully!!"
-        ]);
-
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Invoice Created Successfully!!",
+            position: "center",
+        );
     }
 
     public function delete($id){
@@ -235,10 +236,12 @@ class Index extends Component
             }
         }
         $invoice->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Invoice Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Invoice Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

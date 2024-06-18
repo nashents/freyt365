@@ -15,6 +15,18 @@ class TransactionController extends Controller
     {
         return view('transactions.index');
     }
+    public function approved()
+    {
+        return view('transactions.approved');
+    }
+    public function pending()
+    {
+        return view('transactions.pending');
+    }
+    public function rejected()
+    {
+        return view('transactions.rejected');
+    }
 
     /**
      * Show the form for creating a new resource.

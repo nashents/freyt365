@@ -251,12 +251,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Mobile Number<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control" wire:model.live.debounce.300ms="phonenumber"
-                                placeholder="Enter mobile number" required>
-                                @error('phonenumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Mobile Number<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="phonenumber"
+                                        placeholder="Enter mobile number" required>
+                                        @error('phonenumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Status</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status">
+                                    <option value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                   </select>
+                                        @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
+                        
                        
                     </div>
                     <div class="modal-footer">

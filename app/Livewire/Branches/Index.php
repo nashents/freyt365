@@ -22,6 +22,7 @@ class Index extends Component
     public $street_address;
     public $email;
     public $phonenumber;
+    public $status;
     public $lat;
     public $long;
     public $branches;
@@ -30,7 +31,7 @@ class Index extends Component
     public $last_day;
     public $start_time;
     public $end_time;
-    public $everyday = True;
+    public $everyday;
     public $services;
     public $service_id = [];
     public $fuel_types;
@@ -40,6 +41,7 @@ class Index extends Component
 
 
     public function mount(){
+        
         $this->countries = Country::orderBy('name','asc')->get();
         $this->currencies = Currency::orderBy('name','asc')->get();
         $this->fuel_types = FuelType::orderBy('name','asc')->get();
@@ -69,8 +71,6 @@ class Index extends Component
 
     public function store(){
 
-      
-
         $branch = new Branch;
         $branch->user_id = Auth::user()->id;
         $branch->country_id = $this->country_id;
@@ -82,6 +82,7 @@ class Index extends Component
         $branch->street_address = $this->street_address;
         $branch->lat = $this->lat;
         $branch->long = $this->long;
+        $branch->status = 1;
         $branch->save();
 
         if (isset($this->service_id)) {
@@ -100,9 +101,6 @@ class Index extends Component
             }
         }
       
-      
-      
-
         $working_schedule = new WorkingSchedule;
         $working_schedule->user_id = Auth::user()->id;
         $working_schedule->branch_id = $branch->id;
@@ -115,10 +113,12 @@ class Index extends Component
 
         $this->dispatch('hide-branchModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Branch Created Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Branch Created Successfully!!",
+                position: "center",
+            );
 
     }
 
@@ -126,7 +126,6 @@ class Index extends Component
       
         $this->branch_id = $id;
         $branch = Branch::find($id);
-      
         $this->country_id = $branch->country_id;
         $this->name = $branch->name;
         $this->phonenumber = $branch->phonenumber;
@@ -138,8 +137,6 @@ class Index extends Component
         $this->long = $branch->long;
         $this->status = $branch->status;
         
-      
-
         $working_schedule = $branch->working_schedule;
         $this->first_day = $working_schedule->first_day;
         $this->last_day = $working_schedule->last_day;
@@ -188,6 +185,7 @@ class Index extends Component
         $branch->city = $this->city;
         $branch->suburb = $this->suburb;
         $branch->street_address = $this->street_address;
+        $branch->status = $this->status;
         $branch->update();
         $branch->services()->detach();
         $branch->fuel_types()->detach();
@@ -207,10 +205,12 @@ class Index extends Component
 
         $this->dispatch('hide-branchEditModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Branch Updated Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Branch Updated Successfully!!",
+                position: "center",
+            );
     }
 
     public function delete($id){
@@ -237,10 +237,12 @@ class Index extends Component
         }
 
         $branch->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Branch Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Branch Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

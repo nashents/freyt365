@@ -33,7 +33,7 @@ class Index extends Component
     ];
 
     public function store(){
-        try{
+     
     
         $trailer = new Trailer;
         $trailer->user_id = Auth::user()->id;
@@ -43,18 +43,13 @@ class Index extends Component
         $trailer->save();
         $this->dispatch('hide-trailerModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Trailer Created Successfully!!"
-        ]);
-
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while creating trailer!!"
-        ]);
-    }
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Trailer Created Successfully!!",
+            position: "center",
+        );
+   
     }
 
     public function edit($id){
@@ -69,36 +64,34 @@ class Index extends Component
     }
 
     public function update(){
-        try{
+      
 
         $trailer =  Trailer::find($this->trailer_id);
         $trailer->registration_number = $this->registration_number;
         $trailer->fleet_number = $this->fleet_number;
+        $trailer->status = $this->status;
         $trailer->update();
 
         $this->dispatch('hide-trailerEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Trailer Created Successfully!!"
-        ]);
-
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while creating trailer!!"
-        ]);
-    }
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Trailer Updated Successfully!!",
+            position: "center",
+        );
+   
     }
 
     public function delete($id){
         $trailer = Trailer::find($id);
         $trailer->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Trailer Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Trailer Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

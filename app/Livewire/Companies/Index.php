@@ -45,17 +45,21 @@ class Index extends Component
         if ($this->authorization == "approved") {
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Company Approved Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Company Approved Successfully!!",
+                position: "center",
+            );
         }else {
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Company Rejected Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Company Rejected Successfully!!",
+                position: "center",
+            );
         }
 
       
@@ -66,10 +70,12 @@ class Index extends Component
     public function delete($id){
         $company = Company::find($id);
         $company->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Company Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Company Deleted Successfully!!",
+            position: "center",
+        );
     }
    
 

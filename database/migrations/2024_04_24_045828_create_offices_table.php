@@ -19,7 +19,9 @@ return new class extends Migration
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
             $table->bigInteger('service_provider_id')->unsigned()->nullable();
             $table->bigInteger('country_id')->unsigned()->nullable();
-            $table->bigInteger('name')->unsigned()->nullable();
+            $table->string('name')->nullable();
+            $table->string('phonenumber')->nullable();
+            $table->string('email')->nullable();
             $table->string('city')->nullable();
             $table->string('suburb')->nullable();
             $table->string('street_address')->nullable();

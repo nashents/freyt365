@@ -56,7 +56,7 @@ class Index extends Component
     ];
 
     public function store(){
-        try{
+      
         $user = new User;
         $user->user_id = Auth::user()->id;
         $user->company_id = Auth::user()->company_id;
@@ -82,18 +82,14 @@ class Index extends Component
 
         $this->dispatch('hide-userModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"User Created Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "User Created Successfully!!",
+            position: "center",
+        );
 
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while creating user!!"
-        ]);
-    }
+   
     }
 
     public function edit($id){
@@ -116,7 +112,7 @@ class Index extends Component
     }
 
     public function update(){
-        try{
+    
 
         $user =  User::find($this->user_id);
         $user->name = $this->name;
@@ -134,28 +130,26 @@ class Index extends Component
 
         $this->dispatch('hide-userEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"User Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "User Updated Successfully!!",
+            position: "center",
+        );
 
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while updating user!!"
-        ]);
-    }
+  
     }
 
     public function delete($id){
         $user = User::find($id);
         $user->roles()->detach();
         $user->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"User Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "User Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

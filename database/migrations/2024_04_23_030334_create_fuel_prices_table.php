@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('retail_price')->nullable();
             $table->string('stock_level')->nullable();
             $table->text('description')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

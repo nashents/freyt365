@@ -38,10 +38,12 @@ class Index extends Component
 
         $this->dispatch('hide-chargeModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Charge Created Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transactional Charge Created Successfully!!",
+            position: "center",
+        );
     }
 
     public function edit($id){
@@ -61,20 +63,24 @@ class Index extends Component
 
         $this->dispatch('hide-chargeEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Charge Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transaction Charge Updated Successfully!!",
+            position: "center",
+        );
     }
 
     public function delete($id){
         
         $charge = Charge::find($id);
         $charge->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Charge Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transaction Charge Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

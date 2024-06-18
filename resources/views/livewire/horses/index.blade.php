@@ -278,17 +278,32 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Trailer(s)</label>
-                            <select class="form-control" wire:model.live.debounce.300ms="trailer_id" multiple>
-                                <option value="">Select default trailer</option>
-                                @foreach ($trailers as $trailer)
-                                    <option value="{{$trailer->id}}">{{$trailer->registration_number}} ({{$trailer->fleet_number}})</option>
-                                @endforeach
-                            </select>
-                                @error('trailer_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Default Trailer(s)</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="trailer_id" multiple>
+                                        <option value="">Select default trailer</option>
+                                        @foreach ($trailers as $trailer)
+                                            <option value="{{$trailer->id}}">{{$trailer->registration_number}} ({{$trailer->fleet_number}})</option>
+                                        @endforeach
+                                    </select>
+                                        @error('trailer_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Status</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status">
+                                    <option value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                   </select>
+                                        @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
+                      
                     
                     </div>
                     <div class="modal-footer">

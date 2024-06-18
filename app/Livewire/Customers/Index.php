@@ -70,10 +70,12 @@ class Index extends Component
 
         $this->dispatch('hide-customerModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Customer Added Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Customer Created Successfully!!",
+            position: "center",
+        );
     }
 
     public function edit($id){
@@ -106,24 +108,29 @@ class Index extends Component
         $customer->city = $this->city;
         $customer->suburb = $this->suburb;
         $customer->street_address = $this->street_address;
+        $customer->status = $this->status;
         $customer->update();
 
         $this->dispatch('hide-customerEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Customer Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Customer Updated Successfully!!",
+            position: "center",
+        );
     }
 
 
     public function delete($id){
         $customer = Customer::find($id);
         $customer->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Customer Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Customer Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

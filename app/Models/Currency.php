@@ -32,6 +32,9 @@ class Currency extends Model
     public function fuel_stations(){
         return $this->belongsToMany('App\Models\FuelStation');
     }
+    public function offices(){
+        return $this->belongsToMany('App\Models\Office');
+    }
 
     public function branches(){
         return $this->belongsToMany('App\Models\Branch');

@@ -124,10 +124,12 @@ class Index extends Component
 
         $this->dispatch('hide-fuel_stationModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Fuel Station Created Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Fuel Station Created Successfully!!",
+            position: "center",
+        );
 
     }
 
@@ -145,6 +147,41 @@ class Index extends Component
         $this->status = $fuel_station->status;
         $this->long = $fuel_station->long;
         $this->lat = $fuel_station->lat;
+
+        $working_schedule = $fuel_station->working_schedule;
+        $this->first_day = $working_schedule->first_day;
+        $this->last_day = $working_schedule->last_day;
+        $this->start_time = $working_schedule->start_time;
+        $this->end_time = $working_schedule->end_time;
+        $this->everyday = $working_schedule->everyday;
+
+       
+
+        $fuel_station_currencies = $fuel_station->currencies;
+        if (isset($fuel_station_currencies)) {
+            foreach ($fuel_station_currencies as $currency) {
+                $this->currency_id[] = $currency->id;
+            }
+        }
+
+        $fuel_station_fuel_types = $fuel_station->fuel_types;
+        if (isset($fuel_station_fuel_types)) {
+            foreach ($fuel_station_fuel_types as $fuel_type) {
+                $this->fuel_type_id[] = $fuel_type->id;
+            }
+        }
+
+
+        $fuel_station_services = $fuel_station->services;
+        if (isset($fuel_station_services)) {
+            foreach ($fuel_station_services as $service) {
+                $this->service_id[] = $service->id;
+            }
+        }
+
+
+        $this->status = $fuel_station->status;
+        $this->fuel_station_id = $fuel_station->id;
 
         $this->dispatch('show-fuel_stationEditModal');
     }
@@ -164,22 +201,43 @@ class Index extends Component
         $fuel_station->long = $this->long;
         $fuel_station->update();
 
+        $fuel_station->services()->detach();
+        $fuel_station->fuel_types()->detach();
+        $fuel_station->currencies()->detach();
+        $fuel_station->services()->sync($this->service_id);
+        $fuel_station->fuel_types()->sync($this->fuel_type_id);
+        $fuel_station->currencies()->sync($this->currency_id);
+
+        $working_schedule = $fuel_station->working_schedule ;
+        $working_schedule->fuel_station_id = $fuel_station->id;
+        $working_schedule->first_day = $this->first_day;
+        $working_schedule->last_day = $this->last_day;
+        $working_schedule->start_time = $this->start_time;
+        $working_schedule->end_time = $this->end_time;
+        $working_schedule->everyday = $this->everyday;
+        
+        $working_schedule->update();
+
         $this->dispatch('hide-fuel_stationEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Fuel Station Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Fuel Station Updated Successfully!!",
+            position: "center",
+        );
 
     }
 
     public function delete($id){
         $fuel_station = FuelStation::find($id);
         $fuel_station->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Fuel Station Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Fuel Station Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

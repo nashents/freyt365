@@ -41,7 +41,9 @@
                                         <td>{{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount,2)}}</td>
                                         <td>
                                             @if ($transaction->charge_amount)
-                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->charge_amount,2)}} @ {{$transaction->charge ? $transaction->charge."%" : ""}}        
+                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->charge_amount,2)}} @ {{$transaction->charge ? $transaction->charge."%" : ""}}
+                                            @else   
+                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format(0,2)}}    
                                             @endif
                                         </td>
                                         <td><span class="badge bg-{{($transaction->authorization == 'approved') ? 'success' : (($transaction->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($transaction->authorization == 'approved') ? 'approved' : (($transaction->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
@@ -53,18 +55,18 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    @if ($transaction->authorization == "pending" || $transaction->authorization == "rejected")
-                                                    <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
-                                                    @endif
-                                                    @if (Auth::user()->is_admin() && $transaction->verification != "verified")
+                                                    @if (Auth::user()->is_admin() && $transaction->verification != "verified" && $transaction->authorization == "approved")
                                                     <li><a href="#" wire:click.prevent="showVerify({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Verify</a></li>
                                                     @endif
-                                                   
+                                                   @if (Auth::user()->id == $transaction->user_id)
                                                     <li><a href="#" wire:click.prevent="edit({{$transaction->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
-                                                    {{-- <li>
+                                                   @endif
+                                                   @if ($transaction->verification != "approved")
+                                                    <li>
                                                         <a href="#" wire:click="delete({{$transaction->id}})"
-                                                        wire:confirm="Are you sure you want to delete this bank account?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
-                                                    </li> --}}
+                                                        wire:confirm="Are you sure you want to delete this transaction ?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                                    </li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                     </td>

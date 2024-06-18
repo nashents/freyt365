@@ -22,4 +22,7 @@ class WorkingSchedule extends Model
     public function fuel_station(){
         return $this->belongsTo('App\Models\FuelStation');
     }
+    public function office(){
+        return $this->belongsTo('App\Models\Office');
+    }
 }

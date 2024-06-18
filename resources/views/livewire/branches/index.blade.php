@@ -34,8 +34,9 @@
                                                     <th>Fuel</th>
                                                     <th>Service</th>
                                                     @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
+                                                    <th>Status</th>
                                                     <th>Actions</th>
-                                                @endif
+                                                    @endif
                                                 </tr>
                                             </thead>
                     
@@ -79,6 +80,7 @@
                                                                 @endif
                                                             </td>
                                                             @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
+                                                            <td><span class="badge bg-{{$branch->status == 1 ? "primary" : "danger"}}">{{$branch->status == 1 ? "Active" : "Inactive"}}</span></td>
                                                             <td class="w-10 line-height-35 table-dropdown">
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
@@ -93,8 +95,8 @@
                                                                         </li>
                                                                     </ul>
                                                                 </div>
+                                                            </td>
                                                             @endif
-                                                        </td>
                                                         </tr>
                                                         @empty
                                                             <tr>
@@ -142,8 +144,6 @@
                 </div>
                 <form wire:submit.prevent="store()" >
                     <div class="modal-body">
-                       
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -524,7 +524,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Latitude</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
@@ -532,12 +532,23 @@
                                         @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Longitude</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
                                         placeholder="Enter longitude" >
                                         @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Status</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status">
+                                    <option value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                   </select>
+                                        @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>

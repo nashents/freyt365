@@ -48,8 +48,10 @@
                                                     </div>
                                                     <div class="card-body">
                                                         @foreach ($service_provider->services as $service)
-                                                            {{$service->name}}
+                                                            <strong>{{$service->name}}</strong>
                                                         @endforeach
+                                                        <br>
+                                                        <blockquote>{{$service_provider->description}}</blockquote>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,7 +111,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 @if (Auth::user()->is_admin())
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#officeModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Office</a>
+                                                <a href="#" wire:click="showOffice({{$service_provider->id}})" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Office</a>
                                                 <br>
                                                 <br>
                                                 @endif
@@ -121,6 +123,7 @@
                                                         <tr>
                                                             <th>Office</th>
                                                             <th>Office Hours</th>
+                                                            <th>Status</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
@@ -133,6 +136,15 @@
                                                                         <i class="fas fa-map-marker"></i> {{$office->street_address}} {{$office->suburb ? $office->suburb.", " : ""}} {{$office->city}} <br>
                                                                         <i class="fas fa-envelope"></i> {{$office->email}} | <i class="fas fa-phone"></i> {{$office->phonenumber}} <br>
                                                                     </td>
+                                                                    <td>
+                                                                        @if ($office->working_schedule->everyday == True)
+                                                                        Open Everyday
+                                                                        @else
+                                                                        {{$office->working_schedule ? $office->working_schedule->first_day : ""}} : {{$office->working_schedule ? $office->working_schedule->start_time : ""}} - {{$office->working_schedule ? $office->working_schedule->last_day : ""}} : {{$office->working_schedule ? $office->working_schedule->end_time : ""}}
+                                                                        @endif
+                                                                        
+                                                                    </td>
+                                                                    <td><span class="badge bg-{{$office->status == 1 ? "primary" : "danger"}}">{{$office->status == 1 ? "Active" : "Inactive"}}</span></td>
                                                                     <td class="w-10 line-height-35 table-dropdown">
                                                                         <div class="dropdown">
                                                                             <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
@@ -140,7 +152,7 @@
                                                                                 <span class="caret"></span>
                                                                             </button>
                                                                             <ul class="dropdown-menu">
-                                                                                <li><a href="#" wire:click.prevent="editOffice({{$office->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                                                                <li><a href="#" wire:click.prevent="editOffice({{$office->id}},{{$service_provider->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
                                                                                 <li>
                                                                                     <a href="#" wire:click="deleteOffice({{$office->id}})"
                                                                                     wire:confirm="Are you sure you want to delete this office ?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
@@ -411,6 +423,91 @@
                             </div>
                         </div>
                         @endif
+
+                        <div style="height: 150px; overflow: auto">
+                            <div class="form-group">
+                                <table  class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%"  >
+                                    <thead>
+                                      <tr>
+                                        <th class="th-sm">Services Offered<span class="required" style="color: red">*</span></th>
+                                        
+                                      </tr>
+                                    </thead>
+                                    @if ($services->count()>0)
+                                    <tbody>
+                                        @foreach ($services as $service)
+                                      <tr>
+                                        <td>
+                                            <div class="mb-10">
+                                                <input type="checkbox" wire:model.debounce.live.300ms="service_id.{{$service->id}}"  wire:key="{{ $service->id }}"  value="{{$service->id}}"   class="line-style"  />
+                                                <label for="one" class="radio-label">{{$service->name}} </label>
+                                                @error('service_id.'.$service->id) <span class="text-danger error">{{ $message }}</span>@enderror
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                    @endif
+                                  </table>  
+                            </div>
+                   
+                        </div>
+                        <br>
+                        <div style="height: 150px; overflow: auto">
+                            <div class="form-group">
+                                <table  class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%" >
+                                    <thead>
+                                      <tr>
+                                        <th class="th-sm">Currencies Available<span class="required" style="color: red">*</span></th>
+                                      </tr>
+                                    </thead>
+                                    @if ($currencies->count()>0)
+                                    <tbody>
+                                        @foreach ($currencies as $currency)
+                                      <tr>
+                                        <td>
+                                            <div class="mb-10">
+                                                <input type="checkbox" wire:model.live.debounce.300ms="currency_id.{{$currency->id}}"  wire:key="{{ $currency->id }}" value="{{$currency->id}}"  class="line-style"  />
+                                                <label for="one" class="radio-label">{{$currency->name}} </label>
+                                                @error('currency_id.'.$currency->id) <span class="text-danger error">{{ $message }}</span>@enderror
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                    @endif
+                                  </table>  
+                            </div>
+                   
+                        </div>
+                        <br>
+                        <div style="height: 150px; overflow: auto">
+                            <div class="form-group">
+                                <table  class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%" >
+                                    <thead>
+                                      <tr>
+                                        <th class="th-sm">Fuel Types Available<span class="required" style="color: red">*</span></th>
+                                      </tr>
+                                    </thead>
+                                    @if ($fuel_types->count()>0)
+                                    <tbody>
+                                        @foreach ($fuel_types as $fuel_type)
+                                      <tr>
+                                        <td>
+                                            <div class="mb-10">
+                                                <input type="checkbox" wire:model.live.debounce.300ms="fuel_type_id.{{$fuel_type->id}}"  wire:key="{{ $fuel_type }}" value="{{$fuel_type->id}}"  class="line-style"  />
+                                                <label for="one" class="radio-label">{{$fuel_type->name}} </label>
+                                                @error('fuel_type_id.'.$fuel_type->id) <span class="text-danger error">{{ $message }}</span>@enderror
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                    @endif
+                                  </table>  
+                            </div>
+                   
+                        </div>
                                  
                     </div>
                     <div class="modal-footer">
@@ -425,7 +522,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     
-    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="officeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="officeEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
@@ -637,15 +734,54 @@
                         </div>
                         @endif
 
-          
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Status</label>
+                            <select class="form-control" wire:model.live.debounce.300ms="status" >
+                                    <option value="">Select Status</option>
+                                 <option value="1">Active</option>
+                                 <option value="0">Inactive</option>
+                            </select>
+                            @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        </div>
        
-          
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Services</label>
+                            <select class=" form-control" wire:model.debounce.live.300ms="service_id" multiple>
+                                <option value="">Select Services</option>
+                                @foreach ($services as $service)
+                                    <option value="{{$service->id}}">{{$service->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('service_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                           </div>
+    
+                           <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Currencies</label>
+                            <select class=" form-control" wire:model.debounce.live.300ms="currency_id" multiple>
+                                <option value="">Select Currencies</option>
+                                @foreach ($currencies as $currency)
+                                    <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                           </div>
+    
+                           <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Fuel Types</label>
+                            <select class=" form-control" wire:model.debounce.live.300ms="fuel_type_id" multiple>
+                                <option value="">Select Fuel Type(s)</option>
+                                @foreach ($fuel_types as $fuel_type)
+                                    <option value="{{$fuel_type->id}}">{{$fuel_type->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('fuel_type_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                           </div>
                  
                     </div>
                     <div class="modal-footer">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
-                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Save</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-refresh"></i>Update</button>
                         </div>
                         <!-- /.btn-group -->
                     </div>
@@ -1297,13 +1433,29 @@
                         @error('fuel_type_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                        </div>
 
-                       <div class="mb-3">
-                        <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
-                        <textarea class="form-control" wire:model.live.debounce.300ms="description"
-                        placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
-                            @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                    </div>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                                    <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                                    placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                                        @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+            
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Status</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status" >
+                                            <option value="">Select Status</option>
+                                         <option value="1">Active</option>
+                                         <option value="0">Inactive</option>
+                                    </select>
+                                    @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
                     </div>
                     <div class="modal-footer">
                         <div class="btn-group" role="group">

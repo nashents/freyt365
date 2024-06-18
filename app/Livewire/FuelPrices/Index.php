@@ -26,12 +26,14 @@ class Index extends Component
     public $retail_price;
     public $description;
     public $stock_level;
+    public $status;
 
     public function mount(){
         $this->countries = Country::orderBy('name','asc')->get();
         $this->currencies = Currency::orderBy('name','asc')->get();
         $this->fuel_types = FuelType::orderBy('name','asc')->get();
-        $this->fuel_stations = collect();
+        // $this->fuel_stations = collect();
+        $this->fuel_stations = FuelStation::orderBy('name','asc')->get();
     }
 
     private function resetInputFields(){
@@ -44,6 +46,7 @@ class Index extends Component
         $this->retail_price = "";
         $this->stock_level = "";
         $this->description = "";
+        $this->status = "";
     }
 
     public function updated($value){
@@ -56,6 +59,7 @@ class Index extends Component
         'pump_price' => 'required',
         'retail_price' => 'required',
         'stock_level' => 'required',
+        'status' => 'required',
     ];
 
     public function updatedSelectedCountry($id){
@@ -77,14 +81,17 @@ class Index extends Component
         $fuel_price->retail_price = $this->retail_price;
         $fuel_price->stock_level = $this->stock_level;
         $fuel_price->description = $this->description;
+        $fuel_price->status = $this->status;
         $fuel_price->save();
 
         $this->dispatch('hide-fuel_priceModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Fuel Price Added Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Fuel Price Created Successfully!!",
+            position: "center",
+        );
     }
 
     public function edit($id){
@@ -97,13 +104,14 @@ class Index extends Component
         $this->retail_price = $fuel_price->retail_price;
         $this->description = $fuel_price->description;
         $this->status = $fuel_price->status;
+        $this->stock_level = $fuel_price->stock_level;
         $this->fuel_price_id = $fuel_price->id;
 
         $this->dispatch('show-fuel_priceEditModal');
     }
    
     public function update(){
-        $fuel_price = FuelPrice::find($this->fuel_price);
+        $fuel_price = FuelPrice::find($this->fuel_price_id);
         $fuel_price->country_id = $this->selectedCountry;
         $fuel_price->currency_id = $this->currency_id;
         $fuel_price->fuel_station_id = $this->fuel_station_id;
@@ -112,23 +120,28 @@ class Index extends Component
         $fuel_price->retail_price = $this->retail_price;
         $fuel_price->stock_level = $this->stock_level;
         $fuel_price->description = $this->description;
-        $fuel_price->save();
+        $fuel_price->status = $this->status;
+        $fuel_price->update();
 
-        $this->dispatch('hide-fuel_priceModal');
+        $this->dispatch('hide-fuel_priceEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Fuel Price Added Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Fuel Price Updated Successfully!!",
+            position: "center",
+        );
     }
 
     public function delete($id){
         $fuel_price = FuelPrice::find($id);
         $fuel_price->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Fuel Price Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Fuel Price Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

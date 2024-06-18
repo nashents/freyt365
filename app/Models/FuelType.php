@@ -23,6 +23,9 @@ class FuelType extends Model
     public function service_providers(){
         return $this->belongsToMany('App\Models\ServiceProvider');
     }
+    public function offices(){
+        return $this->belongsToMany('App\Models\Office');
+    }
     public function fuel_stations(){
         return $this->belongsToMany('App\Models\FuelStation');
     }

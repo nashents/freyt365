@@ -4,16 +4,20 @@ namespace App\Livewire\Orders;
 
 use App\Models\Horse;
 use App\Models\Driver;
+use App\Models\Wallet;
 use App\Models\Country;
 use App\Models\Service;
 use App\Models\Trailer;
 use Livewire\Component;
 use App\Models\Currency;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
 class Create extends Component
 {
 
+    public $wallets;
+    public $wallet_id;
     public $horses;
     public $horse_id;
     public $drivers;
@@ -36,6 +40,7 @@ class Create extends Component
         $this->currencies = Currency::orderBy('name','asc')->get();
         $this->countries = Country::orderBy('name','asc')->get();
         $this->services = Service::orderBy('name','asc')->get();
+        $this->wallets = Wallet::where('company_id',Auth::user()->company_id)->get();
     }
 
     public function updatedSelectedCountry($id){

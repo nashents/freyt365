@@ -33,10 +33,12 @@ class Profile extends Component
         $user->username = $this->username;
         $user->update();
 
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Profile Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Profile Updated Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

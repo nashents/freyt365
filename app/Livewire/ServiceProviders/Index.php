@@ -36,6 +36,10 @@ class Index extends Component
     public $service_providers;
     public $service_provider;
     public $service_provider_id;
+    public $office_id;
+    public $offices;
+    public $office;
+    public $status;
     public $description;
     public $services;
     public $service_id = [];
@@ -72,6 +76,7 @@ class Index extends Component
         $this->last_day = "";
         $this->start_time = "";
         $this->end_time = "";
+        $this->status = "";
         $this->everyday = True;
         $this->currency_id = [];
         $this->service_id = [];
@@ -123,12 +128,55 @@ class Index extends Component
           }
        }
 
+        $office = new Office;
+        $office->user_id = Auth::user()->id;
+        $office->service_provider_id = $this->service_provider_id;
+        $office->country_id = $this->country_id;
+        $office->name = $this->name;
+        $office->email = $this->email;
+        $office->phonenumber = $this->phonenumber;
+        $office->city = $this->city;
+        $office->suburb = $this->suburb;
+        $office->street_address = $this->street_address;
+        $office->lat = $this->lat;
+        $office->long = $this->long;
+        $office->status = 1;
+        $office->save();
+
+        $working_schedule = new WorkingSchedule;
+        $working_schedule->office_id = $office->id;
+        $working_schedule->first_day = $this->first_day;
+        $working_schedule->last_day = $this->last_day;
+        $working_schedule->start_time = $this->start_time;
+        $working_schedule->end_time = $this->end_time;
+        $working_schedule->everyday = $this->everyday;
+        $working_schedule->save();
+
+        if (isset($this->fuel_type_id)) {
+            foreach ($this->fuel_type_id as $key =>  $value) {
+                $office->fuel_types()->attach($key);
+            }
+        }
+        if (isset($this->currency_id)) {
+            foreach ($this->currency_id as $key => $value) {
+                $office->currencies()->attach($key);
+            }
+        }
+
+       if (isset($this->service_id)) {
+          foreach ($this->service_id as $key => $value) {
+           $office->services()->attach($key);
+          }
+       }
+
         $this->dispatch('hide-service_providerModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Service Provider Created Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Service Provider Created Successfully!!",
+                position: "center",
+            );
 
     }
 
@@ -161,21 +209,42 @@ class Index extends Component
         $working_schedule->first_day = $this->first_day;
         $working_schedule->last_day = $this->last_day;
         $working_schedule->start_time = $this->start_time;
+        $working_schedule->end_time = $this->end_time;
         $working_schedule->everyday = $this->everyday;
         $working_schedule->save();
+
+        if (isset($this->fuel_type_id)) {
+            foreach ($this->fuel_type_id as $key =>  $value) {
+                $office->fuel_types()->attach($key);
+            }
+        }
+        if (isset($this->currency_id)) {
+            foreach ($this->currency_id as $key => $value) {
+                $office->currencies()->attach($key);
+            }
+        }
+
+       if (isset($this->service_id)) {
+          foreach ($this->service_id as $key => $value) {
+           $office->services()->attach($key);
+          }
+       }
 
         $this->dispatch('hide-officeModal');
 
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Office Created Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Office Created Successfully!!",
+            position: "center",
+        );
     }
 
-    public function editOffice($id){
-
+    public function editOffice($id, $service_provider_id){
+       
         $this->office_id = $id;
+        $this->service_provider_id = $service_provider_id;
         $office = Office::find($id);
         $this->country_id = $office->country_id;
         $this->name = $office->name;
@@ -187,11 +256,34 @@ class Index extends Component
         $this->status = $office->status;   
 
         $working_schedule = $office->working_schedule;
-        $this->first_day = $office->first_day;
-        $this->last_day = $office->last_day;
-        $this->start_time = $office->start_time;
-        $this->end_time = $office->end_time;
-        $this->everyday = $office->everyday;
+
+        $this->first_day = $working_schedule->first_day;
+        $this->last_day = $working_schedule->last_day;
+        $this->start_time = $working_schedule->start_time;
+        $this->end_time = $working_schedule->end_time;
+        $this->everyday = $working_schedule->everyday;
+
+        $office_currencies = $office->currencies;
+        if (isset($office_currencies)) {
+            foreach ($office_currencies as $currency) {
+                $this->currency_id[] = $currency->id;
+            }
+        }
+
+        $office_fuel_types = $office->fuel_types;
+        if (isset($office_fuel_types)) {
+            foreach ($office_fuel_types as $fuel_type) {
+                $this->fuel_type_id[] = $fuel_type->id;
+            }
+        }
+
+
+        $office_services = $office->services;
+        if (isset($office_services)) {
+            foreach ($office_services as $service) {
+                $this->service_id[] = $service->id;
+            }
+        }
 
         $this->dispatch('show-officeEditModal');
 
@@ -200,8 +292,7 @@ class Index extends Component
     public function updateOffice(){
 
         $office = Office::find($this->office_id);
-        $office->user_id = Auth::user()->id;
-        $office->service_provider_id = $this->service_provider->id;
+        $office->service_provider_id = $this->service_provider_id;
         $office->country_id = $this->country_id;
         $office->name = $this->name;
         $office->email = $this->email;
@@ -219,16 +310,27 @@ class Index extends Component
         $working_schedule->first_day = $this->first_day;
         $working_schedule->last_day = $this->last_day;
         $working_schedule->start_time = $this->start_time;
+        $working_schedule->end_time = $this->end_time;
         $working_schedule->everyday = $this->everyday;
         $working_schedule->update();
+
+        $office->services()->detach();
+        $office->fuel_types()->detach();
+        $office->currencies()->detach();
+        $office->services()->sync($this->service_id);
+        $office->fuel_types()->sync($this->fuel_type_id);
+        $office->currencies()->sync($this->currency_id);
+
 
         $this->dispatch('hide-officeEditModal');
 
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Office Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Office Updated Successfully!!",
+            position: "center",
+        );
     }
 
     public function deleteOffice($id){
@@ -240,10 +342,12 @@ class Index extends Component
         }
 
         $office->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Office Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Office Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function edit($id){
@@ -309,6 +413,8 @@ class Index extends Component
    
     public function update(){
 
+        $office = Office::where('service_provider_id', $this->service_provider_id)->where('name',$this->name)->first();
+
         $service_provider =  ServiceProvider::find($this->service_provider_id);
         $service_provider->country_id = $this->country_id;
         $service_provider->name = $this->name;
@@ -354,14 +460,47 @@ class Index extends Component
             $working_schedule->save();
         }
        
+        if (isset($office)) {
+            $office->service_provider_id = $this->service_provider_id;
+            $office->country_id = $this->country_id;
+            $office->name = $this->name;
+            $office->email = $this->email;
+            $office->phonenumber = $this->phonenumber;
+            $office->city = $this->city;
+            $office->suburb = $this->suburb;
+            $office->street_address = $this->street_address;
+            $office->lat = $this->lat;
+            $office->long = $this->long;
+            $office->status = $this->status;
+            $office->update();
+
+            $office->services()->detach();
+            $office->fuel_types()->detach();
+            $office->currencies()->detach();
+            $office->services()->sync($this->service_id);
+            $office->fuel_types()->sync($this->fuel_type_id);
+            $office->currencies()->sync($this->currency_id);
+    
+            $working_schedule = $office->working_schedule;
+            $working_schedule->office_id = $office->id;
+            $working_schedule->first_day = $this->first_day;
+            $working_schedule->last_day = $this->last_day;
+            $working_schedule->start_time = $this->start_time;
+            $working_schedule->end_time = $this->end_time;
+            $working_schedule->everyday = $this->everyday;
+            $working_schedule->update();
+        }
+
 
 
         $this->dispatch('hide-service_providerEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Service Provider Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Service Provider Updated Successfully!!",
+            position: "center",
+        );
     }
 
     public function delete($id){
@@ -375,10 +514,12 @@ class Index extends Component
         }
 
         $service_provider->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Service Provider Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Service Provider Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

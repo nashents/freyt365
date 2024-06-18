@@ -43,9 +43,9 @@
             type="text/css" />
         <link href="{{ asset( 'assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css')}}" rel="stylesheet"
             type="text/css" />
-
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @yield('extra-css')
-        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+       
         @stack('styles')
         @livewireStyles
     </head>
@@ -112,11 +112,12 @@
          }
      });
 
-     window.addEventListener('alert',({detail:{type,message}})=>{
-         Toast.fire({
-             icon:type,
-             title:message
-         })
+     window.addEventListener('alert',(event) =>{
+       let data = event.detail;
+        Toast.fire({
+            icon: data.type,
+            title: data.title,
+            });
      })
  </script>
 
@@ -151,6 +152,69 @@
     document.addEventListener('livewire:init', () => {
        Livewire.on('hide-authorizationModal', (event) => {
         $('#authorizationModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-officeModal', (event) => {
+        $('#officeModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-officeModal', (event) => {
+        $('#officeModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-officeEditModal', (event) => {
+        $('#officeEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-officeEditModal', (event) => {
+        $('#officeEditModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-serviceModal', (event) => {
+        $('#serviceModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-serviceModal', (event) => {
+        $('#serviceModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-serviceEditModal', (event) => {
+        $('#serviceEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-serviceEditModal', (event) => {
+        $('#serviceEditModal').modal('hide');
        });
     });
 </script>

@@ -74,10 +74,12 @@ class Profile extends Component
         $company->invoice_footer = $this->invoice_footer;
         $company->update();
 
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Company Settings Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Company Settings Updated Successfully!!",
+            position: "center",
+        );
         return redirect(request()->header('Referer'));
     }
 

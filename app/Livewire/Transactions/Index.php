@@ -134,7 +134,7 @@ class Index extends Component
 
     public function store(){
 
-        try{
+       
 
         $transaction = new Transaction;
         $transaction->transaction_number = $this->transactionNumber();
@@ -155,18 +155,14 @@ class Index extends Component
 
         $this->dispatch('hide-transactionModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Recorded Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transaction Created Successfully!!",
+            position: "center",
+        );
 
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while creating transaction!!"
-        ]);
-    }
+   
       
     }
 
@@ -192,8 +188,7 @@ class Index extends Component
 
     public function update(){
 
-        try{
-
+       
         $transaction =  Transaction::find($this->transaction_id);
         $transaction->transaction_date = $this->transaction_date;
         $transaction->reference_code = $this->reference_code;
@@ -210,18 +205,14 @@ class Index extends Component
 
         $this->dispatch('hide-transactionEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transaction Updated Successfully!!",
+            position: "center",
+        );
 
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while creating transaction!!"
-        ]);
-    }
+   
       
     }
 
@@ -242,17 +233,21 @@ class Index extends Component
         if ($this->authorization == "approved") {
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Transaction Approved Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Transaction Approved Successfully!!",
+                position: "center",
+            );
         }else {
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Transaction Rejected Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Transaction Rejected Successfully!!",
+                position: "center",
+            );
         }
 
       
@@ -311,18 +306,22 @@ class Index extends Component
 
         $this->dispatch('hide-verificationModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Verified Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transaction Verified Successfully!!",
+            position: "center",
+        );
           
         }else {
             $this->dispatch('hide-verificationModal');
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Transaction Declined Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Transaction Declined Successfully!!",
+                position: "center",
+            );
         }
 
         
@@ -333,10 +332,12 @@ class Index extends Component
     public function delete($id){
         $transaction = Transaction::find($id);
         $transaction->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Transaction Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Transaction Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

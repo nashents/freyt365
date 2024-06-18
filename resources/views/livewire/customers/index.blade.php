@@ -261,7 +261,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Suburb</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="suburb"
@@ -269,12 +269,23 @@
                                         @error('suburb') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Street Address</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="street_address"
                                         placeholder="Enter street address" >
                                         @error('street_address') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Status</label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status">
+                                    <option value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                   </select>
+                                        @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>

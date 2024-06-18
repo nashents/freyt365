@@ -49,7 +49,7 @@ class Index extends Component
     ];
 
     public function store(){
-        try{
+        // try{
     
         $driver = new Driver;
         $driver->user_id = Auth::user()->id;
@@ -64,18 +64,20 @@ class Index extends Component
         $driver->save();
         $this->dispatch('hide-driverModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Driver Created Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Driver Created Successfully!!",
+            position: "center",
+        );
 
-    }catch(\Exception $e){
-        // Set Flash Message
-        $this->dispatch('alert',[
-            'type'=>'error',
-            'message'=>"Something went wrong while creating driver!!"
-        ]);
-    }
+    // }catch(\Exception $e){
+    //     // Set Flash Message
+    //     $this->dispatch('alert',[
+    //         'type'=>'error',
+    //         'message'=>"Something went wrong while creating driver!!"
+    //     ]);
+    // }
     }
 
     public function edit($id){
@@ -110,10 +112,12 @@ class Index extends Component
 
         $this->dispatch('hide-driverEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Driver Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Driver Updated Successfully!!",
+            position: "center",
+        );
 
     }catch(\Exception $e){
         // Set Flash Message
@@ -127,10 +131,12 @@ class Index extends Component
     public function delete($id){
         $driver = Driver::find($id);
         $driver->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Driver Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Driver Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

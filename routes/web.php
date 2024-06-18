@@ -89,6 +89,10 @@ Route::get('/contact-us',[PagesController::class, 'contactUs'])->name('contact_u
 
 Route::group(['middleware' => 'auth'], function(){
 
+    Route::get('/transactions/pending/',[TransactionController::class,'pending'])->name('transactions.pending');
+    Route::get('/transactions/approved/',[TransactionController::class,'approved'])->name('transactions.approved');
+    Route::get('/transactions/rejected/',[TransactionController::class,'rejected'])->name('transactions.rejected');
+
     Route::resource('/partners',PartnerController::class);
     Route::resource('/posts',PostController::class);
     Route::resource('/testimonials',TestimonialController::class);
@@ -123,6 +127,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/vendors',VendorController::class);
     Route::resource('/transactions',TransactionController::class);
     Route::resource('/charges',ChargeController::class);
+
+
 
     Route::get('/companies/{company}/profile',[CompanyController::class,'getProfile'])->name('company-profile');
 

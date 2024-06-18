@@ -52,7 +52,10 @@
                 <div class="collapse" id="master1">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{{ route('charges.index') }}">Transaction Charges
+                            <a href="{{ route('charges.index') }}">Transaction Charges</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('services.index') }}">Services</a>
                         </li>
                     </ul>
                 </div>
@@ -71,6 +74,15 @@
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="{{ route('transactions.index') }}">Manage Transactions</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('transactions.pending') }}">Pending Transactions</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('transactions.approved') }}">Approved Transactions</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('transactions.rejected') }}">Rejected Transactions</a>
                         </li>
                         <li>
                             <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>

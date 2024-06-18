@@ -127,10 +127,12 @@ class Index extends Component
 
         $this->dispatch('hide-tripModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Trip Created Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Trip Created Successfully!!",
+            position: "center",
+        );
 
     }
 
@@ -185,10 +187,12 @@ class Index extends Component
 
         $this->dispatch('hide-tripEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Trip Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Trip Updated Successfully!!",
+            position: "center",
+        );
 
     }
 
@@ -196,10 +200,12 @@ class Index extends Component
         $trip = Trip::find($id);
         $trip->trailers()->detach();
         $trip->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Trip Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Trip Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()

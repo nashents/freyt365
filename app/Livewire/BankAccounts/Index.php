@@ -92,10 +92,14 @@ class Index extends Component
             $this->dispatch('hide-bank_accountModal');
             
             $this->resetInputFields();
-            $this->dispatch('alert',[
-                'type'=>'success',
-                'message'=>"Bank Account Uploaded Successfully!!"
-            ]);
+
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Bank Account Created Successfully!!",
+                position: "center",
+            );
+
         }catch(\Exception $e){
             // Set Flash Message
             $this->dispatch('alert',[
@@ -134,10 +138,12 @@ class Index extends Component
         $bank_account->update();
         $this->dispatch('hide-bank_accountEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Bank Account Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Bank Account Updated Successfully!!",
+            position: "center",
+        );
     }
     public function render()
     {

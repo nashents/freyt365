@@ -65,10 +65,12 @@ class Index extends Component
 
         $this->dispatch('hide-clearing_agentModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Clearing Agent Added Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Clearing Agent Created Successfully!!",
+            position: "center",
+        );
     }
 
     public function edit($id){
@@ -103,20 +105,24 @@ class Index extends Component
 
         $this->dispatch('hide-clearing_agentEditModal');
         $this->resetInputFields();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Clearing Agent Updated Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Clearing Agent Updated Successfully!!",
+            position: "center",
+        );
     }
 
 
     public function delete($id){
         $clearing_agent = ClearingAgent::find($id);
         $clearing_agent->delete();
-        $this->dispatch('alert',[
-            'type'=>'success',
-            'message'=>"Clearing Agent Deleted Successfully!!"
-        ]);
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Clearing Agent Deleted Successfully!!",
+            position: "center",
+        );
     }
 
     public function render()
