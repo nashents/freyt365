@@ -8,12 +8,16 @@ use App\Models\Service;
 use Livewire\Component;
 use App\Models\Currency;
 use App\Models\FuelType;
+use Livewire\WithFileUploads;
 use App\Models\ServiceProvider;
 use App\Models\WorkingSchedule;
 use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
+
+    use WithFileUploads;
+
     public $countries;
     public $country_id;
     public $city;
@@ -41,6 +45,8 @@ class Index extends Component
     public $office;
     public $status;
     public $description;
+    public $file;
+    public $current_file;
     public $services;
     public $service_id = [];
     public $fuel_types;
@@ -85,6 +91,19 @@ class Index extends Component
 
     public function store(){
 
+           if(isset($this->file)){
+                $file = $this->file;
+                // get file with ext
+                $fileNameWithExt = $file->getClientOriginalName();
+                //get filename
+                $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                //get extention
+                $extention = $file->getClientOriginalExtension();
+                //file name to store
+                $fileNameToStore= $filename.'_'.time().'.'.$extention;
+                $file->storeAs('/documents', $fileNameToStore, 'my_files');
+            }
+
         $service_provider = new ServiceProvider;
         $service_provider->user_id = Auth::user()->id;
         $service_provider->country_id = $this->country_id;
@@ -101,6 +120,12 @@ class Index extends Component
         $service_provider->lat = $this->lat;
         $service_provider->long = $this->long;
         $service_provider->description = $this->description;
+        $service_provider->status = 1;
+
+        if (isset($fileNameToStore)) {
+            $service_provider->filename = $fileNameToStore;
+        }
+
         $service_provider->save();   
 
         $working_schedule = new WorkingSchedule;
@@ -130,7 +155,7 @@ class Index extends Component
 
         $office = new Office;
         $office->user_id = Auth::user()->id;
-        $office->service_provider_id = $this->service_provider_id;
+        $office->service_provider_id = $service_provider->id;
         $office->country_id = $this->country_id;
         $office->name = $this->name;
         $office->email = $this->email;
@@ -340,6 +365,10 @@ class Index extends Component
         if (isset($working_schedule)) {
             $working_schedule->delete();
         }
+        
+        $office->services()->detach();
+        $office->currencies()->detach();
+        $office->fuel_types()->detach();
 
         $office->delete();
         $this->dispatch(

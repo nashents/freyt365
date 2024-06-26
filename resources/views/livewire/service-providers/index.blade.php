@@ -76,6 +76,9 @@
                                                                     <th><i class="fas fa-map-marker"></i></th>
                                                                     <td>{{$service_provider->street_address}} {{$service_provider->suburb ? $service_provider->suburb.", " : ""}} {{$service_provider->city}}</td>
                                                                 </tr>     
+                                                                <tr>
+                                                                    <td><a href="{{asset('myfiles/documents/'.$service_provider->filename)}}" class="btn btn-success" target="_blank"><i class="fas fa-download"> View Rates </i></a></td>
+                                                                </tr>     
                                                             </tbody>
                                                         </table>
                                                         </div>
@@ -135,14 +138,40 @@
                                                                         <strong>{{$office->name}}</strong> <br>
                                                                         <i class="fas fa-map-marker"></i> {{$office->street_address}} {{$office->suburb ? $office->suburb.", " : ""}} {{$office->city}} <br>
                                                                         <i class="fas fa-envelope"></i> {{$office->email}} | <i class="fas fa-phone"></i> {{$office->phonenumber}} <br>
+                                                                        <i class="fa fa-clock-o"></i> Office Hours: 
+                                                                        @if ($office->working_schedule->everyday == False)
+                                                                        {{$office->working_schedule ? $office->working_schedule->first_day : ""}} - {{$office->working_schedule ? $office->working_schedule->last_day : ""}} {{$office->working_schedule ? $office->working_schedule->start_time : ""}} - {{$office->working_schedule ? $office->working_schedule->end_time : ""}}
+                                                                        @else   
+                                                                        Open 24/7
+                                                                        @endif
                                                                     </td>
                                                                     <td>
-                                                                        @if ($office->working_schedule->everyday == True)
-                                                                        Open Everyday
+                                                                        @if ($office->currencies->count()>0)
+                                                                            @foreach ($office->currencies as $currency)
+                                                                             <span class="badge bg-primary">{{$currency->name}}</span>
+                                                                            @endforeach
                                                                         @else
-                                                                        {{$office->working_schedule ? $office->working_schedule->first_day : ""}} : {{$office->working_schedule ? $office->working_schedule->start_time : ""}} - {{$office->working_schedule ? $office->working_schedule->last_day : ""}} : {{$office->working_schedule ? $office->working_schedule->end_time : ""}}
+                                                                        <i class="bi bi-x-lg"></i>
                                                                         @endif
-                                                                        
+                                                                    </td>
+                                                                    <td>
+                                                                        @if ($office->fuel_types->count()>0)
+                                                                            @foreach ($office->fuel_types as $fuel_type)
+                                                                            <span class="badge bg-success">{{$fuel_type->name}}</span>
+                                                                            
+                                                                            @endforeach
+                                                                        @else
+                                                                        <i class="bi bi-x-lg"></i>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        @if ($office->services->count()>0)
+                                                                            @foreach ($office->services as $service)
+                                                                            <span class="badge bg-warning">{{$service->name}}</span>
+                                                                            @endforeach
+                                                                        @else
+                                                                        <i class="bi bi-x-lg"></i>
+                                                                        @endif
                                                                     </td>
                                                                     <td><span class="badge bg-{{$office->status == 1 ? "primary" : "danger"}}">{{$office->status == 1 ? "Active" : "Inactive"}}</span></td>
                                                                     <td class="w-10 line-height-35 table-dropdown">
@@ -1125,12 +1154,24 @@
                    
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
-                            <textarea class="form-control" wire:model.live.debounce.300ms="description"
-                            placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
-                                @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                                    <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                                    placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                                        @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Rate Card / Brochure<span class="required" style="color: red">*</span></label>
+                                    <input type="file" class="form-control" wire:model.live.debounce.300ms="file" placeholder="Rate card">
+                                        @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
                         </div>
+                        
     
 
 
@@ -1432,29 +1473,32 @@
                         </select>
                         @error('fuel_type_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
-                                    <textarea class="form-control" wire:model.live.debounce.300ms="description"
-                                    placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
-                                        @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-            
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Status</label>
-                                    <select class="form-control" wire:model.live.debounce.300ms="status" >
-                                            <option value="">Select Status</option>
-                                         <option value="1">Active</option>
-                                         <option value="0">Inactive</option>
-                                    </select>
-                                    @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
+                       <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                                <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                                placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                                    @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom01">Rate Card / Brochure<span class="required" style="color: red">*</span></label>
+                                <input type="file" class="form-control" wire:model.live.debounce.300ms="file" placeholder="Rate card">
+                                    @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="validationCustom01">Status</label>
+                        <select class="form-control" wire:model.live.debounce.300ms="status" >
+                                <option value="">Select Status</option>
+                             <option value="1">Active</option>
+                             <option value="0">Inactive</option>
+                        </select>
+                        @error('status') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                    </div>
                        
                     </div>
                     <div class="modal-footer">

@@ -49,7 +49,13 @@
                                                                 <strong>{{$branch->name}}</strong> <br>
                                                                 <i class="fas fa-envelope"></i> {{$branch->email}} | <i class="fas fa-phone"></i> {{$branch->phonenumber}} <br>
                                                                 <i class="fas fa-map-marker"></i> {{$branch->street_address}} {{$branch->suburb ? $branch->suburb.", " : ""}} {{$branch->city}} <br>
-                                                                <i class="fa fa-clock-o"></i> Office Hours: {{$branch->working_schedule ? $branch->working_schedule->first_day : ""}} - {{$branch->working_schedule ? $branch->working_schedule->last_day : ""}} {{$branch->working_schedule ? $branch->working_schedule->start_time : ""}} - {{$branch->working_schedule ? $branch->working_schedule->end_time : ""}}
+                                                                <i class="fa fa-clock-o"></i> Office Hours: 
+                                                                @if ($branch->working_schedule->everyday == False)
+                                                                {{$branch->working_schedule ? $branch->working_schedule->first_day : ""}} - {{$branch->working_schedule ? $branch->working_schedule->last_day : ""}} {{$branch->working_schedule ? $branch->working_schedule->start_time : ""}} - {{$branch->working_schedule ? $branch->working_schedule->end_time : ""}}
+                                                                @else   
+                                                                Open 24/7
+                                                                @endif
+                                                               
                                                             </td>
                                                             <td>
                                                                 @if ($branch->currencies->count()>0)

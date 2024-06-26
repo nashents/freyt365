@@ -64,7 +64,15 @@
                                                                 {{$fuel_price->fuel_type ? $fuel_price->fuel_type->name : ""}}
                                                                 </span>
                                                             </td>
-                                                            <td><span class="badge bg-warning">{{$fuel_price->stock_level}}</span></td>
+                                                            <td>
+                                                                @if ($fuel_price->stock_level == "High")
+                                                                <span class="badge bg-primary">{{$fuel_price->stock_level}}</span>
+                                                                @elseif ($fuel_price->stock_level == "Medium")
+                                                                <span class="badge bg-warning">{{$fuel_price->stock_level}}</span>
+                                                                @elseif ($fuel_price->stock_level == "Low")
+                                                                <span class="badge bg-danger">{{$fuel_price->stock_level}}</span>
+                                                                @endif
+                                                            </td>
                                                             <td>
                                                                 <span class="badge bg-primary">
                                                                 {{$fuel_price->currency ? $fuel_price->currency->name : ""}}

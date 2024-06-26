@@ -92,13 +92,13 @@
                                     <div id="collapseServices{{$service->id}}" class="accordion-collapse collapse" aria-labelledby="heading{{$service->id}}"
                                         data-bs-parent="#accordionServicesParent">
                                         <div class="accordion-body">
-                                            @if ($service->branches->count()>0)
+                                            @if ($service->fuel_stations->count()>0 || $service->branches->count()>0 || $service->offices->count()>0)
                                             <div class="card">
                                                 <div class="card-body">
                                                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                                                         <thead>
                                                             <tr>
-                                                                <th>Office</th>
+                                                                <th>Offices</th>
                                                                 <th>Currencies</th>
                                                                 <th>Fuel</th>
                                                                 <th>Service</th>
@@ -107,71 +107,52 @@
                                                         </thead>
                                                         <tbody>
                                                             @if (isset($service->branches))
-                                                                @foreach ($service->branches as $branch)
-                                                                <tr>
-                                                                    <td>
-                                                                        <strong>{{$branch->name}}</strong> <br>
-                                                                        <i class="fas fa-envelope"></i> {{$branch->email}} | <i class="fas fa-phone"></i> {{$branch->phonenumber}} <br>
-                                                                        <i class="fas fa-map-marker"></i> {{$branch->street_address}} {{$branch->suburb ? $branch->suburb.", " : ""}} {{$branch->city}} <br>
-                                                                        <i class="fa fa-clock-o"></i>
-                                                                        Office Hours:
-                                                                        @if (isset($branch->working_schedule) && $branch->working_schedule->everyday == False)
-                                                                           {{$branch->working_schedule ? $branch->working_schedule->first_day : ""}} - {{$branch->working_schedule ? $branch->working_schedule->last_day : ""}} {{$branch->working_schedule ? $branch->working_schedule->start_time : ""}} - {{$branch->working_schedule ? $branch->working_schedule->end_time : ""}}
-                                                                        @else   
-                                                                           24/7
-                                                                        @endif 
-                                                                    </td>
-                                                                    <td>
-                                                                        @if ($branch->currencies->count()>0)
-                                                                            @foreach ($branch->currencies as $currency)
-                                                                             <span class="badge bg-primary">{{$currency->name}}</span>
-                                                                            @endforeach
-                                                                        @else
-                                                                        <i class="bi bi-x-lg"></i>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        @if ($branch->fuel_types->count()>0)
-                                                                            @foreach ($branch->fuel_types as $fuel_type)
-                                                                            <span class="badge bg-success">{{$fuel_type->name}}</span>
-                                                                            
-                                                                            @endforeach
-                                                                        @else
-                                                                        <i class="bi bi-x-lg"></i>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        @if ($branch->services->count()>0)
-                                                                            @foreach ($branch->services as $service)
-                                                                            <span class="badge bg-warning">{{$service->name}}</span>
-                                                                            @endforeach
-                                                                        @else
-                                                                        <i class="bi bi-x-lg"></i>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>Place Order</td>
-                                                                </tr>
-                                                                @endforeach
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if ($service->fuel_stations->count()>0)
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
-                                                        <thead>
+                                                            @foreach ($service->branches as $branch)
                                                             <tr>
-                                                                <th>Office</th>
-                                                                <th>Currencies</th>
-                                                                <th>Fuel</th>
-                                                                <th>Service</th>
-                                                                <th>Actions</th>
+                                                                <td>
+                                                                    <strong>{{$branch->name}}</strong> <br>
+                                                                    <i class="fas fa-envelope"></i> {{$branch->email}} | <i class="fas fa-phone"></i> {{$branch->phonenumber}} <br>
+                                                                    <i class="fas fa-map-marker"></i> {{$branch->street_address}} {{$branch->suburb ? $branch->suburb.", " : ""}} {{$branch->city}} <br>
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                    Office Hours:
+                                                                    @if (isset($branch->working_schedule) && $branch->working_schedule->everyday == False)
+                                                                       {{$branch->working_schedule ? $branch->working_schedule->first_day : ""}} - {{$branch->working_schedule ? $branch->working_schedule->last_day : ""}} {{$branch->working_schedule ? $branch->working_schedule->start_time : ""}} - {{$branch->working_schedule ? $branch->working_schedule->end_time : ""}}
+                                                                    @else   
+                                                                       24/7
+                                                                    @endif 
+                                                                </td>
+                                                                <td>
+                                                                    @if ($branch->currencies->count()>0)
+                                                                        @foreach ($branch->currencies as $currency)
+                                                                         <span class="badge bg-primary">{{$currency->name}}</span>
+                                                                        @endforeach
+                                                                    @else
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($branch->fuel_types->count()>0)
+                                                                        @foreach ($branch->fuel_types as $fuel_type)
+                                                                        <span class="badge bg-success">{{$fuel_type->name}}</span>
+                                                                        
+                                                                        @endforeach
+                                                                    @else
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($branch->services->count()>0)
+                                                                        @foreach ($branch->services as $service)
+                                                                        <span class="badge bg-warning">{{$service->name}}</span>
+                                                                        @endforeach
+                                                                    @else
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    @endif
+                                                                </td>
+                                                                <td>Place Order</td>
                                                             </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                            @endforeach
+                                                        @endif
                                                             @if (isset($service->fuel_stations))
                                                                 @foreach ($service->fuel_stations as $station)
                                                                 <tr>
@@ -222,87 +203,65 @@
                                                                 </tr>
                                                                 @endforeach
                                                             @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @if ($service->offices->count()>0)
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Office</th>
-                                                                <th>Currencies</th>
-                                                                <th>Fuel</th>
-                                                                <th>Service</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
                                                             @if (isset($service->offices))
-                                                                @foreach ($service->offices as $office)
-                                                                <tr>
-                                                                    <td>
-                                                                        <strong>{{$office->name}}</strong> <br>
-                                                                        <i class="fas fa-envelope"></i> {{$office->email}} | <i class="fas fa-phone"></i> {{$office->phonenumber}} <br>
-                                                                        <i class="fas fa-map-marker"></i> {{$office->street_address}} {{$office->suburb ? $office->suburb.", " : ""}} {{$office->city}} <br>
-                                                                        <i class="fa fa-clock-o"></i>
-                                                                         Office Hours:
-                                                                         @if (isset($office->working_schedule) && $office->working_schedule->everyday == False)
-                                                                            {{$office->working_schedule ? $office->working_schedule->first_day : ""}} - {{$office->working_schedule ? $office->working_schedule->last_day : ""}} {{$office->working_schedule ? $office->working_schedule->start_time : ""}} - {{$office->working_schedule ? $office->working_schedule->end_time : ""}}
-                                                                         @else   
-                                                                            24/7
-                                                                         @endif 
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        @if ($office->currencies->count()>0)
-                                                                            @foreach ($office->currencies as $currency)
-                                                                             <span class="badge bg-primary">{{$currency->name}}</span>
-                                                                            @endforeach
-                                                                        @else
-                                                                        <i class="bi bi-x-lg"></i>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        @if ($office->fuel_types->count()>0)
-                                                                            @foreach ($office->fuel_types as $fuel_type)
-                                                                            <span class="badge bg-success">{{$fuel_type->name}}</span>
-                                                                            
-                                                                            @endforeach
-                                                                        @else
-                                                                        <i class="bi bi-x-lg"></i>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        @if ($office->services->count()>0)
-                                                                            @foreach ($office->services as $service)
-                                                                            <span class="badge bg-warning">{{$service->name}}</span>
-                                                                            @endforeach
-                                                                        @else
-                                                                        <i class="bi bi-x-lg"></i>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>Place Order</td>
-                                                                </tr>
-                                                                    @endforeach
-                                                                  
-                                                                
-                                                            @endif
+                                                            @foreach ($service->offices as $office)
+                                                            <tr>
+                                                                <td>
+                                                                    <strong>{{$office->name}}</strong> <br>
+                                                                    <i class="fas fa-envelope"></i> {{$office->email}} | <i class="fas fa-phone"></i> {{$office->phonenumber}} <br>
+                                                                    <i class="fas fa-map-marker"></i> {{$office->street_address}} {{$office->suburb ? $office->suburb.", " : ""}} {{$office->city}} <br>
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                     Office Hours:
+                                                                     @if (isset($office->working_schedule) && $office->working_schedule->everyday == False)
+                                                                        {{$office->working_schedule ? $office->working_schedule->first_day : ""}} - {{$office->working_schedule ? $office->working_schedule->last_day : ""}} {{$office->working_schedule ? $office->working_schedule->start_time : ""}} - {{$office->working_schedule ? $office->working_schedule->end_time : ""}}
+                                                                     @else   
+                                                                        24/7
+                                                                     @endif 
+                                                                   
+                                                                </td>
+                                                                <td>
+                                                                    @if ($office->currencies->count()>0)
+                                                                        @foreach ($office->currencies as $currency)
+                                                                         <span class="badge bg-primary">{{$currency->name}}</span>
+                                                                        @endforeach
+                                                                    @else
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($office->fuel_types->count()>0)
+                                                                        @foreach ($office->fuel_types as $fuel_type)
+                                                                        <span class="badge bg-success">{{$fuel_type->name}}</span>
+                                                                        
+                                                                        @endforeach
+                                                                    @else
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($office->services->count()>0)
+                                                                        @foreach ($office->services as $service)
+                                                                        <span class="badge bg-warning">{{$service->name}}</span>
+                                                                        @endforeach
+                                                                    @else
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    @endif
+                                                                </td>
+                                                                <td>Place Order</td>
+                                                            </tr>
+                                                                @endforeach
+                                                        @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                             @endif
-
-                                   
+                                          
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <br>
+                        
                             @endforeach
                        
                             

@@ -23,7 +23,7 @@ class Office extends Model
         return $this->belongsToMany('App\Models\FuelType');
     }
     public function currencies(){
-        return $this->belongsToMany('App\Models\Currencies');
+        return $this->belongsToMany('App\Models\Currency');
     }
     public function vendor(){
         return $this->belongsTo('App\Models\Vendor');
