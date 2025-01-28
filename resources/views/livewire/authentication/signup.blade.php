@@ -1,4 +1,5 @@
 <div>
+    <x-loading/>
     <form wire:submit.prevent="store()" action="#">
         <h5 class="underline mt-30">Company Details</h5> 
         <br>
@@ -31,8 +32,9 @@
                 <div class="mb-3">
                     <label for="fullname" class="form-label">Country</label>
                    <select  class="form-control" type="text"  wire:model.live.debounce.300ms="country">
+                        <option value="">Select Country</option>
                         @foreach ($countries as $country)
-                           <option value=" {{$country->name}}"> {{$country->name}}</option>
+                           <option value=" {{$country->name}}"> <img src="{{asset('images/flags/'.$country->flag)}}" alt=""> {{$country->name}}</option>
                         @endforeach
                    </select>
                         @error('country') <span class="error" style="color:red">{{ $message }}</span> @enderror

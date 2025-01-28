@@ -30,7 +30,7 @@ class TransactionMail extends Mailable
         if ($transaction->receiving_wallet_id) {
             $this->receiving_wallet = Wallet::find($transaction->receiving_wallet_id);
         }
-        
+        $this->admin = $admin;
     }
 
     /**

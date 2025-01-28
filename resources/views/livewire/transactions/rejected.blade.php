@@ -1,5 +1,7 @@
 <div>
+    <x-loading/>
     <div class="row">
+       
         <div>
              @include('includes.messages')
         </div>

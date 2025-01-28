@@ -1,4 +1,5 @@
 <div>
+    <x-loading/>
     <div class="container-fluid">
 
         <!-- start page title -->

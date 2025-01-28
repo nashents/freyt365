@@ -94,22 +94,34 @@ class Index extends Component
         return $number;
     }
 
+    function generateTransactionReference($length = 6) {
+        // Characters to use in the code
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomCode = '';
+    
+        // Generate the random code
+        for ($i = 0; $i < $length; $i++) {
+            $randomCode .= $characters[rand(0, $charactersLength - 1)];
+        }
+    
+        return $randomCode;
+    }
+
     public function transactionNumber(){
        
-        if (isset(Auth::user()->company)) {
-            $str = Auth::user()->company->name;
-            $words = explode(' ', $str);
-            if (isset($words[1][0])) {
-                $initials = $words[0][0].$words[1][0];
-            }else {
-                $initials = $words[0][0];
-            }
+        $initials = 'F365';
+
+        $transaction = Transaction::orderBy('id','desc')->first();
+
+        if (!$transaction) {
+            $transaction_number =  $initials .'T'. str_pad(1, 5, "0", STR_PAD_LEFT);
+        }else {
+            $number = $transaction->id + 1;
+            $transaction_number =  $initials .'T'. str_pad($number, 5, "0", STR_PAD_LEFT);
         }
 
-        $transaction_number =  $initials .'T'. $this->generateTransactionNumber();
-
         return  $transaction_number;
-
    
 
 
@@ -275,6 +287,10 @@ class Index extends Component
         $this->dispatch('show-authorizationModal');
     }
 
+    public function calculateCharges(){
+
+    }
+
     public function saveAuthorize(){
 
         $transaction = Transaction::find($this->transaction_id);
@@ -293,13 +309,16 @@ class Index extends Component
 
                 $charge = $transaction_type->charge;
                 if (isset($charge)) {
-                    if (isset($charge->percentage) && isset($transaction->amount)) {
+                    if ((isset($charge->percentage) && is_numeric($charge->percentage)) && (isset($transaction->amount) && is_numeric($transaction->amount))) {
                         $charge_amount = ($charge->percentage/100) * $transaction->amount;
                         $transaction->charge = $charge->percentage;
                         $transaction->charge_amount = $charge_amount;
                     }
                 }
+
                 $transaction->transaction_date = date('Y-m-d');
+                $transaction->transaction_reference = $this->generateTransactionReference();
+                $transaction->status = 1;
                 $transaction->movement = "Dbt";
                 $transaction->update();
 
@@ -388,6 +407,8 @@ class Index extends Component
                     
                 }
                 $transaction->movement = "Crt";
+                $transaction->transaction_reference = $this->generateTransactionReference();
+                $transaction->status = 1;
                 $transaction->update();
                 if (is_numeric($wallet->balance) && is_numeric($transaction->amount)) {
                     $wallet->balance = $wallet->balance + $transaction->amount;
@@ -408,6 +429,8 @@ class Index extends Component
                     
                 }
                 $transaction->movement = "Dbt";
+                $transaction->transaction_reference = $this->generateTransactionReference();
+                $transaction->status = 1;
                 $transaction->update();
                     if (is_numeric($wallet->balance) && is_numeric($transaction->amount) && $wallet->balance > $transaction->amount) {
                         $wallet->balance = $wallet->balance - $transaction->amount;

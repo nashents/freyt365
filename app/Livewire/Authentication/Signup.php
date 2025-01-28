@@ -76,10 +76,10 @@ class Signup extends Component
             $wallet = Wallet::orderBy('id','desc')->first();
 
         if (!$wallet) {
-            $wallet_number =  $initials .'T'. str_pad(1, 5, "0", STR_PAD_LEFT);
+            $wallet_number =  $initials .'W'. str_pad(1, 5, "0", STR_PAD_LEFT);
         }else {
             $number = $wallet->id + 1;
-            $wallet_number =  $initials .'T'. str_pad($number, 5, "0", STR_PAD_LEFT);
+            $wallet_number =  $initials .'W'. str_pad($number, 5, "0", STR_PAD_LEFT);
         }
 
         return  $wallet_number;

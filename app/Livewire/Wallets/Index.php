@@ -32,15 +32,23 @@ class Index extends Component
         
     }
 
-    public function generateWalletNumber($digits = 9){
-        $i = 0; //counter
-        $pin = ""; //our default pin is blank.
-        while($i < $digits){
-            //generate a random number between 0 and 9.
-            $pin .= mt_rand(0, 9);
-            $i++;
+
+    public function walletNumber(){
+
+        $initials = 'F365';
+
+            $wallet = Wallet::orderBy('id','desc')->first();
+
+        if (!$wallet) {
+            $wallet_number =  $initials .'W'. str_pad(1, 5, "0", STR_PAD_LEFT);
+        }else {
+            $number = $wallet->id + 1;
+            $wallet_number =  $initials .'W'. str_pad($number, 5, "0", STR_PAD_LEFT);
         }
-        return $pin;
+
+        return  $wallet_number;
+
+
     }
 
     
@@ -50,7 +58,7 @@ class Index extends Component
         $wallet = new Wallet;
         $wallet->company_id = Auth::user()->company_id;
         $wallet->name = $this->name;
-        $wallet->wallet_number = $this->generateWalletNumber();
+        $wallet->wallet_number = $this->walletNumber();
         $wallet->currency_id = $this->currency_id;
         $wallet->active = $this->active;
         $wallet->save();

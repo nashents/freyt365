@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
             $table->string('transaction_number')->nullable();
+            $table->string('transaction_reference')->nullable();
             $table->bigInteger('transaction_type_id')->unsigned()->nullable();
             $table->string('mop')->nullable();
             $table->string('movement')->nullable();
@@ -40,6 +41,7 @@ return new class extends Migration
             $table->foreign('verified_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('verification')->default('pending');
             $table->text('verification_reason')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

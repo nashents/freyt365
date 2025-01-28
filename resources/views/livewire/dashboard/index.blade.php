@@ -1,4 +1,5 @@
 <div>
+    <x-loading/>
     <div class="container-fluid">
 
         <!-- start page title -->
@@ -52,7 +53,7 @@
                 <div class="card widget-flat text-bg-info">
                     <div class="card-body">
                         <div class="float-end">
-                            <i class="ri-shopping-basket-line widget-icon"></i>
+                            <i class="ri-file-list-3-fill widget-icon"></i>
                         </div>
                         <h6 class="text-uppercase mt-0" title="Customers">Orders</h6>
                         <h2 class="my-2">{{$completed_orders_count}}</h2>
@@ -434,14 +435,14 @@
                         </div>
                     </div><!-- end card body -->
                 </div> <!-- end card-->
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h4 class="fs-22 fw-semibold">Toll Balances</h4>
                     </div>
                     <div class="card-body">
                        <p>Company not registered on road toll system yet. Please complete a Zimbabwean inland road toll order first</p>
                     </div><!-- end card body -->
-                </div> <!-- end card-->
+                </div> <!-- end card--> --}}
             </div> <!-- end col-->
   
         </div>

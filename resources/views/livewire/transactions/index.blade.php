@@ -1,4 +1,5 @@
 <div>
+    <x-loading/>
     <div class="row">
         <div>
              {{-- @include('includes.messages') --}}
@@ -17,7 +18,9 @@
                         <thead>
                             <tr>
                                 <th>Transaction#</th>
+                                @if (Auth::user()->is_admin())
                                 <th>Company</th>
+                                @endif
                                 <th>Wallet</th>
                                 <th>Date</th>
                                 <th>Ref#</th>
@@ -40,7 +43,10 @@
                                 @forelse ($transactions as $transaction)
                                     <tr>
                                         <td>{{$transaction->transaction_number}}</td>
+                                        @if (Auth::user()->is_admin())
                                         <td>{{$transaction->company ? $transaction->company->name : ""}}</td>
+                                        @endif
+                                       
                                         <td>
                                             @if ($transaction->wallet)
                                                 {{$transaction->wallet ? $transaction->wallet->name : ""}} <i>{{$transaction->wallet->default == True ? "Default Wallet" : ""}}     </i>   
@@ -70,6 +76,7 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
+                                                    <li><a href="{{route('transactions.show',$transaction->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> View</a></li>
                                                     @if (Auth::user()->is_admin() && $transaction->verification != "verified" && $transaction->authorization == "approved")
                                                     <li><a href="#" wire:click.prevent="showVerify({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Verify</a></li>
                                                     @endif
@@ -92,7 +99,7 @@
                                     </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="11">
+                                            <td colspan="12">
                                                 <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
                                                     No Transactions Found ....
                                                 </div>
@@ -224,7 +231,7 @@
                         </div>
                         @if (!is_null($selectedTransactionType))
 
-                            @if ($selected_transaction_type->name == "Deposit")
+                            @if (isset($selected_transaction_type) && $selected_transaction_type->name == "Deposit")
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom02">How did you pay?<span class="required" style="color: red">*</span></label>
                                     <select class="form-control" wire:model.live.debounce.300ms="selectedMop" required>
@@ -234,7 +241,7 @@
                                     </select>
                                     @error('selectedMop') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
-                            @elseif ($selected_transaction_type->name == "Internal Transfer")
+                            @elseif (isset($selected_transaction_type) && $selected_transaction_type->name == "Internal Transfer")
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Wallet Number<span class="required" style="color: red">*</span></label>
                                     <input type="text"  class="form-control" wire:model.live.lazy="receiving_wallet_number"
@@ -255,6 +262,7 @@
                                                     <option value="{{$from_bank_account->id}}">{{$from_bank_account->name}} {{$from_bank_account->account_name}} {{$from_bank_account->account_number}}</option>
                                                 @endforeach
                                             </select>
+                                            <small> <a href="{{ route('bank_accounts.index') }}" target="_blank"><i class="fa fa-plus-square-o"></i> New Bank Account</a></small> 
                                             @error('selectedFrom') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
