@@ -23,6 +23,10 @@ return new class extends Migration
             $table->foreign('horse_id')->references('id')->on('horses')->onDelete('cascade');
             $table->string('order_number')->nullable();
             $table->string('status')->nullable();
+            $table->bigInteger('authorized_by_id')->unsigned()->nullable();
+            $table->foreign('authorized_by_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('authorization')->default('pending');
+            $table->text('reason')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -2,30 +2,27 @@
 
 namespace App\Livewire\Transactions;
 
+use App\Models\Company;
 use Livewire\Component;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionVerificationMail;
 
 class Pending extends Component
 {
     public $transactions;
-    public $transaction;
     public $transaction_id;
     public $authorization;
     public $authorized_by_id;
     public $reason;
+    public $admin;
 
 
 
     public function mount(){
-
-        if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
-            $this->transactions = Transaction::where('authorization','pending')->orderBy('created_at','desc')->get();
-
-        }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
-
-        }
+        $this->admin = Company::where('type','admin')->first();
+        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
 
     }
 
@@ -64,13 +61,18 @@ class Pending extends Component
         $transaction->reason = $this->reason;
         $transaction->update();
 
-        if ($this->authorization == "pending") {
+        if ($this->authorization == "approved") {
+
+            if (isset($this->admin->email)) {
+                Mail::to($this->admin->email)->send(new TransactionVerificationMail($transaction, $this->admin));
+            }
+            
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
             $this->dispatch(
                 'alert',
                 type : 'success',
-                title : "Transaction pending Successfully!!",
+                title : "Transaction Approved Successfully!!",
                 position: "center",
             );
         }else {
@@ -93,13 +95,7 @@ class Pending extends Component
     public function render()
     {
 
-        if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
-            $this->transactions = Transaction::where('authorization','pending')->orderBy('created_at','desc')->get();
-
-        }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
-
-        }
+        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
         return view('livewire.transactions.pending',[
             'transactions' => $this->transactions
         ]);

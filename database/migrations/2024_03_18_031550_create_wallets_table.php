@@ -18,9 +18,14 @@ return new class extends Migration
             $table->bigInteger('company_id')->unsigned()->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
-            $table->string('wallet_name')->nullable();
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->string('wallet_number')->nullable();
+            $table->string('account_number')->nullable();
             $table->string('balance')->nullable();
+            $table->string('reserved')->nullable();
+            $table->boolean('default')->nullable()->default(0);
+            $table->boolean('active')->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

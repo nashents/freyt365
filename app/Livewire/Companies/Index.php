@@ -4,7 +4,9 @@ namespace App\Livewire\Companies;
 
 use App\Models\Company;
 use Livewire\Component;
+use App\Mail\AccountActivationMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Index extends Component
 {
@@ -43,6 +45,18 @@ class Index extends Component
         $company->update();
 
         if ($this->authorization == "approved") {
+
+            $wallets = $company->wallets;
+            if (isset($wallets)) {
+                foreach ($wallets as $wallet) {
+                    $wallet->active = 1;
+                    $wallet->update();
+                }
+            }
+
+            if (isset($company->email)) {
+                Mail::to($company->email)->send(new AccountActivationMail($company, $this->reason));
+            }
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
             $this->dispatch(
@@ -81,6 +95,9 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.companies.index');
+        $this->companies = Company::orderBy('name','asc')->get();
+        return view('livewire.companies.index',[
+            'companies' => $this->companies
+        ]);
     }
 }

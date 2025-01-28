@@ -12,12 +12,24 @@ class Company extends Model  implements Auditable
     use HasFactory, SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
+    public function is_admin(){
+        if($this->is_admin){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
     public function users(){
         return $this->hasMany('App\Models\User');
     }
+    public function transactions(){
+        return $this->hasMany('App\Models\Transaction');
+    }
 
-    public function wallet(){
-        return $this->hasOne('App\Models\Wallet');
+    public function wallets(){
+        return $this->HasMany('App\Models\Wallet');
     }
 
     public function drivers(){

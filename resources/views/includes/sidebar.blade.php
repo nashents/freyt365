@@ -34,6 +34,8 @@
                     <span> Dashboard </span>
                 </a>
             </li>
+            
+            @if (Auth::user()->is_admin())
             <li class="side-nav-item">
                 <a href="{{ route('companies.index') }}" class="side-nav-link">
                     <i class="bi bi-building-fill-add"></i>
@@ -41,8 +43,6 @@
                     <span> Companies </span>
                 </a>
             </li>
-
-            @if (Auth::user()->is_admin())
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#master1" aria-expanded="false" aria-controls="master1" class="side-nav-link">
                     <i class="bi bi-gear-fill"></i>
@@ -52,11 +52,15 @@
                 <div class="collapse" id="master1">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="{{ route('charges.index') }}">Transaction Charges</a>
+                            <a href="{{ route('currencies.index') }}">Currencies</a>
                         </li>
                         <li>
                             <a href="{{ route('services.index') }}">Services</a>
                         </li>
+                        <li>
+                            <a href="{{ route('charges.index') }}">Transaction Charges</a>
+                        </li>
+                       
                     </ul>
                 </div>
             </li>
@@ -67,14 +71,23 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarExtendedUI" aria-expanded="false" aria-controls="sidebarExtendedUI" class="side-nav-link">
                     <i class="bi bi-wallet-fill"></i>
-                    <span> Wallet </span>
+                    <span> Cost Management </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
+                        @if (!Auth::user()->is_admin())
+                        <li>
+                            <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>
+                        </li>
+                        @endif
+                        <li>
+                            <a href="{{ route('wallets.index') }}">Wallets</a>
+                        </li>
                         <li>
                             <a href="{{ route('transactions.index') }}">Manage Transactions</a>
                         </li>
+                        @if (!Auth::user()->is_admin())
                         <li>
                             <a href="{{ route('transactions.pending') }}">Pending Transactions</a>
                         </li>
@@ -84,9 +97,8 @@
                         <li>
                             <a href="{{ route('transactions.rejected') }}">Rejected Transactions</a>
                         </li>
-                        <li>
-                            <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>
-                        </li>
+                        @endif
+                       
                     </ul>
                 </div>
             </li>
@@ -99,6 +111,7 @@
                     <span> Users </span>
                 </a>
             </li>
+            @if (!Auth::user()->is_admin())
             <li class="side-nav-item">
                 <a href="{{ route('horses.index') }}" class="side-nav-link">
                     <i class="bi bi-truck-front-fill"></i>
@@ -117,18 +130,20 @@
                     <span> Driver </span>
                 </a>
             </li>
-            <li class="side-nav-item">
+            @endif
+    
+            {{-- <li class="side-nav-item">
                 <a href="{{ route('clearing_agents.index') }}" class="side-nav-link">
                     <i class="bi bi-building-fill-add"></i>
                     <span> Clearing Agents </span>
                 </a>
-            </li>
-            <li class="side-nav-item">
+            </li> --}}
+            {{-- <li class="side-nav-item">
                 <a href="{{route('customers.index')}}" class="side-nav-link">
                     <i class="bi bi-people"></i>
                     <span> Customers </span>
                 </a>
-            </li>
+            </li> --}}
             <li class="side-nav-item">
                 <a href="{{ route('fuel_stations.index') }}" class="side-nav-link">
                     <i class="bi bi-fuel-pump-fill"></i>
@@ -156,7 +171,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#trips" aria-expanded="false" aria-controls="trips" class="side-nav-link">
                     <i class="bi bi-map-fill"></i>
                     <span> Trips </span>
@@ -169,15 +184,16 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a href="{{route('invoices.index')}}" class="side-nav-link">
                     <i class="bi bi-file-earmark-text-fill"></i>
                     <span> Invoices </span>
                 </a>
-            </li>
+            </li> --}}
 
+       
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#reports" aria-expanded="false" aria-controls="reports" class="side-nav-link">
                     <i class="bi bi-graph-up-arrow"></i>
@@ -195,9 +211,9 @@
                         <li>
                             <a href="#">Extended Order History</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="#">Tax Invoice Report</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>

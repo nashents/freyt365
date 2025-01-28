@@ -7,9 +7,11 @@
             <div class="card">
                 <div class="card-header">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#bank_accountModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Bank Account</a>
-                  
                 </div>
                 <div class="card-body">
+                    <blockquote>
+                        These are are your bank accounts that you use to tranfer funds into our accounts inorder to load money into your freyt365 wallet.
+                    </blockquote>
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
@@ -98,7 +100,7 @@
                                 <select class="form-control" wire:model.live.debounce.300ms="currency_id" required>
                                     <option value="">Select Currency</option>
                                     @foreach ($currencies as $currency)
-                                        <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                    <option value="{{ $currency->id }}">{{ $currency->name }} ({{ $currency->symbol }}) {{ $currency->fullname }}</option>                                      
                                     @endforeach
                                 </select>
                                 @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -187,7 +189,7 @@
                                 <select class="form-control" wire:model.live.debounce.300ms="currency_id" required>
                                     <option value="">Select Currency</option>
                                     @foreach ($currencies as $currency)
-                                        <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                    <option value="{{ $currency->id }}">{{ $currency->name }} ({{ $currency->symbol }}) {{ $currency->fullname }}</option>                                      
                                     @endforeach
                                 </select>
                                 @error('currency_id') <span class="error" style="color:red">{{ $message }}</span> @enderror

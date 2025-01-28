@@ -39,13 +39,9 @@ class Index extends Component
         unset($this->inputs[$i]);
     }
     public function mount(){
-        if (isset(Auth::user()->company)) {
-            $this->company_id = Auth::user()->company->id;
-          } else {
-            $this->company_id = Auth::user()->employee->company->id;
-          }
-        $this->bank_accounts = BankAccount::latest()->get();
-        $this->currencies = Currency::latest()->get();
+    
+        $this->bank_accounts = BankAccount::where('company_id',Auth::user()->company_id)->orderBy('name')->get();
+        $this->currencies = Currency::orderBy('name')->get();
 
     }
 
@@ -75,7 +71,7 @@ class Index extends Component
 
             $bank_account = new BankAccount;
             $bank_account->user_id = Auth::user()->id;
-            $bank_account->company_id = $this->company_id;
+            $bank_account->company_id =  Auth::user()->company->id;
             $bank_account->name = $this->name;
             $bank_account->currency_id = $this->currency_id;
             $bank_account->account_number = $this->account_number;
@@ -147,9 +143,11 @@ class Index extends Component
     }
     public function render()
     {
-        $this->bank_accounts = BankAccount::latest()->get();
+        $this->bank_accounts = BankAccount::where('company_id',Auth::user()->company_id)->orderBy('name')->get();
+        $this->currencies = Currency::orderBy('name')->get();
         return view('livewire.bank-accounts.index',[
-            'bank_accounts' =>  $this->bank_accounts
+            'bank_accounts' =>  $this->bank_accounts,
+            'currencies' =>  $this->currencies,
         ]);
     }
 }

@@ -15,12 +15,15 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('company_id')->unsigned()->nullable();
+            $table->bigInteger('receiving_wallet_id')->unsigned()->nullable();
             $table->bigInteger('wallet_id')->unsigned()->nullable();
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
             $table->string('transaction_number')->nullable();
             $table->bigInteger('transaction_type_id')->unsigned()->nullable();
             $table->string('mop')->nullable();
+            $table->string('movement')->nullable();
             $table->string('charge')->nullable();
             $table->string('charge_amount')->nullable();
             $table->string('amount')->nullable();

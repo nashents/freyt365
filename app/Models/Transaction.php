@@ -13,6 +13,9 @@ class Transaction extends Model
     public function currency(){
         return $this->belongsTo('App\Models\Currency');
     }
+    public function company(){
+        return $this->belongsTo('App\Models\Company');
+    }
     public function transaction_type(){
         return $this->belongsTo('App\Models\TransactionType');
     }

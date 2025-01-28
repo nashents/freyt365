@@ -35,6 +35,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TrailerController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
@@ -109,6 +110,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/users', UserController::class);
     Route::resource('/service_providers',ServiceProviderController::class);
     Route::resource('/customers',CustomerController::class);
+    Route::resource('/currencies',CurrencyController::class);
     Route::resource('/trips',TripController::class);
     Route::resource('/destinations',DestinationController::class);
     Route::resource('/loading_points',LoadingPointController::class);

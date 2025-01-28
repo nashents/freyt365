@@ -13,7 +13,7 @@ class TransactionTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $transaction_types = ['Deposit','Internal Transfer', 'External Transfer','Withdrawal'];
+        $transaction_types = ['Deposit','Internal Transfer','Withdrawal'];
         foreach($transaction_types as $transaction_type){
             TransactionType::create([
                 'name' => $transaction_type

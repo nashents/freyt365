@@ -29,8 +29,8 @@
                                         <td>{{$company->name}}</td>
                                         <td>{{$company->email}}</td>
                                         <td>{{$company->phonenumber}}</td>
-                                        <td>{{$company->street_address}} {{$company->suburb}} {{$company->city}} {{$company->country}}</td>
-                                        <td><span class="badge bg-{{$company->status == 1 ? "primary" : "danger"}}">{{$company->status == 1 ? "Active" : "Inactive"}}</span></td>
+                                        <td>{{$company->street_address}} {{$company->suburb}}{{$company->city ? ", ".$company->city : ""}} {{$company->country}}</td>
+                                        <td><span class="badge bg-{{($company->authorization == 'approved') ? 'primary' : (($company->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($company->authorization == 'approved') ? 'approved' : (($company->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
                                         <td class="w-10 line-height-35 table-dropdown">
                                             <div class="dropdown">
                                                 <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">

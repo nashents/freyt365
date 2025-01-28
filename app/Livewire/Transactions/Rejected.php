@@ -2,13 +2,17 @@
 
 namespace App\Livewire\Transactions;
 
+use App\Models\Company;
 use Livewire\Component;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionVerificationMail;
 
 class Rejected extends Component
 {
     public $transactions;
+    public $admin;
     public $transaction;
     public $transaction_id;
     public $authorization;
@@ -19,13 +23,9 @@ class Rejected extends Component
 
     public function mount(){
 
-        if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
-            $this->transactions = Transaction::where('authorization','rejected')->orderBy('created_at','desc')->get();
 
-        }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->get();
-
-        }
+        $this->admin = Company::where('type','admin')->first();
+        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->get();
 
     }
 
@@ -70,16 +70,21 @@ class Rejected extends Component
             $this->dispatch(
                 'alert',
                 type : 'success',
-                title : "Transaction rejected Successfully!!",
+                title : "Transaction Rejected Successfully!!",
                 position: "center",
             );
         }else {
+
+            if (isset($this->admin->email)) {
+                Mail::to($this->admin->email)->send(new TransactionVerificationMail($transaction, $this->admin));
+            }
+            
             $this->dispatch('hide-authorizationModal');
             $this->resetInputFields();
             $this->dispatch(
                 'alert',
                 type : 'success',
-                title : "Transaction Rejected Successfully!!",
+                title : "Transaction Approved Successfully!!",
                 position: "center",
             );
         }
@@ -93,13 +98,7 @@ class Rejected extends Component
     public function render()
     {
 
-        if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
-            $this->transactions = Transaction::where('authorization','rejected')->orderBy('created_at','desc')->get();
-
-        }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->get();
-
-        }
+        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->get();
         return view('livewire.transactions.rejected',[
             'transactions' => $this->transactions
         ]);

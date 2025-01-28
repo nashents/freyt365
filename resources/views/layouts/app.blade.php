@@ -126,6 +126,81 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-transaction_confirmationModal', (event) => {
+        $('#transaction_confirmationModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-transaction_confirmationModal', (event) => {
+        $('#transaction_confirmationModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-walletModal', (event) => {
+        $('#walletModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-walletModal', (event) => {
+        $('#walletModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-walletEditModal', (event) => {
+        $('#walletEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-walletEditModal', (event) => {
+        $('#walletEditModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-currencyModal', (event) => {
+        $('#currencyModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-currencyModal', (event) => {
+        $('#currencyModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-currencyEditModal', (event) => {
+        $('#currencyEditModal').modal('show');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-currencyEditModal', (event) => {
+        $('#currencyEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-verificationModal', (event) => {
         $('#verificationModal').modal('show');
        });

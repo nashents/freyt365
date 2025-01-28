@@ -15,8 +15,8 @@ class CurrencySeeder extends Seeder
     {
         $currencies = [
             ['fullname'=>'United States Dollar', 'name'=>'USD','symbol' => '$'],
-            ['fullname'=>'Zimbabwean Dollar','name'=>'ZWL','symbol' => '$'],
-            ['fullname'=>'South African Rand','name'=>'ZAR', 'symbol' => 'R'],
+            // ['fullname'=>'Zimbabwean Dollar','name'=>'ZWL','symbol' => '$'],
+            // ['fullname'=>'South African Rand','name'=>'ZAR', 'symbol' => 'R'],
         ];
         Currency::insert($currencies);
     }

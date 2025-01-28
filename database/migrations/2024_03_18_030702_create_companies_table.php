@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
             $table->string('type')->nullable();
+            $table->boolean('is_admin')->default(0);
             $table->string('plan')->nullable();
             $table->string('fee')->nullable();
             $table->string('name')->nullable();

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\Company;
+use App\Models\Currency;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -58,24 +59,32 @@ class CompanySeeder extends Seeder
        
         $company = new Company;
         $company->type = "admin";
+        $company->is_admin = 1;
         $company->company_number = $this->companyNumber();
         $company->name = "Raysun Capital";
         $company->email = "enquires@raysuncapital.com";
-        $company->noreply = "noreply@gonyetitls.com";
+        $company->noreply = "noreply@freyt365.com";
         $company->phonenumber = "0782421799";
         $company->country = "Zimbabwe";
         $company->city = "Harare";
         $company->suburb = "Eastlea";
         $company->street_address = "20 Ray Amm Rd";
+        $company->authorization = "approved";
         $company->status = 1;
         $company->save();
 
 
         $wallet = new Wallet;
         $wallet->company_id = $company->id;
-        $wallet->wallet_name = $company->name;
+        $wallet->name = $company->name;
+        $wallet->description = "This is your company`s default wallet for transactions.";
         $wallet->wallet_number = $this->walletNumber();
-        $wallet->currency_id = 1;
+        $currency = Currency::where('name','USD')->first();
+        if (isset($currency)) {
+            $wallet->currency_id = $currency->id;
+        }
+        $wallet->active = 1;
+        $wallet->default = 1;
         $wallet->balance = 0;
         $wallet->save();
 

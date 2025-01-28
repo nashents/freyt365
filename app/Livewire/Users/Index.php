@@ -61,8 +61,12 @@ class Index extends Component
         $user->user_id = Auth::user()->id;
         $user->company_id = Auth::user()->company_id;
         $user->name = $this->name;
+        if (Auth::user()->company == "admin") {
+            $user->is_admin = 1;
+        }else{
+            $user->is_admin = 0;
+        }
         $user->category = "Employee";
-        $user->is_admin = 0;
         $user->status = 1;
         $user->surname = $this->surname;
         $user->username = $this->username;
@@ -117,7 +121,11 @@ class Index extends Component
         $user =  User::find($this->user_id);
         $user->name = $this->name;
         $user->category = "Employee";
-        $user->is_admin = 0;
+        if (Auth::user()->company == "admin") {
+            $user->is_admin = 1;
+        }else{
+            $user->is_admin = 0;
+        }
         $user->status = 1;
         $user->surname = $this->surname;
         $user->username = $this->username;

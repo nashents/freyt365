@@ -13,11 +13,20 @@ class CountrySeeder extends Seeder
      */
     public function run(): void
     {
-        $countries = ['Zimbabwe', 'South Africa', 'Mozambique', 'Botswana', 'Malawi', 'Zambia','DRC','Tanzania'];
-        foreach($countries as $country){
-            Country::create([
-                'name' => $country
-            ]);
-        }
+        $countries = [
+            ['name' => 'Zimbabwe', 'flag'=>'zim.png'],
+            ['name' => 'Zambia', 'flag'=>'zambia.png'],
+            ['name' => 'Botswana', 'flag'=>'botswana.png'],
+            ['name' => 'South Africa', 'flag'=>'rsa.png'],
+            ['name' => 'Namibia', 'flag'=>'namibia.png'],
+            ['name' => 'Mozambique', 'flag'=>'mozambique.png'],
+            ['name' => 'Malawai', 'flag'=>'malawi.png'],
+            ['name' => 'Democratic Republic of Congo (DRC)', 'flag'=>'drc.png'],
+            ['name' => 'Tanzania', 'flag'=>'tanzania.png'],
+            ['name' => 'Angola', 'flag'=>'angola.png'],
+            ['name' => 'Lesotho', 'flag'=>'lesotho.png'],
+            ['name' => 'Eswatini', 'flag'=>'eswatini.png'],
+            ];
+            Country::insert($countries);
     }
 }

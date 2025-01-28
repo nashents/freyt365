@@ -54,6 +54,7 @@ class LoginController extends Controller
                 if ($user->company->status == "1" ) {
                     $roles = $user->roles; 
                     if ($roles->count()>0) {
+                        
                         Session::flash('success','Welcome to your admin dashboard '.Auth::user()->name ." ". Auth::user()->surname);
                         return redirect(route('dashboard'));
                     }else {
