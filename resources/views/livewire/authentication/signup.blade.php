@@ -12,17 +12,17 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">Company Email</label>
+                    <label for="fullname" class="form-label">Company Email<span class="required" style="color: red">*</span></label>
                     <input class="form-control" type="email"  wire:model.live.debounce.300ms="company_email"
-                        placeholder="Enter your company email" >
+                        placeholder="Enter your company email" required>
                         @error('company_email') <span class="error" style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">Company Phonenumber</label>
+                    <label for="fullname" class="form-label">Company Phonenumber<span class="required" style="color: red">*</span></label>
                     <input class="form-control" type="text"  wire:model.live.debounce.300ms="company_phonenumber"
-                        placeholder="Enter your company phonenumber" >
+                        placeholder="Enter your company phonenumber" required>
                         @error('company_phonenumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -30,8 +30,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">Country</label>
-                   <select  class="form-control" type="text"  wire:model.live.debounce.300ms="country">
+                    <label for="fullname" class="form-label">Country<span class="required" style="color: red">*</span></label>
+                   <select  class="form-control" type="text"  wire:model.live.debounce.300ms="country" required>
                         <option value="">Select Country</option>
                         @foreach ($countries as $country)
                            <option value=" {{$country->name}}"> <img src="{{asset('images/flags/'.$country->flag)}}" alt=""> {{$country->name}}</option>
@@ -42,9 +42,9 @@
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">City</label>
+                    <label for="fullname" class="form-label">City<span class="required" style="color: red">*</span></label>
                     <input class="form-control" type="text"  wire:model.live.debounce.300ms="city"
-                        placeholder="Enter your company city" >
+                        placeholder="Enter your company city" required>
                         @error('city') <span class="error" style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -52,17 +52,17 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">Suburb</label>
+                    <label for="fullname" class="form-label">Suburb<span class="required" style="color: red">*</span></label>
                     <input class="form-control" type="text"  wire:model.live.debounce.300ms="suburb"
-                        placeholder="Enter your company suburb" >
+                        placeholder="Enter your company suburb" required>
                         @error('suburb') <span class="error" style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">Street Address</label>
+                    <label for="fullname" class="form-label">Street Address<span class="required" style="color: red">*</span></label>
                     <input class="form-control" type="text"  wire:model.live.debounce.300ms="street_address"
-                        placeholder="Enter your company street address" >
+                        placeholder="Enter your company street address" required>
                         @error('street_address') <span class="error" style="color:red">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -102,7 +102,7 @@
         </div>
         <div class="col-md-6">
             <div class="mb-3">
-                <label for="emailaddress" class="form-label">Email address<span class="required" style="color: red">*</span></label>
+                <label for="emailaddress" class="form-label">Email Address<span class="required" style="color: red">*</span></label>
                 <input class="form-control" type="email"  wire:model.live.debounce.300ms="email" required
                     placeholder="Enter your email">
                     @error('email') <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -143,8 +143,8 @@
                 <input type="checkbox" class="form-check-input"
                     id="checkbox-signup" required>
                 <label class="form-check-label" for="checkbox-signup">By checking this box i agree to Freyt365`s <a
-                        href="javascript: void(0);">Terms and
-                        Conditions</a> and <a href="javascript: void(0);">Privacy Policy</a><span class="required" style="color: red">*</span></label>
+                        href="{{asset('freyt365_terms_conditions.pdf')}}" target="_blank">Terms and
+                        Conditions</a> and <a href="{{asset('privacy_policy.pdf')}}" target="_blank">Privacy Policy</a><span class="required" style="color: red">*</span></label>
             </div>
         </div>
         <div class="mb-0 d-grid text-center">

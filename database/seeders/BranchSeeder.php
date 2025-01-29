@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Branch;
+use App\Models\Country;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class BranchSeeder extends Seeder
 {
@@ -12,6 +14,20 @@ class BranchSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+
+        $country = Country::where('name','Zimbabwe')->first();
+
+        $branches = [
+            ['country_id' => $country->id,'name' => 'Harare', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Mutare Freyt Office', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Nyamapanda Freyt Office', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Masvingo', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Chiredzi', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Beitbridge', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Bulawayo', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Vicfalls', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ['country_id' => $country->id,'name' => 'Chirundu', 'phonenumber'=>'', 'email'=>'', 'city' => '', 'suburb'=>'','street_address' => '','lat' => '', 'long' => '','status' => '1'],
+            ];
+            Branch::insert($branches);
     }
 }

@@ -1,18 +1,8 @@
 <div>
   
     <x-loading/>
-    @if (isset($employee))
-    @if (Auth::user()->employee)
-        @if (Auth::user()->employee->id != $employee->id)
-        <a href="#" data-toggle="modal" data-target="#documentModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Document</a>
-        <a href="#" data-toggle="modal" data-target="#folderModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Folder</a>
-        @endif
-    @endif
-       
-    @else   
-        <a href="#" data-toggle="modal" data-target="#documentModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Document</a>
-        <a href="#" data-toggle="modal" data-target="#folderModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Folder</a>
-    @endif
+    <a href="#" data-toggle="modal" data-target="#documentModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Document</a>
+    <a href="#" data-toggle="modal" data-target="#folderModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Folder</a>
     <br>
     <br>
 
@@ -27,15 +17,7 @@
 
                                 <a href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder"></i> {{$folder->title}}</a> 
                                 
-                                @if (isset($employee))
-                                    @if (Auth::user()->employee)
-                                        @if (Auth::user()->employee->id != $employee->id)
-                                        <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
-                                        @endif
-                                    @endif
-                                @else
-                                    <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
-                                @endif
+                                <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
 
                             @else 
 

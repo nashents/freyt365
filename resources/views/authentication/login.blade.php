@@ -31,8 +31,7 @@
                                     </div>
                                     <div class="p-4 my-auto">
                                         <h4 class="fs-20">Sign In</h4>
-                                        <p class="text-muted mb-3">Enter your email address and password to access
-                                            account.
+                                        <p class="text-muted mb-3">Enter your username and password to login.
                                         </p>
                                         <div>
                                             @include('includes.messages')
@@ -43,7 +42,7 @@
                                             <div class="mb-3">
                                                 <label for="emailaddress" class="form-label">Username</label>
                                                 <input class="form-control" type="text" name="username" id="emailaddress" required=""
-                                                    placeholder="Enter your username">
+                                                   >
                                             </div>
                                             <div class="mb-3">
                                                 <a href="#" class="text-muted float-end"><small>Forgot
@@ -51,16 +50,16 @@
                                                         password?</small></a>
                                                 <label for="password" class="form-label">Password</label>
                                                 <input class="form-control" name="password" type="password" required="" id="password"
-                                                    placeholder="Enter your password">
+                                                   >
                                             </div>
-                                            <div class="mb-3">
+                                            {{-- <div class="mb-3">
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input"
                                                         id="checkbox-signin">
                                                     <label class="form-check-label" for="checkbox-signin">Remember
                                                         me</label>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="mb-0 text-start">
                                                 <button class="btn btn-soft-primary w-100" type="submit"><i
                                                         class="ri-login-circle-fill me-1"></i> <span class="fw-bold">Log

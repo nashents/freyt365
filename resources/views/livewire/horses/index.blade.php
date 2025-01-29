@@ -120,16 +120,24 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Make<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="make"
-                                        placeholder="Enter horse make" required >
-                                        @error('make') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                    <select class="form-control" wire:model.live.debounce.300ms="make" required>
+                                                <option value="">Select Make</option>
+                                            @foreach ($makes as $make)
+                                                <option value="{{$make->name}}">{{$make->name}}</option>
+                                            @endforeach
+                                    </select>
+                                    @error('make') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Model<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="model"
-                                        placeholder="Enter horse model" required>
+                                    <select class="form-control" wire:model.live.debounce.300ms="model" required>
+                                        <option value="">Select Model</option>
+                                        @foreach ($models as $model)
+                                            <option value="{{$model->name}}">{{$model->name}}</option>
+                                        @endforeach
+                                    </select>
                                         @error('model') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -146,8 +154,12 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Color<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="color" 
-                                        placeholder="Enter horse color" required>
+                                    <select class="form-control" wire:model.live.debounce.300ms="color" >
+                                        <option value="">Select Color</option>
+                                        @foreach ($colors as $color)
+                                            <option value="{{$color->name}}">{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
                                         @error('color') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -173,6 +185,7 @@
                                         <option value="{{$trailer->id}}">{{$trailer->registration_number}} ({{$trailer->fleet_number}})</option>
                                     @endforeach
                                 </select>
+                                <small><a href="{{ route('trailers.index') }}" target="_blank"><i class="fa fa-plus-square-o"></i> New Trailer</a></small> 
                                     @error('trailer_id.0') <span class="error" style="color:red">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -189,6 +202,7 @@
                                                         <option value="{{$trailer->id}}">{{$trailer->registration_number}} ({{$trailer->fleet_number}})</option>
                                                     @endforeach
                                                 </select>
+                                                <small><a href="{{ route('trailers.index') }}" target="_blank"><i class="fa fa-plus-square-o"></i> New Trailer</a></small> 
                                                     @error('trailer_id.'.$value) <span class="error" style="color:red">{{ $message }}</span> @enderror
                                             </div>
                                         </div>
@@ -247,16 +261,24 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Make<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="make"
-                                        placeholder="Enter horse make" required >
-                                        @error('make') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                    <select class="form-control" wire:model.live.debounce.300ms="make" required>
+                                                <option value="">Select Make</option>
+                                            @foreach ($makes as $make)
+                                                <option value="{{$make->name}}">{{$make->name}}</option>
+                                            @endforeach
+                                    </select>
+                                    @error('make') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Model<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="model"
-                                        placeholder="Enter horse model" required>
+                                    <select class="form-control" wire:model.live.debounce.300ms="model" required>
+                                        <option value="">Select Model</option>
+                                        @foreach ($models as $model)
+                                            <option value="{{$model->name}}">{{$model->name}}</option>
+                                        @endforeach
+                                    </select>
                                         @error('model') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -273,8 +295,12 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">Color<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="color"
-                                        placeholder="Enter horse color" required>
+                                    <select class="form-control" wire:model.live.debounce.300ms="color" >
+                                        <option value="">Select Color</option>
+                                        @foreach ($colors as $color)
+                                            <option value="{{$color->name}}">{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
                                         @error('color') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -289,6 +315,7 @@
                                             <option value="{{$trailer->id}}">{{$trailer->registration_number}} ({{$trailer->fleet_number}})</option>
                                         @endforeach
                                     </select>
+                                    <small><a href="{{ route('trailers.index') }}" target="_blank"><i class="fa fa-plus-square-o"></i> New Trailer</a></small>
                                         @error('trailer_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>

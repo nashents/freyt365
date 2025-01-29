@@ -39,6 +39,7 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
+                                                    <li><a href="{{route('companies.show',$company->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> View</a></li>
                                                     <li><a href="#" wire:click.prevent="showAuthorize({{$company->id}})" class="dropdown-item"><i class="fa fa-gavel color-success"></i> Authorize</a></li>
                                                     {{-- <li><a href="#" wire:click.prevent="edit({{$company->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li> --}}
                                                     <li>

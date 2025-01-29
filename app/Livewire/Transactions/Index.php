@@ -46,6 +46,18 @@ class Index extends Component
     public $selected_wallet;
     public $admin;
 
+    protected $listeners = ['echo:transactions,' . \App\Events\TransactionCreated::class => 'refreshTransactions'];
+
+    public function refreshTransactions($payload)
+    {
+        // Handle the incoming payload if needed
+        // For example, you can log the payload or perform other actions
+        // \Log::info('Transaction Created:', $payload);
+
+        // Refresh the component to fetch the latest transactions
+        $this->emitSelf('refresh');
+    }
+
 
     public function mount(){
         $this->admin = Company::where('type','admin')->first();

@@ -84,18 +84,46 @@
                         <li>
                             <a href="{{ route('wallets.index') }}">Wallets</a>
                         </li>
+                        @php
+                        $transactionsAuthPendingCount = App\Models\Transaction::where('authorization','pending')
+                        ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
+                        ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
+                        $transactionsAuthApprovedCount = App\Models\Transaction::where('authorization','approved')
+                        ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
+                        ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
+                        $transactionsAuthRejectedCount = App\Models\Transaction::where('authorization','rejected')
+                        ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
+                        ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
+                        @endphp
                         <li>
                             <a href="{{ route('transactions.index') }}">Manage Transactions</a>
                         </li>
                         @if (!Auth::user()->is_admin())
                         <li>
-                            <a href="{{ route('transactions.pending') }}">Pending Transactions</a>
+                            <a href="{{ route('transactions.pending') }}">
+                                @if ($transactionsAuthPendingCount>0)
+                                <span class="badge bg-success float-end">{{$transactionsAuthPendingCount}}</span>
+                                @endif
+                                <span>Pending Transactions</span>
+                            </a>
+                           
                         </li>
                         <li>
-                            <a href="{{ route('transactions.approved') }}">Approved Transactions</a>
+                            <a href="{{ route('transactions.approved') }}">
+                                @if ($transactionsAuthApprovedCount>0)
+                                <span class="badge bg-success float-end">{{$transactionsAuthApprovedCount}}</span>
+                                @endif
+                              
+                                <span>Approved Transactions</span>
+                            </a>
                         </li>
                         <li>
-                            <a href="{{ route('transactions.rejected') }}">Rejected Transactions</a>
+                            <a href="{{ route('transactions.rejected') }}">
+                                @if ($transactionsAuthRejectedCount>0)
+                                <span class="badge bg-success float-end">{{$transactionsAuthRejectedCount}}</span>
+                                @endif
+                                <span>Rejected Transactions</span>
+                            </a>
                         </li>
                         @endif
                        

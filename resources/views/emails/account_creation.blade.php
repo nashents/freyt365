@@ -1,6 +1,6 @@
 @extends('layouts.emails')
 @section('title')
-Account Activation
+Account Creation
 @endsection
 @section('content')
 
@@ -19,38 +19,25 @@ Account Activation
 									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
 										<tr>
 											<td style="padding:0 0 15px 0;color:#153643;">
-												<h3 style="font-size:16px; margin:0 0 20px 0;font-family:Arial,sans-serif;">{{$company->name}}</h3>
-												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">This is an automated account activation notification.</p>
+												<h3 style="font-size:16px; margin:0 0 20px 0;font-family:Arial,sans-serif;">{{$user->name}} {{$user->surname}}</h3>
+												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">This is an automated account creation notification</p>
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-													@if ($company)
-														@if ($company->authorization == "approved")
-															Congratulations you're now activated to use <a href="https://freyt365.com/" target="_blank">freyt365</a>.
-															This is a secure platform for all services freyt365.
-															Please click on the link below and log in with your username and password.
-															<br>
-															<p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="https://freyt365.com/login" style="color:#fcc02d;text-decoration:underline;" target="_blank">Click me to get started</a></p>
-														@else
-															Unfortunately your account was not activated to use <a href="https://freyt365.com/" target="_blank">freyt365</a>.
-															<br>
-															Here are a few reasons why your account activation was rejected:
-															<br>
-															1) You did not submit the required documents.
-															<br>
-															2) Illegitimacy of your business.
-															<br>
-															3) {{$reason}}
-															<br>
-															if you think we are wrong in our decision please send us an email on <a href="mailto: activations@freyt365.com">activations@freyt365.com</a>
-														@endif
-													@endif
+													Congratulations you're now registered on <a href="https://freyt365.com/" target="_blank">freyt365</a>
+													This is a secure platform for all things Freyt365.
 													<br>
-													
+													Please click on the link below and log in with your username and pin provided.
+													<br>
+													Username: {{$user->username}} Pin: {{$pin}}
+													<br>
+													<p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="https://freyt365.com/login" style="color:#fcc02d;text-decoration:underline;" target="_blank">Click me to get started</a></p>
+													<br>
 													Best Regards Freyt365 Admin
 												</p>
+
 												<br>
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif; color:#3064af">
 													DISCLAIMER :
@@ -63,9 +50,7 @@ Account Activation
 													It is the responsibility of the named recipient(s) to ensure that e-mails are virus free and Freyt365 shall not accept responsibility for loss or damage arising from the use of this e-mail or its attachments.
 												</p>
 											</td>
-											{{-- <td>
-												
-											</td> --}}
+											
 										</tr>
 
 									</table>

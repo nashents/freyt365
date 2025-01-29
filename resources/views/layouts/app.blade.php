@@ -126,6 +126,36 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-documentModal', (event) => {
+        $('#documentModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-documentModal', (event) => {
+        $('#documentModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-folderModal', (event) => {
+        $('#folderModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-folderModal', (event) => {
+        $('#folderModal').modal('hide');
+       });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-transaction_confirmationModal', (event) => {
         $('#transaction_confirmationModal').modal('show');
        });

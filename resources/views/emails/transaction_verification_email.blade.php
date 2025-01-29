@@ -33,29 +33,38 @@ Transaction Verification
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
 													<strong>Transaction#:</strong> {{$transaction->transaction_number}} <strong>Status:</strong> {{ucfirst($transaction->verification)}}
 													<br>
-													<strong>Date:</strong> {{$transaction->transaction_date}}
+													<strong>Transaction Reference:</strong> {{$transaction->transaction_reference}}
 													<br>
-													<strong>Reference#:</strong> {{$transaction->reference_code}}
+													<strong>Transaction Date:</strong> {{$transaction->transaction_date}}
 													<br>
 													@if ($transaction->wallet)
-													<strong>Wallet: </strong>{{$transaction->wallet->currency ? $transaction->wallet->currency->name : ""}} {{$transaction->wallet ? $transaction->wallet->name : ""}} <i>{{$transaction->wallet->default == True ? "Default Wallet" : ""}}</i>
+														<strong>Wallet: </strong>{{$transaction->wallet ? $transaction->wallet->name : ""}} {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} <i>{{$transaction->wallet->default == True ? "Default Wallet" : ""}}</i>
+														<br>
 													@endif
-													<br>
+													
 													<strong>Transaction Type:</strong> {{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}
 													<br>
-													@if ($transaction->transaction_type->name == "Deposit")
-													<strong>Funds send from:</strong> {{$from_bank->name}} {{$from_bank->account_name}} {{$from_bank->account_number}} {{$from_bank->branch}} {{$from_bank->swift_code}}
-													<br>
-													<strong>Funds send into:</strong> {{$to_bank->name}} {{$to_bank->account_name}} {{$to_bank->account_number}} {{$to_bank->branch}} {{$to_bank->swift_code}}
-													<br>
-													@elseif ($transaction->transaction_type->name == "Internal")
-													<strong>Freyt365 Account Details:</strong>
-													<br>
-													@endif	
 													
-													<strong>Currency:</strong> {{$transaction->currency ? $transaction->currency->name : ""}}
+													@if ($transaction->transaction_type->name == "Deposit")
+														@if (isset($from_bank))
+														<strong>Funds send from:</strong> {{$from_bank->name}} {{$from_bank->account_name}} {{$from_bank->account_number}} {{$from_bank->branch}} {{$from_bank->swift_code}}
+														<br>
+														@endif
+														@if (isset($to_bank))
+														<strong>Funds send into:</strong> {{$to_bank->name}} {{$to_bank->account_name}} {{$to_bank->account_number}} {{$to_bank->branch}} {{$to_bank->swift_code}}
+														<br>
+														@endif
+														<strong>Reference#:</strong> {{$transaction->reference_code}}
+														<br>
+													@elseif ($transaction->transaction_type->name == "Internal Transfer")
+														@if ($receiving_wallet)
+															<strong>Receiving Wallet: </strong>{{$receiving_wallet->name}} {{$receiving_wallet->wallet_number}}
+															<br>
+														@endif
+													@endif	
+													<strong>Transaction Currency:</strong> {{$transaction->currency ? $transaction->currency->name : ""}}
 													<br>
-													<strong>Current Wallet Balance:</strong> {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet_balance ? $transaction->wallet_balance : 0,2)}}
+													<strong>Current Wallet Balance:</strong> {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet_balance ? $transaction->wallet_balance : 0,2)}}
 													<br>
 													<strong>Transaction Amount: </strong> {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
 													<br>

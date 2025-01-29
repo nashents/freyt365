@@ -20,16 +20,16 @@ Signup
 										<tr>
 											<td style="padding:0 0 15px 0;color:#153643;">
 												<h3 style="font-size:16px; margin:0 0 20px 0;font-family:Arial,sans-serif;">{{$user->company ? $user->company->name : ""}}</h3>
-												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">This is an automated successful signup email</p>
+												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">This is an automated successful signup notification.</p>
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-													Thank you signing up on <a href="https//:freyt365.com" target="_blank">https//:freyt365.com</a>.
+													Thank you signing up on <a href="https://freyt365.com/" target="_blank">freyt365</a>.
 													For your account to be activated we need to verify your business first.
-													Please send the following documents to  <a href="mailto: activations@freyt365.com">activations@freyt365.com</a>
-													GIT, Company Profile, CR14
+													⁠Please send the following to  <a href="mailto: activations@freyt365.com">activations@freyt365.com</a>
+													Certificate of Incorporation, List of Directors, Certificate showing shareholding, Adress Confirmation, Name of Account Signatory and ID.
 													<br>
 													Once the verifitcation process is done and your account is activated, you will receive an email.
 													<br>

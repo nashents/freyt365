@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\RankSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\ColorSeeder;
+use Database\Seeders\BranchSeeder;
 use Database\Seeders\FolderSeeder;
 use Database\Seeders\AccountSeeder;
 use Database\Seeders\CompanySeeder;
@@ -63,6 +65,8 @@ class DatabaseSeeder extends Seeder
            $this->call(HorseModelSeeder::class);
            $this->call(CargoSeeder::class);
            $this->call(CountrySeeder::class);
+           $this->call(BranchSeeder::class);
+           $this->call(ColorSeeder::class);
            $this->call(MeasurementSeeder::class);
            $this->call(FolderSeeder::class);
 

@@ -19,18 +19,18 @@ class Index extends Component
     public $surname;
     public $email;
     public $phonenumber;
-    public $username;
     public $password;
     public $password_confirmation;
+    public $use_email_as_username;
     public $roles;
     public $role_id = [];
     public $status;
+    public $admin;
   
 
     private function resetInputFields(){
         $this->name = "" ;
         $this->surname = "";
-        $this->username = "";
         $this->email = "";
         $this->role_id = [];
         $this->status = "";
@@ -38,6 +38,8 @@ class Index extends Component
     }
 
     public function mount(){
+        $this->admin = Company::where('type','admin')->first();
+        $this->use_email_as_username = "Email";
         $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $this->roles = Role::orderBy('name','asc')->get();
     }
@@ -48,14 +50,26 @@ class Index extends Component
     protected $rules = [
         'name' => 'required',
         'surname' => 'required',
-        'username' => 'required|unique:users,username,NULL,id,deleted_at,NULL',
         'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
         'phonenumber' => 'required|unique:users,phonenumber,NULL,id,deleted_at,NULL',
         'password' => 'required|confirmed',
         
     ];
 
+    public function generatePIN($digits = 4){
+        $i = 0; //counter
+        $pin = ""; //our default pin is blank.
+        while($i < $digits){
+            //generate a random number between 0 and 9.
+            $pin .= mt_rand(0, 9);
+            $i++;
+        }
+        return $pin;
+    }
+
     public function store(){
+
+        $pin = $this->generatePIN();
       
         $user = new User;
         $user->user_id = Auth::user()->id;
@@ -63,26 +77,31 @@ class Index extends Component
         $user->name = $this->name;
         if (Auth::user()->company == "admin") {
             $user->is_admin = 1;
+            $user->category = "Admin";
         }else{
             $user->is_admin = 0;
+            $user->category = "Employee";
         }
-        $user->category = "Employee";
+        
         $user->status = 1;
         $user->surname = $this->surname;
-        $user->username = $this->username;
         $user->email = $this->email;
         $user->phonenumber = $this->phonenumber;
-        $user->password = bcrypt($this->password);
+        if ($this->use_email_as_username == "Email") {
+            $user->username = $this->email;
+        }elseif ($this->use_email_as_username == "Phonenumber") {
+            $user->username = $this->phonenumber;
+        }
+    
+        $user->password = bcrypt($pin);
         $user->save();
         $user->roles()->sync($this->role_id);
 
-        $company = Company::find(Auth::user()->company_id);
-
         if (isset($this->email)) {
-            Mail::to($this->email)->send(new AccountCreationMail($user, $company, $this->password));
+            Mail::to($this->email)->send(new AccountCreationMail($user, $pin, $this->admin));
         }
        
-        dispatch(new AccountCreationSMS($user, $this->password));
+        // dispatch(new AccountCreationSMS($user, $this->password));
 
         $this->dispatch('hide-userModal');
         $this->resetInputFields();
@@ -103,7 +122,6 @@ class Index extends Component
         $this->surname = $user->surname;
         $this->email = $user->email;
         $this->phonenumber = $user->phonenumber;
-        $this->username = $user->username;
         $this->status = $user->status;
         $user_roles = $user->roles;
 
@@ -120,18 +138,25 @@ class Index extends Component
 
         $user =  User::find($this->user_id);
         $user->name = $this->name;
-        $user->category = "Employee";
         if (Auth::user()->company == "admin") {
             $user->is_admin = 1;
+            $user->category = "Admin";
         }else{
             $user->is_admin = 0;
+            $user->category = "Employee";
         }
-        $user->status = 1;
+        
+        $user->status = $this->status;
         $user->surname = $this->surname;
-        $user->username = $this->username;
         $user->email = $this->email;
         $user->phonenumber = $this->phonenumber;
-        $user->password = bcrypt($this->password);
+        if ($this->use_email_as_username == "Email") {
+            $user->username = $this->email;
+        }elseif ($this->use_email_as_username == "Phonenumber") {
+            $user->username = $this->phonenumber;
+        }
+    
+        $user->password = bcrypt($pin);
         $user->update();
         $user->roles()->detach();
         $user->roles()->sync($this->role_id);

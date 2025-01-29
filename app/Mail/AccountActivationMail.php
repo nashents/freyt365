@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -16,12 +17,13 @@ class AccountActivationMail extends Mailable
     public  $company;
     public  $user;
     public  $reason;
+    public $admin;
     /**
      * Create a new message instance.
      */
     public function __construct($company, $reason)
     {
-     
+       $this->admin = Company::where('type','admin')->first();
        $this->company = $company;
        $this->user = $company->user;
        $this->reason = $reason;
@@ -34,7 +36,7 @@ class AccountActivationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('noreply@freyt365.com', 'NoReply'),
+            from: new Address($this->admin->noreply, 'NoReply'),
              subject: 'Account Activation Status',
          );
     }

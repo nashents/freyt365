@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Wallet;
 use App\Models\BankAccount;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -18,6 +19,7 @@ class TransactionVerificationMail extends Mailable
     public $transaction;
     public $company;
     public $admin;
+    public $receiving_wallet;
    
     /**
      * Create a new message instance.
@@ -26,6 +28,7 @@ class TransactionVerificationMail extends Mailable
     {
         $this->transaction = $transaction;
         $this->admin = $admin;
+        $this->receiving_wallet = Wallet::find($transaction->receiving_wallet_id);
         $this->company = Auth::user()->company;
        
     }

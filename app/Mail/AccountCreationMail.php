@@ -3,39 +3,57 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AccountCreationMail extends Mailable implements ShouldQueue
+class AccountCreationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
+    public $user;
+    public $pin;
+    public $admin;
 
-     public $user;
-     public $password;
-     public $company;
-    public function __construct($user, $company, $password)
+    public function __construct($user, $pin, $admin)
     {
-            $this->password = $password;
+            $this->pin = $pin;
             $this->user = $user;
-            $this->company = $company;
+            $this->admin = $admin;
+           
     }
 
     /**
-     * Build the message.
-     *
-     * @return $this
+     * Get the message envelope.
      */
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->view('emails.credentials')
-                    ->from($this->company->noreply)
-                    ->subject('Account Creation Email');
+        return new Envelope(
+            from: new Address($this->admin->noreply, 'NoReply'),
+             subject: 'Account Creation Notification',
+         );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.account_creation',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }

@@ -62,12 +62,12 @@ class LoginController extends Controller
                         return redirect()->back();
                     }
                 }else {
-                    Session::flash('error','Failed to Login. Company Account Suspended');
+                    Session::flash('error','Login failed, company account inactive.');
                     return redirect()->back();
                 }
            
             }else {
-                Session::flash('error','Failed to Login. User Account Suspended');
+                Session::flash('error','Login failed, user account inactive.');
                 return redirect()->back();
             }
 

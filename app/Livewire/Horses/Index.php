@@ -2,15 +2,19 @@
 
 namespace App\Livewire\Horses;
 
+use App\Models\Color;
 use App\Models\Horse;
 use App\Models\Trailer;
 use Livewire\Component;
+use App\Models\HorseMake;
+use App\Models\HorseModel;
 use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
 
     public $horses;
+   
     public $horse_id;
     public $make;
     public $model;
@@ -21,6 +25,9 @@ class Index extends Component
     public $trailers;
     public $status;
     public $color;
+    public $colors;
+    public $makes;
+    public $models;
 
     public $inputs = [];
     public $i = 1;
@@ -53,6 +60,9 @@ class Index extends Component
     }
 
     public function mount(){
+        $this->makes = HorseMake::orderBy('name','asc')->get();
+        $this->models = collect();
+        $this->colors = Color::orderBy('name','asc')->get();
         $this->horses = Horse::where('company_id', Auth::user()->company_id)->orderBy('registration_number','asc')->get();
         $this->trailers = Trailer::where('company_id', Auth::user()->company_id)->orderBy('registration_number','asc')->get();
     }
@@ -67,6 +77,13 @@ class Index extends Component
         'make' => 'required',
         'model' => 'required',
     ];
+
+    public function updatedMake($name){
+        if(!is_null($name)){
+            $make = HorseMake::where('name',$name)->first();
+            $this->models = HorseModel::where('horse_make_id',$make->id)->orderBy('name','asc')->get();
+        }
+    }
 
     public function store(){
     
@@ -97,7 +114,7 @@ class Index extends Component
     }
 
     public function edit($id){
-       
+        
         $horse = Horse::find($id);
         $this->registration_number = $horse->registration_number;
         $this->registration_date = $horse->registration_date;
@@ -105,10 +122,12 @@ class Index extends Component
         $this->color = $horse->color;
         $this->make = $horse->make;
         $this->model = $horse->model;
+        $make = HorseMake::where('name',$horse->make)->first();
+        $this->models = HorseModel::where('horse_make_id', $make->id)->orderBy('name','asc')->get();
         $horse_trailers = $horse->trailers;
             foreach ($horse_trailers as $trailer) {
                 $this->trailer_id[] = $trailer->id;
-            }
+        }
         $this->status = $horse->status;
         $this->horse_id = $horse->id;
 
@@ -162,8 +181,10 @@ class Index extends Component
     public function render()
     {
         $this->horses = Horse::where('company_id', Auth::user()->company_id)->orderBy('registration_number','asc')->get();
+        $this->trailers = Trailer::where('company_id', Auth::user()->company_id)->orderBy('registration_number','asc')->get();
         return view('livewire.horses.index',[
-            'horses' => $this->horses
+            'horses' => $this->horses,
+            'trailers' => $this->trailers,
         ]);
     }
 }
