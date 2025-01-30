@@ -15,6 +15,10 @@ class WalletController extends Controller
     {
         return view('wallets.index');
     }
+    public function accountStatement()
+    {
+        return view('account_statement.index');
+    }
 
     /**
      * Show the form for creating a new resource.

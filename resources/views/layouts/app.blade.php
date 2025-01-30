@@ -126,11 +126,26 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-accountStatementModal', (event) => {
+        $('#accountStatementModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-accountStatementModal', (event) => {
+        $('#accountStatementModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-documentModal', (event) => {
         $('#documentModal').modal('show');
        });
     });
 </script>
+
 <script>
     document.addEventListener('livewire:init', () => {
        Livewire.on('hide-documentModal', (event) => {

@@ -36,7 +36,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a href="#" wire:click.prevent="loadDeposit({{$wallet->id}})"  class="dropdown-item"><i class="fa fa-piggy-bank color-success"></i> Load Deposit</a></li>
-                                            <li><a href="#"   class="dropdown-item"><i class="fa fa-file color-success"></i> Account Statement</a></li>
+                                            <li><a href="{{route('account_statement.index',['wallet_id'=> $wallet->id])}}"   class="dropdown-item"><i class="fa fa-file color-success"></i> Account Statement</a></li>
                                             <li><a href="#" wire:click.prevent="edit({{$wallet->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
                                         </ul>
                                     </div>

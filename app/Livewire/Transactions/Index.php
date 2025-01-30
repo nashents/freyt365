@@ -498,10 +498,10 @@ class Index extends Component
         $this->from_bank_accounts = BankAccount::where('company_id', Auth::user()->company->id)->orderBy('name','asc')->get();
 
         if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
-            $this->transactions = Transaction::where('authorization','approved')->orderBy('created_at','desc')->get();
+            $this->transactions = Transaction::where('authorization','approved')->whereYear('created_at',date('Y'))->whereMonth('created_at',date('m'))->orderBy('created_at','desc')->get();
 
         }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->get();
+            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->whereYear('created_at',date('Y'))->whereMonth('created_at',date('m'))->orderBy('created_at','desc')->get();
 
         }
         return view('livewire.transactions.index',[

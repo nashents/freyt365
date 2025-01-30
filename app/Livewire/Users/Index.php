@@ -69,7 +69,7 @@ class Index extends Component
 
     public function store(){
 
-        $pin = $this->generatePIN();
+      
       
         $user = new User;
         $user->user_id = Auth::user()->id;
@@ -93,6 +93,7 @@ class Index extends Component
             $user->username = $this->phonenumber;
         }
     
+        $pin = $this->generatePIN();
         $user->password = bcrypt($pin);
         $user->save();
         $user->roles()->sync($this->role_id);
