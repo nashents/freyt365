@@ -157,10 +157,15 @@ class Index extends Component
             $user->username = $this->phonenumber;
         }
     
-      
+        $pin = $this->generatePIN();
+        $user->password = bcrypt($pin);
         $user->update();
         $user->roles()->detach();
         $user->roles()->sync($this->role_id);
+
+         if (isset($this->email)) {
+            Mail::to($this->email)->send(new AccountCreationMail($user, $pin, $this->admin));
+        }
 
         $this->dispatch('hide-userEditModal');
         $this->resetInputFields();
