@@ -157,7 +157,7 @@ class Index extends Component
             $user->username = $this->phonenumber;
         }
     
-        $user->password = bcrypt($pin);
+      
         $user->update();
         $user->roles()->detach();
         $user->roles()->sync($this->role_id);
