@@ -22,10 +22,10 @@
                             <div class="col-lg-6">
                                 <div class="d-flex flex-column h-100">
                                     <div class="auth-brand p-4">
-                                        <a href="index.html" class="logo-light">
+                                        <a href="{{route('login')}}" class="logo-light">
                                             <img src="{{ asset('images/logo-2.png')}}" alt="logo" height="22">
                                         </a>
-                                        <a href="index.html" class="logo-dark">
+                                        <a href="{{route('login')}}" class="logo-dark">
                                             <img src="{{ asset('images/logo-2.png')}}" style="width:75%; height:75%" alt="dark logo" height="22">
                                         </a>
                                     </div>

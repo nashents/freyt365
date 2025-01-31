@@ -40,6 +40,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <th scope="row">No-Reply</th>
+                                                <td>
+                                                    <a href="#" class="ng-binding">
+                                                       {{$company->noreply}}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <th scope="row">Phonenumber</th>
                                                 <td>
                                                     <a href="#" class="ng-binding">

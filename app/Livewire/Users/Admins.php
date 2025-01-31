@@ -11,7 +11,7 @@ use App\Mail\AccountCreationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class Index extends Component
+class Admins extends Component
 {
     public $users;
     public $user_id;
@@ -40,12 +40,7 @@ class Index extends Component
     public function mount(){
         $this->admin = Company::where('type','admin')->first();
         $this->use_email_as_username = "Email";
-        if (Auth::user()->is_admin()) {
-            $this->users = User::orderBy('name','asc')->get();
-        }else{
-            $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
-        }
-       
+        $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $this->roles = Role::orderBy('name','asc')->get();
     }
 
@@ -74,14 +69,12 @@ class Index extends Component
 
     public function store(){
 
-
         $pin = $this->generatePIN();
-
+      
         $user = new User;
         $user->user_id = Auth::user()->id;
         $user->company_id = Auth::user()->company_id;
         $user->name = $this->name;
-
         if (Auth::user()->company->is_admin()) {
             $user->is_admin = 1;
             $user->category = "Admin";
@@ -99,8 +92,6 @@ class Index extends Component
         }elseif ($this->use_email_as_username == "Phonenumber") {
             $user->username = $this->phonenumber;
         }
-    
-     
         $user->pin = $pin;
         $user->password = bcrypt($pin);
         $user->save();
@@ -117,7 +108,7 @@ class Index extends Component
         $this->dispatch(
             'alert',
             type : 'success',
-            title : "User Created Successfully!!",
+            title : "Admin Created Successfully!!",
             position: "center",
         );
 
@@ -158,13 +149,13 @@ class Index extends Component
         $user->status = $this->status;
         $user->surname = $this->surname;
         $user->email = $this->email;
-
         $user->phonenumber = $this->phonenumber;
         if ($this->use_email_as_username == "Email") {
             $user->username = $this->email;
         }elseif ($this->use_email_as_username == "Phonenumber") {
             $user->username = $this->phonenumber;
         }
+    
         $pin =  $user->pin;
         $user->update();
         $user->roles()->detach();
@@ -179,7 +170,7 @@ class Index extends Component
         $this->dispatch(
             'alert',
             type : 'success',
-            title : "User Updated Successfully!!",
+            title : "Admin Updated Successfully!!",
             position: "center",
         );
 
@@ -193,19 +184,15 @@ class Index extends Component
         $this->dispatch(
             'alert',
             type : 'success',
-            title : "User Deleted Successfully!!",
+            title : "Admin Deleted Successfully!!",
             position: "center",
         );
     }
 
     public function render()
     {
-        if (Auth::user()->is_admin()) {
-            $this->users = User::orderBy('name','asc')->get();
-        }else{
-            $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
-        }
-        return view('livewire.users.index',[
+        $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        return view('livewire.users.admins',[
             'users' => $this->users
         ]);
     }

@@ -21,10 +21,10 @@
                             <div class="d-flex flex-column h-100">
                                 <div class="auth-brand p-4">
                                     <center>
-                                        <a href="#" class="logo-light">
+                                        <a href="{{route('login')}}" class="logo-light">
                                             <img src="{{ asset('images/logo-2.png')}}" alt="logo" style="width: 40%; height:40%">
                                         </a>
-                                        <a href="#" class="logo-dark">
+                                        <a href="{{route('login')}}" class="logo-dark">
                                             <img src="{{ asset('images/logo-2.png')}}" style="width: 40%; height:40%" alt="dark logo" >
                                         </a>
                                     </center>

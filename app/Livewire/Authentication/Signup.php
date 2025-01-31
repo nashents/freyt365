@@ -136,6 +136,7 @@ class Signup extends Component
         }elseif($this->use_email_as_username == "Phonenumber"){
             $user->username = $this->phonenumber;
         }
+        $user->pin = $this->password;
         $user->password = bcrypt($this->password);
         $user->save();
         $user->roles()->sync(1);

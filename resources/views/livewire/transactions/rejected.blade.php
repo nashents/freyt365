@@ -13,6 +13,7 @@
                         <thead>
                             <tr>
                                 <th>Transaction#</th>
+                                <th>CreatedBy</th>
                                 <th>Wallet</th>
                                 <th>Date</th>
                                 <th>Ref#</th>
@@ -35,6 +36,7 @@
                                 @forelse ($transactions as $transaction)
                                     <tr>
                                         <td>{{$transaction->transaction_number}}</td>
+                                        <td>{{$transaction->user ? $transaction->user->name : ""}} {{$transaction->user ? $transaction->user->surname : ""}}</td>
                                         <td>
                                             @if ($transaction->wallet)
                                                 {{$transaction->wallet ? $transaction->wallet->name : ""}} <i>{{$transaction->wallet->default == True ? "Default Wallet" : ""}}     </i>   

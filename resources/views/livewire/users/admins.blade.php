@@ -3,13 +3,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                @if (!Auth::user()->is_admin())
-                    <div class="card-header">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#userModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New User</a>
-                    
-                    </div>
-                @endif
-               
+                <div class="card-header">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#userModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Admin</a>
+                  
+                </div>
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
@@ -75,7 +72,7 @@
                             <tr>
                                 <td colspan="8">
                                     <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                        No Users Found ....
+                                        No Admins Found ....
                                     </div>
                                    
                                 </td>
@@ -96,7 +93,7 @@
         <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Create User</h4>
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Create Admin</h4>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form wire:submit.prevent="store()" >
@@ -180,7 +177,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i>Edit User</h4>
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i>Edit Admin</h4>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form wire:submit.prevent="update()" >

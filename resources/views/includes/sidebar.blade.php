@@ -130,15 +130,36 @@
                     </ul>
                 </div>
             </li>
-
-          
-
+            @if (Auth::user()->is_admin())
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users" class="side-nav-link">
+                    <i class="bi bi-people"></i>
+                    <span> Users </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="users">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{ route('users.admins') }}">Admins</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('users.index') }}">All Users</a>
+                        </li> 
+                    </ul>
+                </div>
+            </li>
+            @else
             <li class="side-nav-item">
                 <a href="{{ route('users.index') }}" class="side-nav-link">
                     <i class="bi bi-people"></i>
-                    <span> Users </span>
+                    <span>Users </span>
                 </a>
             </li>
+            @endif
+           
+
+          
+         
             @if (!Auth::user()->is_admin())
             <li class="side-nav-item">
                 <a href="{{ route('horses.index') }}" class="side-nav-link">

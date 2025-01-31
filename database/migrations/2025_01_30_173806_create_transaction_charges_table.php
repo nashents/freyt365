@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('transaction_charges', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('transaction_id')->unsigned()->nullable();
+            $table->bigInteger('charge_id')->unsigned()->nullable();
             $table->bigInteger('company_id')->unsigned()->nullable();
             $table->bigInteger('receiving_wallet_id')->unsigned()->nullable();
             $table->bigInteger('wallet_id')->unsigned()->nullable();
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();
-            $table->bigInteger('charge_id')->unsigned()->nullable();
             $table->string('transaction_number')->nullable();
             $table->string('transaction_reference')->nullable();
             $table->bigInteger('transaction_type_id')->unsigned()->nullable();
@@ -42,7 +43,7 @@ return new class extends Migration
             $table->foreign('verified_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('verification')->default('pending');
             $table->text('verification_reason')->nullable();
-            $table->boolean('status')->default(0);
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -53,6 +54,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('transaction_charges');
     }
 };

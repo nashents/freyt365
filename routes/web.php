@@ -96,6 +96,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/transactions/approved/',[TransactionController::class,'approved'])->name('transactions.approved');
     Route::get('/transactions/rejected/',[TransactionController::class,'rejected'])->name('transactions.rejected');
 
+    Route::get('/admin/users/',[UserController::class,'admin'])->name('users.admins');
+
     Route::resource('/partners',PartnerController::class);
     Route::resource('/posts',PostController::class);
     Route::resource('/testimonials',TestimonialController::class);

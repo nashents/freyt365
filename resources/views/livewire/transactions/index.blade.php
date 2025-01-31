@@ -21,6 +21,7 @@
                                 @if (Auth::user()->is_admin())
                                 <th>Company</th>
                                 @endif
+                                <th>CreatedBy</th>
                                 <th>Wallet</th>
                                 <th>Date</th>
                                 <th>Ref#</th>
@@ -46,7 +47,7 @@
                                         @if (Auth::user()->is_admin())
                                         <td>{{$transaction->company ? $transaction->company->name : ""}}</td>
                                         @endif
-                                       
+                                        <td>{{$transaction->user ? $transaction->user->name : ""}} {{$transaction->user ? $transaction->user->surname : ""}}</td>
                                         <td>
                                             @if ($transaction->wallet)
                                                 {{$transaction->wallet ? $transaction->wallet->name : ""}} <i>{{$transaction->wallet->default == True ? "Default Wallet" : ""}}     </i>   
