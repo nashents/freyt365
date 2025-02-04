@@ -48,7 +48,7 @@
                                             @endif
                                         </td>
                                         <td>{{$transaction->transaction_date}}</td>
-                                        <td>{{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}
+                                        <td>{{$transaction->transaction_type ? $transaction->transaction_type->name : ""}} {{$transaction->charge ? "Charges" : ""}}
                                             {{$transaction->mop ? " / ".$transaction->mop : ""}}
                                         </td>
                                         <td>{{$transaction->currency ? $transaction->currency->name : ""}}</td>

@@ -183,6 +183,7 @@ class Rejected extends Component
                                                 $charge_transaction = new Transaction;
                                                 $charge_transaction->transaction_number = $this->transactionNumber();
                                                 $charge_transaction->company_id = Auth::user()->company_id;
+                                                $charge_transaction->user_id = 1;
                                                 $charge_transaction->transaction_reference = $this->generateTransactionReference();
                                                 $charge_transaction->parent_transaction_id = $transaction->id;
                                                 $charge_transaction->wallet_id = $transaction->wallet_id;
@@ -194,6 +195,8 @@ class Rejected extends Component
                                                 $charge_transaction->charge_amount = $charge_amount;
                                                 $charge_transaction->amount =  $charge_amount;
                                                 $charge_transaction->currency_id = $transaction->currency_id;
+                                                $charge_transaction->authorization = $transaction->authorization;
+                                                $charge_transaction->verification = "verified";
                                                 $charge_transaction->save();
     
                                                 $charge_wallet_balance = $this->selected_wallet->balance - $charge_amount;

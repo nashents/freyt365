@@ -190,6 +190,7 @@ class Index extends Component
         $wallet->wallet_number = $this->walletNumber();
         $wallet->currency_id = $this->currency_id;
         $wallet->active = $this->active;
+        $wallet->balance = 0;
         $wallet->save();
 
         $this->dispatch('hide-walletModal');

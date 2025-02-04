@@ -33,7 +33,7 @@ class TransactionMailInternal extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->admin->email, $this->admin->name),
+            from: new Address($this->admin->noreply, $this->admin->name),
              subject: 'Transaction Notification',
          );
     }

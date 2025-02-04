@@ -12,7 +12,7 @@
                         Note: Account statement may change occasionally if offline orders are processed after month-end. <br>
                         Please select your search criteria including a date range, currency and wallet.
                     </blockquote>
-                    <form>
+                    <form wire:submit.prevent="search">
                         <div class="row gy-2 gx-2 align-items-center">
                             
                             <div class="col-auto">
@@ -20,7 +20,7 @@
                                     for="inlineFormInputGroup">date</label>
                                 <div class="input-group mb-2">
                                     <div class="input-group-text">From</div>
-                                    <input type="date" class="form-control" id="inlineFormInputGroup"
+                                    <input type="date" class="form-control" wire:model="from" id="inlineFormInputGroup"
                                         placeholder="Username">
                                 </div>
                             </div>
@@ -29,16 +29,16 @@
                                     for="inlineFormInputGroup">date</label>
                                 <div class="input-group mb-2">
                                     <div class="input-group-text">To</div>
-                                    <input type="date" class="form-control" id="inlineFormInputGroup"
+                                    <input type="date" class="form-control" wire:model="to" id="inlineFormInputGroup"
                                         placeholder="Username">
                                 </div>
                             </div>
                             <div class="col-auto">
                                 <label class="visually-hidden"
-                                    for="inlineFormInputGroup">date</label>
+                                    for="inlineFormInputGroup">wallet</label>
                                 <div class="input-group mb-2">
                                     <div class="input-group-text">Wallets</div>
-                                   <select class="form-control" id="inlineFormInputGroup">
+                                   <select class="form-control" wire:model="selectedWallet" id="inlineFormInputGroup">
                                         <option value="">Select Wallet</option>
                                         @foreach ($wallets as $wallet)
                                         <option value="{{$wallet->id}}">{{$wallet->name}} {{$wallet->wallet_number}} <i>{{$wallet->default == True ? "Default Wallet" : ""}}</i></option>
@@ -50,7 +50,7 @@
                                 <button type="submit" class="btn btn-outline-primary mb-2">GENERATE REPORT</button>
                             </div>
                             <div class="col-auto">
-                                <button type="submit" class="btn btn-outline-primary mb-2">CLEAR</button>
+                                <button wire:click.prevent="clearValues" class="btn btn-outline-primary mb-2">CLEAR</button>
                             </div>
                         </div>
                     </form>
@@ -77,8 +77,27 @@
                             @if (isset($transactions))
                                 @forelse ($transactions as $transaction)
                                     <tr>
-                                        <td>{{$transaction->transaction_date}}</td>
-                                        <td></td>
+                                        <td>{{Carbon\Carbon::parse($transaction->created_at)->format('d-m-Y')}}</td>
+                                        <td>    
+                                                        @if ($transaction->transaction_type->name == "Deposit")
+																 {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been credited  
+																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} {{ucfirst($transaction->mop)}}.
+														@elseif($transaction->transaction_type->name == "Withdrawal")
+																 {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited  
+																via Cash {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} {{$transaction->charge ? "Bank Charges" : ""}}.
+														@elseif($transaction->transaction_type->name == "Internal Transfer")
+															@if (isset($receiving_wallet))
+																 {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited  
+																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}}  to {{$receiving_wallet->name}} {{$receiving_wallet->wallet_number}}.
+															@else
+															 {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited  
+																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} {{$transaction->charge ? "Bank Charges" : ""}} . 
+															@endif
+														@else
+														 {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited  
+																via Bank Charges.
+														@endif
+                                        </td>
                                         <td>{{$transaction->transaction_reference}}</td>
                                         <td>{{$transaction->currency ? $transaction->currency->name : ""}}</td>
                                         <td>
@@ -91,7 +110,7 @@
                                             {{number_format($transaction->amount,2)}}
                                             @endif
                                         </td>
-                                        <td>{{$transaction->wallet_balance}}</td>
+                                        <td>{{number_format($transaction->wallet_balance,2)}}</td>
                                     </tr>
                                     @empty
                                         <tr>

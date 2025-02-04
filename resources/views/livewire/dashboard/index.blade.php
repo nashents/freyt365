@@ -13,7 +13,7 @@
                             <li class="breadcrumb-item active">Welcome!</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Welcome!</h4>
+                    <h4 class="page-title">Welcome {{Auth::user()->name}} {{Auth::user()->surname}}!</h4>
                 </div>
             </div>
         </div>
@@ -30,40 +30,44 @@
                 @include('includes.messages')
            </div>
 
-            <div class="col-xxl-3 col-sm-6">
-                <div class="card widget-flat text-bg-purple">
-                    <div class="card-body">
-                       
-                            <div class="float-end">
-                                <i class="ri-wallet-2-line widget-icon"></i>
-                            </div>
-                            <a href="{{route('wallets.index')}}">
-                            <h6 class="text-uppercase mt-0" title="Customers">Default Wallet</h6>  </a>
-                            <h2 class="my-2">{{$wallet->currency ? $wallet->currency->symbol : ""}} {{number_format($wallet->balance ? $wallet->balance : 0,2)}}</h2>
-                            <p class="mb-0">
-                                {{-- <span class="badge bg-white bg-opacity-10 me-1">18.25%</span>
-                                <span class="text-nowrap">Since last month</span> --}}
-                            </p>
-                      
-                     
-                    </div>
-                </div>
-            </div> <!-- end col-->
-            <div class="col-xxl-3 col-sm-6">
-                <div class="card widget-flat text-bg-info">
-                    <div class="card-body">
+           @if (!Auth::user()->is_admin())
+           <div class="col-xxl-3 col-sm-6">
+            <div class="card widget-flat text-bg-purple">
+                <div class="card-body">
+                   
                         <div class="float-end">
-                            <i class="ri-file-list-3-fill widget-icon"></i>
+                            <i class="ri-wallet-2-line widget-icon"></i>
                         </div>
-                        <h6 class="text-uppercase mt-0" title="Customers">Orders</h6>
-                        <h2 class="my-2">{{$completed_orders_count}}</h2>
+                        <a href="{{route('wallets.index')}}">
+                        <h6 class="text-uppercase mt-0" title="Customers">Default Wallet</h6>  </a>
+                        <h2 class="my-2">{{$wallet->currency ? $wallet->currency->symbol : ""}} {{number_format($wallet->balance ? $wallet->balance : 0,2)}}</h2>
                         <p class="mb-0">
-                            {{-- <span class="badge bg-white bg-opacity-25 me-1">-5.75%</span>
+                            {{-- <span class="badge bg-white bg-opacity-10 me-1">18.25%</span>
                             <span class="text-nowrap">Since last month</span> --}}
                         </p>
-                    </div>
+                  
+                 
                 </div>
-            </div> <!-- end col-->
+            </div>
+        </div> <!-- end col-->
+        <div class="col-xxl-3 col-sm-6">
+            <div class="card widget-flat text-bg-info">
+                <div class="card-body">
+                    <div class="float-end">
+                        <i class="ri-file-list-3-fill widget-icon"></i>
+                    </div>
+                    <h6 class="text-uppercase mt-0" title="Customers">Orders</h6>
+                    <h2 class="my-2">{{$completed_orders_count}}</h2>
+                    <p class="mb-0">
+                        {{-- <span class="badge bg-white bg-opacity-25 me-1">-5.75%</span>
+                        <span class="text-nowrap">Since last month</span> --}}
+                    </p>
+                </div>
+            </div>
+        </div> <!-- end col-->
+           @endif
+
+      
 
           
         </div>

@@ -75,8 +75,11 @@ Transaction Verification
 													<strong>Transaction Amount: </strong> {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
 													<br>
 													<strong>Transaction Authorized By:</strong> {{$authorizer->name}} {{$authorizer->surname}} {{$authorizer->email}} {{$authorizer->phonenumber}}
+													<br>
+													
 												</p>
-
+												<p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="https://freyt365.com/transactions/{{$transaction->id}}" style="color:#fcc02d;text-decoration:underline;" target="_blank">Click me to verify this transaction</a></p>
+												
 												<br>
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif; color:#3064af">
 													DISCLAIMER :

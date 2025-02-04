@@ -361,20 +361,23 @@ class Index extends Component
             
             if ($transaction_type->name == "Deposit") {
 
+                
                 if (is_numeric($wallet->balance) && is_numeric($transaction->amount)) {
                     $transaction_wallet_balance = $wallet->balance + $transaction->amount;
                     $wallet->balance = $transaction_wallet_balance;
                     $wallet->update();
+
+                    $transaction->movement = "Crt";
+                    $transaction->status = 1;
+                    $transaction->wallet_balance = $transaction_wallet_balance;
+                    $transaction->update();
+    
+                    if (isset($transaction->company->email)) {
+                        Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
+                    }
                 }
 
-                $transaction->movement = "Crt";
-                $transaction->status = 1;
-                $transaction->wallet_balance = $transaction_wallet_balance;
-                $transaction->update();
-
-                if (isset($transaction->company->email)) {
-                    Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
-                }
+               
                
             }elseif ($transaction_type->name == "Withdrawal") {
                
@@ -382,15 +385,17 @@ class Index extends Component
                     $transaction_wallet_balance = $wallet->balance - $transaction->amount;
                     $wallet->balance =  $transaction_wallet_balance;
                     $wallet->update();
+
+                    $transaction->status = 1;
+                    $transaction->wallet_balance = $transaction_wallet_balance;
+                    $transaction->update();
+    
+                    if (isset($transaction->company->email)) {
+                        Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
+                    }
                 }  
                 
-                $transaction->status = 1;
-                $transaction->wallet_balance = $transaction_wallet_balance;
-                $transaction->update();
-
-                if (isset($transaction->company->email)) {
-                    Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
-                }
+              
                 
                 $charge = $transaction_type->charge;
                 if (isset($charge) && $charge->percentage > 0) {
@@ -402,7 +407,9 @@ class Index extends Component
                             $charge_transaction = new Transaction;
                             $charge_transaction->transaction_number = $this->transactionNumber();
                             $charge_transaction->company_id = $transaction->company_id;
+                            $charge_transaction->user_id = 1;
                             $charge_transaction->parent_transaction_id = $transaction->id;
+                            $charge_transaction->transaction_reference = $this->generateTransactionReference();
                             $charge_transaction->wallet_id = $transaction->wallet_id;
                             $charge_transaction->movement = "Dbt";
                             $charge_transaction->transaction_date = date('Y-m-d');
@@ -412,6 +419,8 @@ class Index extends Component
                             $charge_transaction->charge_amount = $charge_amount;
                             $charge_transaction->amount =  $charge_amount;
                             $charge_transaction->currency_id = $transaction->currency_id;
+                            $charge_transaction->authorization = $transaction->authorization;
+                            $charge_transaction->verification = "verified";
                             $charge_transaction->save();
 
                             $charge_wallet_balance = $wallet->balance - $charge_amount;
