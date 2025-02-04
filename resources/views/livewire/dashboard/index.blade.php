@@ -163,16 +163,14 @@
                                     <thead>
                                         <tr>
                                             <th>Transaction#</th>
-                                            <th>Ref#</th>
+                                            <th>Reference</th>
                                             <th>Date</th>
-                                            <th>MOP</th>
                                             <th>Type</th>
                                             <th>Company</th>
                                             <th>CreatedBy</th>
                                             <th>Wallet</th>
                                             <th>Ccy</th>
                                             <th>Amt</th>
-                                            <th>Charges</th>
                                             <th>Verified/Declined</th>
                                         </tr>
                                     </thead>
@@ -181,11 +179,16 @@
                                       
                                         <tr>
                                         <td>{{$transaction->transaction_number}}</td>
-                                        <td>{{$transaction->reference_code}}</td>
+                                        <td>{{$transaction->transaction_reference}}</td>
                                         <td>{{$transaction->transaction_date}}</td>
-                                        <td>{{$transaction->mop}}</td>
-                                        <td>{{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}</td>
-                                        <td>{{$transaction->company ? $transaction->company->name : ""}}</td>
+                                        <td>
+                                            {{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}
+                                            <br>
+                                            {{$transaction->mop ? " / ".$transaction->mop : ""}}
+                                        </td>
+                                        <td>
+                                            {{$transaction->company ? $transaction->company->name : ""}}
+                                        </td>
                                         <td>{{$transaction->user ? $transaction->user->name : ""}} {{$transaction->user ? $transaction->user->surname : ""}}</td>
                                         <td>
                                             @if ($transaction->wallet)
@@ -194,13 +197,6 @@
                                         </td>
                                         <td>{{$transaction->currency ? $transaction->currency->name : ""}}</td>
                                         <td>{{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount,2)}}</td>
-                                        <td>
-                                            @if ($transaction->charge_amount)
-                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->charge_amount,2)}} @ {{$transaction->charge ? $transaction->charge."%" : ""}}
-                                            @else   
-                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format(0,2)}}    
-                                            @endif
-                                        </td>
                                         <td><span class="badge bg-{{($transaction->verification == 'verified') ? 'success' : (($transaction->verification == 'declined') ? 'danger' : 'warning') }}">{{($transaction->verification == 'verified') ? 'verified' : (($transaction->verification == 'declined') ? 'declined' : 'pending') }}</span></td>     
                                         </tr>
                                         @empty

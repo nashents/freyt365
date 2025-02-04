@@ -128,7 +128,7 @@
 
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="fuel_priceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Add Fuel Price</h4>
@@ -248,7 +248,7 @@
     </div><!-- /.modal -->
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="fuel_priceEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i> Edit Fuel Price</h4>

@@ -44,6 +44,7 @@ class Index extends Component
     public $selectedTransactionType;
     public $transaction_type;
     public $selected_transaction_type;
+    public $selected_receiving_wallet;
     public $selected_wallet;
     public $admin;
     public $wallet_balance;
@@ -95,6 +96,8 @@ class Index extends Component
         $this->verification = "";
         $this->reason = "";
         $this->verification_reason = "";
+        $this->selected_wallet = Null;
+        $this->selected_receiving_wallet = Null;
         $this->wallet_balance = Null;
     }
 
@@ -169,8 +172,8 @@ class Index extends Component
 
     public function updatedSelectedWallet($id){
         if (!is_null($id)) {
-            $wallet = Wallet::find($id);
-            $this->currency_id = $wallet->currency_id;
+            $this->selected_wallet = Wallet::find($id);
+            $this->currency_id =  $this->selected_wallet->currency_id;
 
             $this->admin = Company::where('type','admin')->first();
 
@@ -182,27 +185,41 @@ class Index extends Component
     }
 
     public function sendMoney(){
-        $transaction = new Transaction;
-        $transaction->transaction_number = $this->transactionNumber();
-        $transaction->user_id = Auth::user()->id;
-        $transaction->company_id = Auth::user()->company_id;
-        $transaction->wallet_id = $this->selectedWallet;
-        $transaction->movement = "Dbt";
-        $transaction->transaction_date = date('Y-m-d');
-        $transaction->receiving_wallet_id = $this->selected_wallet->id;
-        $transaction->transaction_type_id =  $this->selectedTransactionType;
-        $transaction->amount = $this->amount;
-        $transaction->currency_id = $this->currency_id;
-        $transaction->save();
+        if (is_numeric($this->selected_wallet->balance) && $this->selected_wallet->balance > $this->amount) {
+            $transaction = new Transaction;
+            $transaction->transaction_number = $this->transactionNumber();
+            $transaction->user_id = Auth::user()->id;
+            $transaction->company_id = Auth::user()->company_id;
+            $transaction->wallet_id = $this->selectedWallet;
+            $transaction->movement = "Dbt";
+            $transaction->transaction_date = date('Y-m-d');
+            $transaction->receiving_wallet_id = $this->selected_receiving_wallet->id;
+            $transaction->transaction_type_id =  $this->selectedTransactionType;
+            $transaction->amount = $this->amount;
+            $transaction->currency_id = $this->currency_id;
+            $transaction->save();
 
-        $this->dispatch('hide-transactionModal');
-        $this->resetInputFields();
-        $this->dispatch(
-            'alert',
-            type : 'success',
-            title : "Internal Transfer Initiated Successfully!!",
-            position: "center",
-        );
+            $this->dispatch('hide-transaction_confirmationModal');
+            $this->dispatch('hide-transactionModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Internal Transfer Initiated Successfully!!",
+                position: "center",
+            );
+        }else{
+            $this->dispatch('hide-transaction_confirmationModal');
+            $this->dispatch('hide-transactionModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'error',
+                title : "You have insuffient funds to perform transaction!!",
+                position: "center",
+            );
+        }
+       
     }
 
 
@@ -211,28 +228,24 @@ class Index extends Component
         if (isset($this->selected_transaction_type) && $this->selected_transaction_type->name == "Internal Transfer") {
        
             if (isset($this->currency_id) && isset($this->receiving_wallet_number)) {
-                $this->selected_wallet = Wallet::where('currency_id',$this->currency_id)->where('wallet_number',$this->receiving_wallet_number)->first();
-                if (isset($this->selected_wallet)) {
+                $this->selected_receiving_wallet = Wallet::where('currency_id',$this->currency_id)->where('wallet_number',$this->receiving_wallet_number)->first();
+                if (isset($this->selected_receiving_wallet)) {
                     $this->dispatch('show-transaction_confirmationModal');
                 }
             }
-        }else{
+        }elseif($this->selected_transaction_type->name == "Deposit"){
+
             $transaction = new Transaction;
             $transaction->transaction_number = $this->transactionNumber();
             $transaction->user_id = Auth::user()->id;
             $transaction->company_id = Auth::user()->company_id;
             $transaction->wallet_id = $this->selectedWallet;
-            if ($this->selected_transaction_type->name == "Deposit" ) {
-                $transaction->movement = "Crt";
-                $transaction->transaction_date = $this->transaction_date;
-                $transaction->reference_code = $this->reference_code;   
-                $transaction->mop = $this->selectedMop;
-                $transaction->from = $this->selectedFrom;
-                $transaction->to = $this->selectedTo;
-            }elseif($this->selected_transaction_type->name == "Withdrawal" ){
-                $transaction->movement = "Dbt";
-                $transaction->transaction_date = date('Y-m-d');
-            }
+            $transaction->movement = "Crt";
+            $transaction->transaction_date = $this->transaction_date;
+            $transaction->reference_code = $this->reference_code;   
+            $transaction->mop = $this->selectedMop;
+            $transaction->from = $this->selectedFrom;
+            $transaction->to = $this->selectedTo;
             $transaction->transaction_type_id =  $this->selectedTransactionType;
             $transaction->amount = $this->amount;
             $transaction->currency_id = $this->currency_id;
@@ -246,6 +259,41 @@ class Index extends Component
                 title : "Transaction Created Successfully!!",
                 position: "center",
             );
+           
+        }elseif($this->selected_transaction_type->name == "Withdrawal"){
+            if (is_numeric($this->selected_wallet->balance) && $this->selected_wallet->balance > $this->amount) {
+             
+                $transaction = new Transaction;
+                $transaction->transaction_number = $this->transactionNumber();
+                $transaction->user_id = Auth::user()->id;
+                $transaction->company_id = Auth::user()->company_id;
+                $transaction->wallet_id = $this->selectedWallet;
+                $transaction->movement = "Dbt";
+                $transaction->transaction_date = date('Y-m-d');
+                $transaction->transaction_type_id =  $this->selectedTransactionType;
+                $transaction->amount = $this->amount;
+                $transaction->currency_id = $this->currency_id;
+                $transaction->save();
+        
+                $this->dispatch('hide-transactionModal');
+                $this->resetInputFields();
+                $this->dispatch(
+                    'alert',
+                    type : 'success',
+                    title : "Transaction Created Successfully!!",
+                    position: "center",
+                );
+            }else {
+             
+                $this->dispatch('hide-transactionModal');
+                $this->resetInputFields();
+                $this->dispatch(
+                    'alert',
+                    type : 'error',
+                    title : "You have insuffient funds to perform transaction!!",
+                    position: "center",
+                );
+            }
         }
     }
 
@@ -289,137 +337,6 @@ class Index extends Component
    
       
     }
-
-    public function showAuthorize($id){
-        $this->transaction_id = $id;
-        $this->transaction = Transaction::find($id);
-        $this->dispatch('show-authorizationModal');
-    }
-
-    public function calculateCharges(){
-
-    }
-
-    public function saveAuthorize(){
-
-        $transaction = Transaction::find($this->transaction_id);
-        $wallet = $transaction->wallet;
-        $receiving_wallet = Wallet::find($transaction->receiving_wallet_id);
-                
-        if (isset($wallet)) {
-            
-            if (is_numeric($wallet->balance) && $wallet->balance > $transaction->amount) {
-
-                $transaction->authorized_by_id = Auth::user()->id;
-                $transaction->authorization = $this->authorization;
-                $transaction->reason = $this->reason;
-                $transaction->update();
-
-            
-                if ($this->authorization == "approved") {
-                
-                    $transaction_type = TransactionType::find($transaction->transaction_type_id);
-
-                    if (isset($transaction_type)) {
-                    
-                            if ($transaction_type->name == "Internal Transfer") {
-
-                                $transaction_wallet_balance =   $wallet->balance - $transaction->amount;
-                                $wallet->balance =  $transaction_wallet_balance; 
-                                $wallet->update();
-
-                                $transaction->transaction_reference = $this->generateTransactionReference();
-                                $transaction->wallet_balance = $transaction_wallet_balance;
-                                $transaction->status = 1;
-                                $transaction->update();
-                            
-
-                                if (isset($receiving_wallet)) {
-                                    $receiving_wallet->balance = $receiving_wallet->balance + $transaction->amount;
-                                    $receiving_wallet->update();
-                                }  
-
-
-                                $charge = $transaction_type->charge;
-                                if (isset($charge) && $charge->percentage > 0) {
-
-                                    if ((isset($charge->percentage) && is_numeric($charge->percentage)) && (isset($transaction->amount) && is_numeric($transaction->amount))) {
-                                        $charge_amount = ($charge->percentage/100) * $transaction->amount;
-
-                                        if (isset($charge_amount) && is_numeric($charge_amount)) {
-                                            $transaction = new Transaction;
-                                            $transaction->transaction_number = $this->transactionNumber();
-                                            $transaction->company_id = Auth::user()->company_id;
-                                            $transaction->wallet_id = $transaction->wallet_id;
-                                            $transaction->movement = "Dbt";
-                                            $transaction->transaction_date = date('Y-m-d');
-                                            $transaction->transaction_type_id =  $transaction->transaction_type_id;
-                                            $transaction->charge_id = $charge->id;
-                                            $transaction->charge_percentage = $charge->percentage;
-                                            $transaction->charge_amount = $charge_amount;
-                                            $transaction->amount =  $charge_amount;
-                                            $transaction->currency_id = $transaction->currency_id;
-                                            $transaction->save();
-
-                                            $charge_wallet_balance = $wallet->balance - $charge_amount;
-                                            $wallet->balance =  $charge_wallet_balance;
-                                            $wallet->update();
-                                        
-                                            $transaction->wallet_balance = $charge_wallet_balance;
-                                            $transaction->update();
-                                        }
-                                       
-                                    }
-
-                                    if (isset($transaction->company->email)) {
-                                        Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
-                                    }
-                                    
-                                }
-
-                               
-
-                            }
-                    
-                    }
-                
-                    $this->dispatch('hide-authorizationModal');
-                    $this->resetInputFields();
-                    $this->dispatch(
-                        'alert',
-                        type : 'success',
-                        title : "Internal Transfer Approved & Completed Successfully!!",
-                        position: "center",
-                    );
-
-            
-                }else {
-                    $this->dispatch('hide-authorizationModal');
-                    $this->resetInputFields();
-                    $this->dispatch(
-                        'alert',
-                        type : 'success',
-                        title : "Internal Transfer Rejected Successfully!!",
-                        position: "center",
-                    );
-                }
-
-            
-            }else{
-                $this->dispatch('hide-authorizationModal');
-                $this->resetInputFields();
-                $this->dispatch(
-                    'alert',
-                    type : 'success',
-                    title : "Insuffient funds to perform transaction!!",
-                    position: "center",
-                );      
-            }
-
-        }
-        
-    }
-
   
 
     public function showVerify($id){
@@ -440,7 +357,6 @@ class Index extends Component
   
         if ($this->verification == "verified") {
            
-
             $transaction_type = $transaction->transaction_type;
             
             if ($transaction_type->name == "Deposit") {
@@ -452,7 +368,6 @@ class Index extends Component
                 }
 
                 $transaction->movement = "Crt";
-                $transaction->transaction_reference = $this->generateTransactionReference();
                 $transaction->status = 1;
                 $transaction->wallet_balance = $transaction_wallet_balance;
                 $transaction->update();
@@ -469,9 +384,8 @@ class Index extends Component
                     $wallet->update();
                 }  
                 
-                $transaction->transaction_reference = $this->generateTransactionReference();
                 $transaction->status = 1;
-                $transaction->status = $transaction_wallet_balance;;
+                $transaction->wallet_balance = $transaction_wallet_balance;
                 $transaction->update();
 
                 if (isset($transaction->company->email)) {
@@ -485,32 +399,33 @@ class Index extends Component
                         $charge_amount = ($charge->percentage/100) * $transaction->amount;
 
                         if (isset($charge_amount) && is_numeric($charge_amount)) {
-                            $transaction = new Transaction;
-                            $transaction->transaction_number = $this->transactionNumber();
-                            $transaction->company_id = Auth::user()->company_id;
-                            $transaction->wallet_id = $transaction->wallet_id;
-                            $transaction->movement = "Dbt";
-                            $transaction->transaction_date = date('Y-m-d');
-                            $transaction->transaction_type_id =  $transaction->transaction_type_id;
-                            $transaction->charge_id = $charge->id;
-                            $transaction->charge_percentage = $charge->percentage;
-                            $transaction->charge_amount = $charge_amount;
-                            $transaction->amount =  $charge_amount;
-                            $transaction->currency_id = $transaction->currency_id;
-                            $transaction->save();
+                            $charge_transaction = new Transaction;
+                            $charge_transaction->transaction_number = $this->transactionNumber();
+                            $charge_transaction->company_id = $transaction->company_id;
+                            $charge_transaction->parent_transaction_id = $transaction->id;
+                            $charge_transaction->wallet_id = $transaction->wallet_id;
+                            $charge_transaction->movement = "Dbt";
+                            $charge_transaction->transaction_date = date('Y-m-d');
+                            $charge_transaction->transaction_type_id =  $transaction->transaction_type_id;
+                            $charge_transaction->charge_id = $charge->id;
+                            $charge_transaction->charge = $charge->percentage;
+                            $charge_transaction->charge_amount = $charge_amount;
+                            $charge_transaction->amount =  $charge_amount;
+                            $charge_transaction->currency_id = $transaction->currency_id;
+                            $charge_transaction->save();
 
                             $charge_wallet_balance = $wallet->balance - $charge_amount;
                             $wallet->balance =  $charge_wallet_balance;
                             $wallet->update();
                         
-                            $transaction->wallet_balance = $charge_wallet_balance;
-                            $transaction->update();
+                            $charge_transaction->wallet_balance = $charge_wallet_balance;
+                            $charge_transaction->update();
                         }
                        
                     }
 
-                    if (isset($transaction->company->email)) {
-                        Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
+                    if (isset($charge_transaction->company->email)) {
+                        Mail::to($charge_transaction->company->email)->send(new TransactionMail($charge_transaction, $this->admin));
                     }
                     
                 }
@@ -525,7 +440,7 @@ class Index extends Component
         $this->dispatch(
             'alert',
             type : 'success',
-            title : "Transaction Verified Processed Successfully!!",
+            title : "Transaction Verified & Processed Successfully!!",
             position: "center",
         );
           

@@ -26,20 +26,26 @@ Transaction Notification
 										<tr>
 											<td>
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-													@if ($transaction->transaction_type)
+													
 														@if ($transaction->transaction_type->name == "Deposit")
 																Your {{$transaction->wallet ? $transaction->wallet->name : ""}} wallet with account number {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been credited with {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
 																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} {{ucfirst($transaction->mop)}} as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
 														@elseif($transaction->transaction_type->name == "Withdrawal")
 																Your {{$transaction->wallet ? $transaction->wallet->name : ""}} wallet with account number {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited with {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
-																via Cash {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
+																via Cash {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} {{$transaction->charge ? "Bank Charges" : ""}} as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
 														@elseif($transaction->transaction_type->name == "Internal Transfer")
 															@if (isset($receiving_wallet))
 																Your {{$transaction->wallet ? $transaction->wallet->name : ""}} wallet with account number {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited with {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
-																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} to {{$receiving_wallet->name}} {{$receiving_wallet->wallet_number}} as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
+																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}}  to {{$receiving_wallet->name}} {{$receiving_wallet->wallet_number}} as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
+															@else
+															Your {{$transaction->wallet ? $transaction->wallet->name : ""}} wallet with account number {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited with {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
+																via {{ucfirst($transaction->transaction_type ? $transaction->transaction_type->name : "")}} {{$transaction->charge ? "Bank Charges" : ""}}  as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
 															@endif
+														@else
+														Your {{$transaction->wallet ? $transaction->wallet->name : ""}} wallet with account number {{$transaction->wallet ? $transaction->wallet->wallet_number : ""}} has been debited with {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount ? $transaction->amount: 0,2)}}
+																via Bank Charges as of {{$transaction->transaction_date}}. Your new Account Balance is {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->wallet->balance ? $transaction->wallet->balance: 0,2)}}.
 														@endif
-													@endif
+													
 												</p>
 												<br>
 												<p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif; color:#3064af">

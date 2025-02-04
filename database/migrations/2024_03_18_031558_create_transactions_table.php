@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('company_id')->unsigned()->nullable();
             $table->bigInteger('receiving_wallet_id')->unsigned()->nullable();
+            $table->bigInteger('parent_transaction_id')->unsigned()->nullable();
             $table->bigInteger('wallet_id')->unsigned()->nullable();
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->bigInteger('currency_id')->unsigned()->nullable();

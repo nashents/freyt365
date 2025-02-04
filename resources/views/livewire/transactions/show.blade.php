@@ -124,7 +124,7 @@
                                                     <th scope="row">Transaction Amount</th>
                                                     <td>
                                                         <a href="#" class="ng-binding">
-                                                            {{$transaction->currency ? $transaction->currency->symbol : ""}} {{number_format($transaction->amount,2)}}
+                                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount,2)}}
                                                         </a>
                                                     </td>
                                                 </tr>

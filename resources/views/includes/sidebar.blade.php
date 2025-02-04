@@ -86,12 +86,15 @@
                         </li>
                         @php
                         $transactionsAuthPendingCount = App\Models\Transaction::where('authorization','pending')
+                        ->where('company_id',Auth::user()->company_id)
                         ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
                         ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
                         $transactionsAuthApprovedCount = App\Models\Transaction::where('authorization','approved')
+                        ->where('company_id',Auth::user()->company_id)
                         ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
                         ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
                         $transactionsAuthRejectedCount = App\Models\Transaction::where('authorization','rejected')
+                        ->where('company_id',Auth::user()->company_id)
                         ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
                         ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
                         @endphp

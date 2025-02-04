@@ -138,11 +138,14 @@ class Index extends Component
         $this->status = $branch->status;
         
         $working_schedule = $branch->working_schedule;
-        $this->first_day = $working_schedule->first_day;
-        $this->last_day = $working_schedule->last_day;
-        $this->start_time = $working_schedule->start_time;
-        $this->end_time = $working_schedule->end_time;
-        $this->everyday = $working_schedule->everyday;
+        if ( $working_schedule) {
+            $this->first_day = $working_schedule->first_day;
+            $this->last_day = $working_schedule->last_day;
+            $this->start_time = $working_schedule->start_time;
+            $this->end_time = $working_schedule->end_time;
+            $this->everyday = $working_schedule->everyday;
+        }
+        
 
        
 
@@ -193,15 +196,29 @@ class Index extends Component
         $branch->services()->sync($this->service_id);
         $branch->fuel_types()->sync($this->fuel_type_id);
         $branch->currencies()->sync($this->currency_id);
+    
 
         $working_schedule = $branch->working_schedule ;
-        $working_schedule->branch_id = $branch->id;
-        $working_schedule->first_day = $this->first_day;
-        $working_schedule->last_day = $this->last_day;
-        $working_schedule->start_time = $this->start_time;
-        $working_schedule->end_time = $this->end_time;
-        $working_schedule->everyday = $this->everyday;
-        $working_schedule->update();
+        if (isset($working_schedule)) {
+            $working_schedule->branch_id = $branch->id;
+            $working_schedule->first_day = $this->first_day;
+            $working_schedule->last_day = $this->last_day;
+            $working_schedule->start_time = $this->start_time;
+            $working_schedule->end_time = $this->end_time;
+            $working_schedule->everyday = $this->everyday;
+            $working_schedule->update();
+        }else{
+            $working_schedule = new WorkingSchedule;
+            $working_schedule->user_id = Auth::user()->id;
+            $working_schedule->branch_id = $branch->id;
+            $working_schedule->first_day = $this->first_day;
+            $working_schedule->last_day = $this->last_day;
+            $working_schedule->start_time = $this->start_time;
+            $working_schedule->end_time = $this->end_time;
+            $working_schedule->everyday = $this->everyday;
+            $working_schedule->save();
+        }
+      
 
         $this->dispatch('hide-branchEditModal');
             $this->resetInputFields();

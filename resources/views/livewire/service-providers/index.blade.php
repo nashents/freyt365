@@ -30,6 +30,7 @@
                                 <div id="collapse{{$service_provider->id}}" class="accordion-collapse collapse" aria-labelledby="heading{{$service_provider->id}}"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
+                                        @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
                                         <div class="row" style="float: right">
                                             <div class="d-flex flex-wrap gap-2" style="float: right">
                                                 <a href="#" wire:click.prevent="edit({{$service_provider->id}})" type="button" class="btn btn-primary rounded-pill">Edit Service Provider</a>
@@ -40,6 +41,7 @@
                                        <br>
                                        <br>
                                        <br>
+                                       @endif
                                         <div class="row">
                                             
                                             <div class="col-md-6">
@@ -76,10 +78,13 @@
                                                                 <tr>
                                                                     <th><i class="fas fa-map-marker"></i></th>
                                                                     <td>{{$service_provider->street_address}} {{$service_provider->suburb ? $service_provider->suburb.", " : ""}} {{$service_provider->city}}</td>
-                                                                </tr>     
+                                                                </tr>    
+                                                                @if ($service_provider->filename)
                                                                 <tr>
                                                                     <td><a href="{{asset('myfiles/documents/'.$service_provider->filename)}}" class="btn btn-success" target="_blank"><i class="fas fa-download"> View Rates </i></a></td>
                                                                 </tr>     
+                                                                @endif 
+                                                               
                                                             </tbody>
                                                         </table>
                                                         </div>
@@ -126,9 +131,13 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Office</th>
-                                                            <th>Office Hours</th>
+                                                            <th>Currencies</th>
+                                                            <th>Fuel</th>
+                                                            <th>Service</th>
                                                             <th>Status</th>
+                                                            @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
                                                             <th>Actions</th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -175,6 +184,7 @@
                                                                         @endif
                                                                     </td>
                                                                     <td><span class="badge bg-{{$office->status == 1 ? "primary" : "danger"}}">{{$office->status == 1 ? "Active" : "Inactive"}}</span></td>
+                                                                    @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
                                                                     <td class="w-10 line-height-35 table-dropdown">
                                                                         <div class="dropdown">
                                                                             <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
@@ -189,7 +199,7 @@
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
-                                                                
+                                                                        @endif
                                                                 </td>
                                                                 </tr>
                                                                 @empty
@@ -242,7 +252,7 @@
     </div> <!-- end row-->
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="officeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Add Office</h4>
@@ -553,7 +563,7 @@
     </div><!-- /.modal -->
     
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="officeEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i> Edit Office</h4>
@@ -822,7 +832,7 @@
 
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="service_providerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Add Service Provider</h4>
@@ -1190,7 +1200,7 @@
     </div><!-- /.modal -->
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="service_providerEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i> Edit Service Provider</h4>

@@ -92,8 +92,8 @@ class CompanySeeder extends Seeder
 
         $user = new User;
         $user->company_id = $company->id;
-        $user->name = 'Panashe';
-        $user->surname = 'Ngorima';
+        $user->name = 'Admin';
+        $user->surname = '';
         $user->category = 'admin';
         $user->is_admin = 1;
         $user->use_email_as_username = 1;

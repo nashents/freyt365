@@ -51,11 +51,16 @@
                                                                 <i class="fas fa-envelope"></i> {{$branch->email}} | <i class="fas fa-phone"></i> {{$branch->phonenumber}} <br>
                                                                 <i class="fas fa-map-marker"></i> {{$branch->street_address}} {{$branch->suburb ? $branch->suburb.", " : ""}} {{$branch->city}} <br>
                                                                 <i class="fa fa-clock-o"></i> Office Hours: 
-                                                                @if ($branch->working_schedule->everyday == False)
-                                                                {{$branch->working_schedule ? $branch->working_schedule->first_day : ""}} - {{$branch->working_schedule ? $branch->working_schedule->last_day : ""}} {{$branch->working_schedule ? $branch->working_schedule->start_time : ""}} - {{$branch->working_schedule ? $branch->working_schedule->end_time : ""}}
-                                                                @else   
-                                                                Open 24/7
+                                                                @if ($branch->working_schedule)
+                                                                    @if ($branch->working_schedule->everyday == False)
+                                                                        {{$branch->working_schedule ? $branch->working_schedule->first_day : ""}} - {{$branch->working_schedule ? $branch->working_schedule->last_day : ""}} {{$branch->working_schedule ? $branch->working_schedule->start_time : ""}} - {{$branch->working_schedule ? $branch->working_schedule->end_time : ""}}
+                                                                    @else   
+                                                                        Open 24/7
+                                                                    @endif
+                                                                @else
+                                                                        Open 24/7
                                                                 @endif
+                                                                
                                                                
                                                             </td>
                                                             <td>
@@ -143,7 +148,7 @@
 
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="branchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i> Add Branch / Collection Office</h4>
@@ -455,7 +460,7 @@
     </div><!-- /.modal -->
 
     <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="branchEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog mw-100 w-50">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
                     <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i> Edit Branch / Collection Office</h4>

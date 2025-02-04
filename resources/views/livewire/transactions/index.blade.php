@@ -18,18 +18,16 @@
                         <thead>
                             <tr>
                                 <th>Transaction#</th>
+                                <th>Transaction Ref</th>
                                 @if (Auth::user()->is_admin())
                                 <th>Company</th>
                                 @endif
                                 <th>CreatedBy</th>
                                 <th>Wallet</th>
                                 <th>Date</th>
-                                <th>Ref#</th>
                                 <th>Type</th>
-                                <th>MOP</th>
                                 <th>Ccy</th>
                                 <th>Amt</th>
-                                <th>Charges</th>
                                 @if (!Auth::user()->is_admin())
                                 <th>Auth</th>     
                                 @endif
@@ -44,6 +42,7 @@
                                 @forelse ($transactions as $transaction)
                                     <tr>
                                         <td>{{$transaction->transaction_number}}</td>
+                                        <td>{{$transaction->transaction_reference}}</td>
                                         @if (Auth::user()->is_admin())
                                         <td>{{$transaction->company ? $transaction->company->name : ""}}</td>
                                         @endif
@@ -54,18 +53,11 @@
                                             @endif
                                         </td>
                                         <td>{{$transaction->transaction_date}}</td>
-                                        <td>{{$transaction->reference_code}}</td>
-                                        <td>{{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}</td>
-                                        <td>{{$transaction->mop}}</td>
+                                        <td>{{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}
+                                            {{$transaction->mop ? " / ".$transaction->mop : ""}}
+                                        </td>
                                         <td>{{$transaction->currency ? $transaction->currency->name : ""}}</td>
                                         <td>{{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount,2)}}</td>
-                                        <td>
-                                            @if ($transaction->charge_amount)
-                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->charge_amount,2)}} @ {{$transaction->charge ? $transaction->charge."%" : ""}}
-                                            @else   
-                                            {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format(0,2)}}    
-                                            @endif
-                                        </td>
                                         @if (!Auth::user()->is_admin())
                                         <td><span class="badge bg-{{($transaction->authorization == 'approved') ? 'primary' : (($transaction->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($transaction->authorization == 'approved') ? 'approved' : (($transaction->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
                                         @endif
@@ -340,10 +332,11 @@
                     <div class="text-center">
                         <i class="ri-information-line h1 text-info"></i>
                         <h4 class="mt-2">Wallet Confirmation !!</h4>
-                        @if (isset($selected_wallet))
-                        <p class="mt-3">You are trying to send {{$selected_wallet->currency ? $selected_wallet->currency->name : ""}} {{$selected_wallet->currency ? $selected_wallet->currency->symbol : ""}}{{number_format($amount ? $amount : 0,2)}} to {{$selected_wallet->name}} {{$selected_wallet->wallet_number}}.</p> 
+                        @if (isset($selected_receiving_wallet))
+                        <p class="mt-3">You are trying to send {{$selected_receiving_wallet->currency ? $selected_receiving_wallet->currency->name : ""}} {{$selected_receiving_wallet->currency ? $selected_receiving_wallet->currency->symbol : ""}}{{number_format($amount ? $amount : 0,2)}} to {{$selected_receiving_wallet->name}} {{$selected_receiving_wallet->wallet_number}}.</p> 
                         @endif
-                        <button type="button" wire:click="sendMoney" class="btn btn-info my-2" data-bs-dismiss="modal">Continue</button>
+                        <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Cancel</button>
+                        <button type="button" wire:click="sendMoney" class="btn btn-info my-2" data-bs-dismiss="modal">Send</button>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
