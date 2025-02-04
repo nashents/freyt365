@@ -157,16 +157,22 @@ class Approved extends Component
                                     $transaction->verification = "verified";
                                     $transaction->status = 1;
                                     $transaction->update();
-                                
+
+                                    if (isset($transaction->company->email)) {
+                                        Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
+                                    } 
     
                                     if (isset($receiving_wallet)) {
                                         $receiving_wallet->balance = $receiving_wallet->balance + $transaction->amount;
                                         $receiving_wallet->update();
+
+                                        if (isset($receiving_wallet->company->email)) {
+                                            Mail::to($receiving_wallet->company->email)->send(new TransactionMailInternal($transaction,$receiving_wallet, $this->admin));
+                                        } 
                                     }  
     
-                                    if (isset($transaction->company->email)) {
-                                        Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
-                                    } 
+                                   
+                                    
     
                                     $charge = $transaction_type->charge;
                                     if (isset($charge) && $charge->percentage > 0) {
