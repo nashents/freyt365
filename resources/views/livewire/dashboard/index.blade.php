@@ -184,7 +184,7 @@
                                         <tr>
                                         <td>{{$transaction->transaction_number}}</td>
                                         <td>{{$transaction->transaction_reference}}</td>
-                                        <td>{{$transaction->transaction_date}}</td>
+                                        <td>{{Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d')}}</td>
                                         <td>
                                             {{$transaction->transaction_type ? $transaction->transaction_type->name : ""}}
                                             <br>

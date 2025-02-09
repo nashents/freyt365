@@ -16,8 +16,14 @@ class Trailer extends Model
     public function company(){
         return $this->belongsTo('App\Models\Company');
     }
-    public function horses(){
-        return $this->belongsToMany('App\Models\Horse');
+    public function driver(){
+        return $this->belongsTo('App\Models\Driver');
+    }
+    public function horse(){
+        return $this->belongsTo('App\Models\Horse');
+    }
+    public function orders(){
+        return $this->belongsToMany('App\Models\Order');
     }
 
     public function trips(){

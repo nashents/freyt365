@@ -44,7 +44,7 @@
 
                                                 <tr>
                                                     <th scope="row">Transaction Date</th>
-                                                    <td class="ng-binding">{{$transaction->transaction_date}}</td>
+                                                    <td class="ng-binding">{{Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d')}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Wallet</th>
@@ -98,6 +98,16 @@
                                                     <td>
                                                         <a href="#" class="ng-binding">
                                                             {{$transaction->reference_code}}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                                @if ($transaction->transaction_date)
+                                                <tr>
+                                                    <th scope="row">Date of payment</th>
+                                                    <td>
+                                                        <a href="#" class="ng-binding">
+                                                            {{$transaction->transaction_date}}
                                                         </a>
                                                     </td>
                                                 </tr>

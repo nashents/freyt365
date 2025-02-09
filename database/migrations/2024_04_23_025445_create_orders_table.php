@@ -19,9 +19,14 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->bigInteger('country_id')->unsigned()->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->bigInteger('wallet_id')->unsigned()->nullable();
+            $table->bigInteger('currency_id')->unsigned()->nullable();
             $table->bigInteger('horse_id')->unsigned()->nullable();
+            $table->bigInteger('driver_id')->unsigned()->nullable();
             $table->foreign('horse_id')->references('id')->on('horses')->onDelete('cascade');
             $table->string('order_number')->nullable();
+            $table->string('collection_date')->nullable();
+            $table->string('total')->nullable();
             $table->string('status')->nullable();
             $table->bigInteger('authorized_by_id')->unsigned()->nullable();
             $table->foreign('authorized_by_id')->references('id')->on('users')->onDelete('cascade');

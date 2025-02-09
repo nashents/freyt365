@@ -14,7 +14,6 @@
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Fullname</th>
                                 <th>Username</th>
                                 <th>Phonenumber</th>
@@ -31,7 +30,6 @@
 
                             @forelse ($users as $user)
                             <tr>
-                                <td>{{$user->id}}</td>
                                 <td>{{$user->name}} {{$user->surname}}</td>
                                 <td>{{$user->username}}</td>
                                 <td>{{$user->phonenumber}}</td>

@@ -21,7 +21,7 @@
                                 <h2 class="accordion-header" id="heading{{$country->id}}">
                                     <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse{{$country->id}}" aria-expanded="false" aria-controls="collapse{{$country->id}}">
-                                      {{$country->name}}
+                                        <img src="{{asset('images/flags/'.$country->flag)}}" width="25px" height="20px" alt=""  > <span style="padding-left: 10px;"><strong>{{strtoupper($country->name)}}</strong></span>
                                     </button>
                                 </h2>
                                 <div id="collapse{{$country->id}}" class="accordion-collapse collapse" aria-labelledby="heading{{$country->id}}"
@@ -69,7 +69,7 @@
                                                                      <span class="badge bg-primary">{{$currency->name}}</span>
                                                                     @endforeach
                                                                 @else
-                                                                <i class="bi bi-x-lg"></i>
+                                                                <span class="badge bg-secondary">N/A</span>
                                                                 @endif
                                                             </td>
                                                             <td>
@@ -79,7 +79,7 @@
                                                                     
                                                                     @endforeach
                                                                 @else
-                                                                <i class="bi bi-x-lg"></i>
+                                                                <span class="badge bg-secondary">N/A</span>
                                                                 @endif
                                                             </td>
                                                             <td>
@@ -88,7 +88,7 @@
                                                                     <span class="badge bg-warning">{{$service->name}}</span>
                                                                     @endforeach
                                                                 @else
-                                                                <i class="bi bi-x-lg"></i>
+                                                                <span class="badge bg-secondary">N/A</span>
                                                                 @endif
                                                             </td>
                                                             @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")

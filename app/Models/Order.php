@@ -16,8 +16,20 @@ class Order extends Model
     public function country(){
         return $this->belongsTo('App\Models\Country');
     }
+    public function driver(){
+        return $this->belongsTo('App\Models\Driver');
+    }
+    public function currency(){
+        return $this->belongsTo('App\Models\Currency');
+    }
+    public function order_item(){
+        return $this->hasOne('App\Models\OrderItem');
+    }
     public function horse(){
         return $this->belongsTo('App\Models\Horse');
+    }
+    public function trailers(){
+        return $this->belongsToMany('App\Models\Trailer');
     }
     public function fuel_price(){
         return $this->belongsTo('App\Models\FuelPrice');

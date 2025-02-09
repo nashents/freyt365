@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('suburb')->nullable();
             $table->string('street_address')->nullable();
+            $table->string('rate')->nullable();
+            $table->string('frequency')->nullable();
+            $table->string('minimum')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
             $table->boolean('status')->default(1);

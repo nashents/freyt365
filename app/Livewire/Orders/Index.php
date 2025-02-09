@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Orders;
 
-use App\Models\Horse;
 use App\Models\Order;
 use App\Models\Driver;
 use App\Models\Trailer;
@@ -22,8 +21,28 @@ class Index extends Component
       
     }
 
+    public function delete($id){
+        $order = Order::find($id);
+        $transaction = $order->transaction;
+      
+        if (isset($transaction)) {
+            $transaction->delete();
+        }
+       
+        $order->delete();
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Order Deleted Successfully!!",
+            position: "center",
+        );
+    }
+
     public function render()
     {
-        return view('livewire.orders.index');
+        $this->orders = Order::orderBy('created_at','desc')->get();
+        return view('livewire.orders.index',[
+            'orders' => $this->orders
+        ]);
     }
 }

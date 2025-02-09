@@ -20,7 +20,7 @@
                                 <h2 class="accordion-header" id="heading{{$country->id}}">
                                     <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse{{$country->id}}" aria-expanded="false" aria-controls="collapse{{$country->id}}">
-                                      {{$country->name}}
+                                        <img src="{{asset('images/flags/'.$country->flag)}}" width="25px" height="20px" alt=""  > <span style="padding-left: 10px;"><strong>{{strtoupper($country->name)}}</strong></span>
                                     </button>
                                 </h2>
                                 <div id="collapse{{$country->id}}" class="accordion-collapse collapse" aria-labelledby="heading{{$country->id}}"

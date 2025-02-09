@@ -38,7 +38,9 @@ class Index extends Component
     public $email;
     public $phonenumber;
     public $service_providers;
-    public $service_provider;
+    public $rate;
+    public $frequency;
+    public $minimum;
     public $service_provider_id;
     public $office_id;
     public $offices;
@@ -82,6 +84,9 @@ class Index extends Component
         $this->last_day = "";
         $this->start_time = "";
         $this->end_time = "";
+        $this->rate = "";
+        $this->minimum = "";
+        $this->frequency = "";
         $this->status = "";
         $this->everyday = True;
         $this->currency_id = [];
@@ -117,6 +122,9 @@ class Index extends Component
         $service_provider->city = $this->city;
         $service_provider->suburb = $this->suburb;
         $service_provider->street_address = $this->street_address;
+        $service_provider->rate = $this->rate;
+        $service_provider->frequency = $this->frequency;
+        $service_provider->minimum = $this->minimum;
         $service_provider->lat = $this->lat;
         $service_provider->long = $this->long;
         $service_provider->description = $this->description;
@@ -165,6 +173,9 @@ class Index extends Component
         $office->street_address = $this->street_address;
         $office->lat = $this->lat;
         $office->long = $this->long;
+        $office->rate = $this->rate;
+        $office->frequency = $this->frequency;
+        $office->minimum = $this->minimum;
         $office->status = 1;
         $office->save();
 
@@ -226,6 +237,9 @@ class Index extends Component
         $office->street_address = $this->street_address;
         $office->lat = $this->lat;
         $office->long = $this->long;
+        $office->rate = $this->rate;
+        $office->frequency = $this->frequency;
+        $office->minimum = $this->minimum;
         $office->status = 1;
         $office->save();
 
@@ -278,6 +292,10 @@ class Index extends Component
         $this->city = $office->city;
         $this->suburb = $office->suburb;
         $this->street_address = $office->street_address;
+        $this->rate = $office->rate;
+        $this->frequency = $office->frequency;
+        $this->minimum = $office->minimum;
+        
         $this->status = $office->status;   
 
         $working_schedule = $office->working_schedule;
@@ -328,6 +346,9 @@ class Index extends Component
         $office->lat = $this->lat;
         $office->long = $this->long;
         $office->status = $this->status;
+        $office->rate = $this->rate;
+        $office->frequency = $this->frequency;
+        $office->minimum = $this->minimum;
         $office->update();
 
         $working_schedule = $office->working_schedule;
@@ -395,6 +416,9 @@ class Index extends Component
         $this->contact_phonenumber = $service_provider->contact_phonenumber;
         $this->suburb = $service_provider->suburb;
         $this->street_address = $service_provider->street_address;
+        $this->rate = $service_provider->rate;
+        $this->frequency = $service_provider->frequency;
+        $this->minimum = $service_provider->minimum;
         $this->status = $service_provider->status;   
         $this->lat = $service_provider->lat;   
         $this->long = $service_provider->long;   
@@ -456,6 +480,9 @@ class Index extends Component
         $service_provider->city = $this->city;
         $service_provider->suburb = $this->suburb;
         $service_provider->street_address = $this->street_address;
+        $service_provider->rate = $this->rate;
+        $service_provider->frequency = $this->frequency;
+        $service_provider->minimum = $this->minimum;
         $service_provider->lat = $this->lat;
         $service_provider->long = $this->long;
         $service_provider->description = $this->description;
@@ -500,6 +527,9 @@ class Index extends Component
             $office->street_address = $this->street_address;
             $office->lat = $this->lat;
             $office->long = $this->long;
+            $office->rate = $this->rate;
+            $office->frequency = $this->frequency;
+            $office->minimum = $this->minimum;
             $office->status = $this->status;
             $office->update();
 

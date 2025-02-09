@@ -19,5 +19,8 @@ class Driver extends Model
     public function trips(){
         return $this->hasMany('App\Models\Trip');
     }
+    public function orders(){
+        return $this->hasMany('App\Models\Order');
+    }
     
 }

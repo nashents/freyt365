@@ -95,6 +95,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/transactions/pending/',[TransactionController::class,'pending'])->name('transactions.pending');
     Route::get('/transactions/approved/',[TransactionController::class,'approved'])->name('transactions.approved');
     Route::get('/transactions/rejected/',[TransactionController::class,'rejected'])->name('transactions.rejected');
+   
+    Route::get('/orders/pending/',[OrderController::class,'pending'])->name('orders.pending');
+    Route::get('/orders/approved/',[OrderController::class,'approved'])->name('orders.approved');
+    Route::get('/orders/rejected/',[OrderController::class,'rejected'])->name('orders.rejected');
 
     Route::get('/admin/users/',[UserController::class,'admin'])->name('users.admins');
 

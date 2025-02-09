@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
             $table->string('street_address')->nullable();
+            $table->string('frequency')->nullable();
+            $table->string('minimum')->nullable();
+            $table->string('rate')->nullable();
             $table->string('filename')->nullable();
             $table->text('description')->nullable();
             $table->boolean('status')->default(1);

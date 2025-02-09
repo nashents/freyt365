@@ -16,6 +16,12 @@ class Office extends Model
     public function service_provider(){
         return $this->belongsTo('App\Models\ServiceProvider');
     }
+    public function country(){
+        return $this->belongsTo('App\Models\Country');
+    }
+    public function order_items(){
+        return $this->hasMany('App\Models\OrderItem');
+    }
     public function services(){
         return $this->belongsToMany('App\Models\Service');
     }

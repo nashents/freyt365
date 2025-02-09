@@ -16,6 +16,20 @@ class OrderController extends Controller
         return view('orders.index');
     }
 
+    public function approved()
+    {
+        return view('orders.approved');
+    }
+    public function pending()
+    {
+        return view('orders.pending');
+    }
+    public function rejected()
+    {
+        return view('orders.rejected');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

@@ -16,8 +16,11 @@ class FuelStation extends Model
     public function country(){
         return $this->belongsTo('App\Models\Country');
     }
-    public function fuel_prices(){
-        return $this->hasMany('App\Models\FuelPrice');
+    public function order_items(){
+        return $this->hasMany('App\Models\OrderItem');
+    }
+    public function fuel_price(){
+        return $this->hasOne('App\Models\FuelPrice');
     }
     public function working_schedule(){
         return $this->hasOne('App\Models\WorkingSchedule');

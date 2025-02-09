@@ -215,11 +215,53 @@
                     <span> Orders </span>
                     <span class="menu-arrow"></span>
                 </a>
+                @php
+                $ordersAuthPendingCount = App\Models\Order::where('authorization','pending')
+                ->where('company_id',Auth::user()->company_id)
+                ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
+                ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
+                $ordersAuthApprovedCount = App\Models\Order::where('authorization','approved')
+                ->where('company_id',Auth::user()->company_id)
+                ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
+                ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
+                $ordersAuthRejectedCount = App\Models\Order::where('authorization','rejected')
+                ->where('company_id',Auth::user()->company_id)
+                ->where('created_at', '>', \Carbon\Carbon::now()->startOfWeek())
+                ->where('created_at', '<', \Carbon\Carbon::now()->endOfWeek())->get()->count();
+                @endphp
                 <div class="collapse" id="orders">
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="{{route('orders.index')}}">Manage Orders</a>
                         </li>
+                        @if (!Auth::user()->is_admin())
+                        <li>
+                            <a href="{{ route('orders.pending') }}">
+                                @if ($ordersAuthPendingCount>0)
+                                <span class="badge bg-success float-end">{{$ordersAuthPendingCount}}</span>
+                                @endif
+                                <span>Pending Orders</span>
+                            </a>
+                           
+                        </li>
+                        <li>
+                            <a href="{{ route('orders.approved') }}">
+                                @if ($ordersAuthApprovedCount>0)
+                                <span class="badge bg-success float-end">{{$ordersAuthApprovedCount}}</span>
+                                @endif
+                              
+                                <span>Approved Orders</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('orders.rejected') }}">
+                                @if ($ordersAuthRejectedCount>0)
+                                <span class="badge bg-success float-end">{{$ordersAuthRejectedCount}}</span>
+                                @endif
+                                <span>Rejected Orders</span>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </li>
@@ -246,7 +288,7 @@
             </li> --}}
 
        
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#reports" aria-expanded="false" aria-controls="reports" class="side-nav-link">
                     <i class="bi bi-graph-up-arrow"></i>
                     <span> Reports </span>
@@ -263,12 +305,10 @@
                         <li>
                             <a href="#">Extended Order History</a>
                         </li>
-                        {{-- <li>
-                            <a href="#">Tax Invoice Report</a>
-                        </li> --}}
+                      
                     </ul>
                 </div>
-            </li>
+            </li> --}}
           
             <li class="side-nav-item">
                 <a href="{{route('company-profile',Auth::user()->company->id)}}" class="side-nav-link">

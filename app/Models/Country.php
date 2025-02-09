@@ -19,4 +19,7 @@ class Country extends Model
     public function branches(){
         return $this->hasMany('App\Models\Branch');
     }
+    public function offices(){
+        return $this->hasMany('App\Models\Office');
+    }
 }

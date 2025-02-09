@@ -145,7 +145,8 @@
                                                             @forelse ($service_provider->offices as $office)
                                                                 <tr>
                                                                     <td>
-                                                                        <strong>{{$office->name}}</strong> <br>
+                                                                        <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt=""  > <span style="padding-left: 0px;"><strong>{{strtoupper($office->name)}}</strong></span>
+                                                                        <br>
                                                                         <i class="fas fa-map-marker"></i> {{$office->street_address}} {{$office->suburb ? $office->suburb.", " : ""}} {{$office->city}} <br>
                                                                         <i class="fas fa-envelope"></i> {{$office->email}} | <i class="fas fa-phone"></i> {{$office->phonenumber}} <br>
                                                                         <i class="fa fa-clock-o"></i> Office Hours: 
@@ -161,7 +162,7 @@
                                                                              <span class="badge bg-primary">{{$currency->name}}</span>
                                                                             @endforeach
                                                                         @else
-                                                                        <i class="bi bi-x-lg"></i>
+                                                                        <span class="badge bg-secondary">N/A</span>
                                                                         @endif
                                                                     </td>
                                                                     <td>
@@ -171,7 +172,7 @@
                                                                             
                                                                             @endforeach
                                                                         @else
-                                                                        <i class="bi bi-x-lg"></i>
+                                                                        <span class="badge bg-secondary">N/A</span>
                                                                         @endif
                                                                     </td>
                                                                     <td>
@@ -180,7 +181,7 @@
                                                                             <span class="badge bg-warning">{{$service->name}}</span>
                                                                             @endforeach
                                                                         @else
-                                                                        <i class="bi bi-x-lg"></i>
+                                                                        <span class="badge bg-secondary">N/A</span>
                                                                         @endif
                                                                     </td>
                                                                     <td><span class="badge bg-{{$office->status == 1 ? "primary" : "danger"}}">{{$office->status == 1 ? "Active" : "Inactive"}}</span></td>
@@ -347,6 +348,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                 <div class="mb-3">
+                                     <label class="form-label" for="validationCustom01">Rate</label>
+                                 <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="rate">
+                                         @error('rate') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                 </div>
+                            </div>
+                             <div class="col-md-4">
+                                 <div class="mb-3">
+                                     <label class="form-label" for="validationCustom01">Frequency</label>
+                                         <select class="form-control" wire:model.live.debounce.300ms="frequency">
+                                             <option value="">Select Frequency</option>
+                                             <option value="Hour">Hour</option>
+                                             <option value="Daily">Daily</option>
+                                             <option value="Weekly">Weekly</option>
+                                         </select>
+                                         @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="mb-3">
+                                     <label class="form-label" for="validationCustom01">Minimum</label>
+                                     <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="minimum" >
+                                         @error('minimum') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                 </div>
+                             </div>
+                            
+                         </div>
 
                         <h5 class="underline mt-30">Office Hours</h5> 
                         <br>
@@ -657,6 +687,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                 <div class="mb-3">
+                                     <label class="form-label" for="validationCustom01">Rate</label>
+                                 <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="rate">
+                                         @error('rate') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                 </div>
+                            </div>
+                             <div class="col-md-4">
+                                 <div class="mb-3">
+                                     <label class="form-label" for="validationCustom01">Frequency</label>
+                                         <select class="form-control" wire:model.live.debounce.300ms="frequency">
+                                            <option value="">Select Frequency</option>
+                                             <option value="Hour">Hour</option>
+                                             <option value="Daily">Daily</option>
+                                             <option value="Weekly">Weekly</option>
+                                         </select>
+                                         @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="mb-3">
+                                     <label class="form-label" for="validationCustom01">Minimum</label>
+                                     <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="minimum" >
+                                         @error('minimum') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                 </div>
+                             </div>
+                            
+                         </div>
 
                         <h5 class="underline mt-30">Office Hours</h5> 
                         <br>
@@ -1165,25 +1224,42 @@
                    
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
-                                    <textarea class="form-control" wire:model.live.debounce.300ms="description"
-                                    placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
-                                        @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Rate Card / Brochure<span class="required" style="color: red">*</span></label>
-                                    <input type="file" class="form-control" wire:model.live.debounce.300ms="file" placeholder="Rate card">
-                                        @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                            <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                            placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                                @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
-                        
-    
+                       
+                        <div class="row">
+                           <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Rate</label>
+                                <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="rate">
+                                        @error('rate') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                           </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Frequency</label>
+                                        <select class="form-control" wire:model.live.debounce.300ms="frequency">
+                                            <option value="">Select Frequency</option>
+                                            <option value="Hour">Hour</option>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Weekly">Weekly</option>
+                                        </select>
+                                        @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Minimum</label>
+                                    <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="minimum" >
+                                        @error('minimum') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                           
+                        </div>
 
 
                     </div>
@@ -1484,23 +1560,41 @@
                         </select>
                         @error('fuel_type_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
                        </div>
-                       <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
-                                <textarea class="form-control" wire:model.live.debounce.300ms="description"
-                                placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
-                                    @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="validationCustom01">Rate Card / Brochure<span class="required" style="color: red">*</span></label>
-                                <input type="file" class="form-control" wire:model.live.debounce.300ms="file" placeholder="Rate card">
-                                    @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
+                       <div class="mb-3">
+                        <label class="form-label" for="validationCustom01">Service Description<span class="required" style="color: red">*</span></label>
+                        <textarea class="form-control" wire:model.live.debounce.300ms="description"
+                        placeholder=" Describe the service offered"  cols="30" rows="4" required></textarea>
+                            @error('description') <span class="error" style="color:red">{{ $message }}</span> @enderror
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                             <div class="mb-3">
+                                 <label class="form-label" for="validationCustom01">Rate</label>
+                             <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="rate">
+                                     @error('rate') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                             </div>
+                        </div>
+                         <div class="col-md-4">
+                             <div class="mb-3">
+                                 <label class="form-label" for="validationCustom01">Frequency</label>
+                                     <select class="form-control" wire:model.live.debounce.300ms="frequency">
+                                        <option value="">Select Frequency</option>
+                                         <option value="Hour">Hour</option>
+                                         <option value="Daily">Daily</option>
+                                         <option value="Weekly">Weekly</option>
+                                     </select>
+                                     @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="mb-3">
+                                 <label class="form-label" for="validationCustom01">Minimum</label>
+                                 <input type="number" step="any" class="form-control" wire:model.live.debounce.300ms="minimum" >
+                                     @error('minimum') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                             </div>
+                         </div>
+                        
+                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="validationCustom01">Status</label>
                         <select class="form-control" wire:model.live.debounce.300ms="status" >

@@ -13,7 +13,7 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        $services = ['Banking', 'Border Payments', 'Border Post Office','Fueling Station','Insurance', 'Road Tolls', 'Truck Yard', 'Weigh Bridge', 'Parking'];
+        $services = ['Banking', 'Border Payments', 'Border Post Office','Fueling Station','Insurance','Parking', 'Road Tolls', 'Truck Yard', 'Weigh Bridge','Other' ];
         foreach($services as $service){
             Service::create([
                 'name' => $service

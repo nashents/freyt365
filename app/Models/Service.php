@@ -20,6 +20,9 @@ class Service extends Model
         return $this->belongsToMany('App\Models\FuelStation');
     }
 
+    public function order_items(){
+        return $this->hasMany('App\Models\OrderItem');
+    }
     public function offices(){
         return $this->belongsToMany('App\Models\Office');
     }

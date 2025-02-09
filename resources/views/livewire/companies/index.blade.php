@@ -11,7 +11,6 @@
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
-                                <th>Company#</th>
                                 <th>Type</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -25,7 +24,6 @@
                                 @if (isset($companies))
                                     @forelse ($companies as $company)     
                                     <tr>
-                                        <td>{{$company->company_number}}</td>
                                         <td>{{ucfirst($company->type)}}</td>
                                         <td>{{$company->name}}</td>
                                         <td>{{$company->email}}</td>

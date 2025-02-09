@@ -52,7 +52,7 @@
                                                 {{$transaction->wallet ? $transaction->wallet->name : ""}} <i>{{$transaction->wallet->default == True ? "Default Wallet" : ""}}     </i>   
                                             @endif
                                         </td>
-                                        <td>{{$transaction->transaction_date}}</td>
+                                        <td>{{Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d')}}</td>
                                         <td>{{$transaction->transaction_type ? $transaction->transaction_type->name : ""}} {{$transaction->charge ? "Charges" : ""}}
                                             {{$transaction->mop ? " / ".$transaction->mop : ""}}
                                            

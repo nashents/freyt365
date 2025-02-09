@@ -3,20 +3,25 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                @if (!Auth::user()->is_admin())
                 <div class="card-header">
+
                     <a href="{{route('orders.create')}}" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New order</a>
                   
                 </div>
+                @endif
+               
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-sordered dt-responsive nowrap w-100">
                         <thead>
                             <tr>
                                 <th>Order#</th>
-                                <th>Order For</th>
+                                <th>Order Summary</th>
                                 <th>Driver/Horse/Trailer(s)</th>
-                                <th>Date</th>
+                                <th>Collection Date</th>
                                 <th>Currency</th>
                                 <th>Amount</th>
+                                <th>Authorization</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -30,26 +35,30 @@
                             <tr>
                                 <td>{{$order->order_number}}</td>
                                 <td>
-                                    @if ($order->fuel_price)
-                                       Fuel TopUp |   {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->name : ""}}  {{$order->fuel_price->country ? $order->fuel_price->country->name : ""}} {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->city : ""}} {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->suburb : ""}} {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->street_address : ""}} <br>
+                                    @if ($order->order_item)
+                                        @if (!is_null($order->order_item->fuel_station_id))
+                                            @php
+                                                $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
+                                            @endphp
+                                            <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                            <br>
+                                            {{number_format($order->order_item->amount,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
+                                        @endif
                                     @endif
-                                    @if ($order->service_providers->count()>0) 
-                                        @foreach ($order->service_providers as $service_provider)
-                                        Service Provider |   {{$order->service_provider ? $order->service_provider->name : ""}}  {{$order->fuel_price->country ? $order->fuel_price->country->name : ""}} {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->city : ""}} {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->suburb : ""}} {{$order->fuel_price->fuel_station ? $order->fuel_price->fuel_station->street_address : ""}} <br>
+                                </td>
+                                <td>{{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} / {{$order->horse ? $order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}} /
+                                    @if ($order->trailers->count()>0)
+                                        @foreach ($order->trailers as $trailer)
+                                            [{{$trailer->registration_number}}]
                                         @endforeach
                                     @endif
+
                                 </td>
-                                <td>{{$order->horse ? $order->horse->registration_number : ""}} ({{$order->horse ? $order->horse->fleet_number : ""}})</td>
-                                <td>
-                                    @foreach ($order->trailers as $trailer)
-                                    {{$trailer->registration_number}} ({{$trailer->fleet_number}})
-                                    @endforeach
-                                </td>
-                                <td>{{$order->customer}}</td>
-                                <td>{{$order->cargo}}</td>
-                                <td>{{$order->from}} {{$order->loading_point}}</td>
-                                <td>{{$order->to}} {{$order->offloading_point}}</td>
-                                <td>{{$order->status}}</td>
+                                <td>{{$order->collection_date}}</td>   
+                                <td>{{$order->currency ? $order->currency->name : ""}}</td>   
+                                <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total,2)}}</td>   
+                                <td><span class="badge bg-{{($order->authorization == 'approved') ? 'primary' : (($order->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($order->authorization == 'approved') ? 'approved' : (($order->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
+                                <td><span class="badge bg-{{($order->status == 'successful') ? 'primary' : (($order->status == 'unsuccessful') ? 'danger' : 'warning') }}">{{($order->status == 'successful') ? 'successful' : (($order->status == 'unsuccessful') ? 'unsuccessful' : 'pending') }}</span></td>
                                 <td class="w-10 line-height-35 table-dropdown">
                                     <div class="dropdown">
                                         <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
@@ -57,15 +66,18 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
-                                            <li><a href="#" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a></li>
+                                            {{-- <li><a href="" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li> --}}
+                                            <li>
+                                                <a href="#" wire:click="delete({{$order->id}})"
+                                                wire:confirm="Are you sure you want to delete this order?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                            </li>
                                         </ul>
                                     </div>
                             </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8">
+                                <td colspan="9">
                                     <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
                                         No Orders Found ....
                                     </div>

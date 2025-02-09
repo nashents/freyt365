@@ -13,6 +13,9 @@ class Branch extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+    public function order_items(){
+        return $this->hasMany('App\Models\OrderItem');
+    }
     public function country(){
         return $this->belongsTo('App\Models\Country');
     }
