@@ -65,8 +65,6 @@
                                                 <ul class="dropdown-menu">
                                                     @if ($transaction->authorization == "pending" || $transaction->authorization == "rejected")
                                                     <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
-                                                    @else   
-                                                    {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format(0,2)}}    
                                                     @endif
                                                 </ul>
                                             </div>

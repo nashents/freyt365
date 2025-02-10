@@ -179,7 +179,7 @@
             <li class="side-nav-item">
                 <a href="{{ route('drivers.index') }}" class="side-nav-link">
                     <i class="bi bi-people"></i>
-                    <span> Driver </span>
+                    <span> Drivers </span>
                 </a>
             </li>
             @endif

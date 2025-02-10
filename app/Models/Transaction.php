@@ -21,6 +21,9 @@ class Transaction extends Model
     public function company(){
         return $this->belongsTo('App\Models\Company');
     }
+    public function order(){
+        return $this->belongsTo('App\Models\Order');
+    }
     public function transaction_type(){
         return $this->belongsTo('App\Models\TransactionType');
     }

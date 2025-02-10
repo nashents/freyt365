@@ -25,6 +25,9 @@ class Order extends Model
     public function order_item(){
         return $this->hasOne('App\Models\OrderItem');
     }
+    public function transactions(){
+        return $this->hasOne('App\Models\Transaction');
+    }
     public function horse(){
         return $this->belongsTo('App\Models\Horse');
     }
