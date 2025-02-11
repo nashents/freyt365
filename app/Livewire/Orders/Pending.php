@@ -63,16 +63,25 @@ class Pending extends Component
     }
 
     public function saveAuthorize(){
+        $transaction = $this->order->transaction;
+        $wallet = $transaction->wallet;
+        if ((is_numeric($wallet->balance) && is_numeric($transaction->amount)) && $wallet->balance > $transaction->amount) {
 
+        $order = Order::find($this->order_id);
         $order->authorized_by_id = Auth::user()->id;
         $order->authorization = $this->authorization;
         $order->reason = $this->reason;
         $order->update();
         
         if ($this->authorization == "approved") {
+           
             $transaction = $order->transaction;
+         
             if (isset($transaction)) {
                 $transaction->transaction_reference = $this->generateTransactionReference();
+                $transaction->authorized_by_id = Auth::user()->id;
+                $transaction->authorization = $this->authorization;
+                $transaction->reason = $this->reason;
                 $transaction->update();
             } 
            
@@ -89,6 +98,7 @@ class Pending extends Component
                         title : "Order Approved Successfully!!",
                         position: "center",
                     );
+                return redirect()->route('orders.approved');
 
         }else{
             $this->dispatch('hide-authorizationModal');
@@ -99,8 +109,19 @@ class Pending extends Component
                 title : "Order Rejected Successfully!!",
                 position: "center",
             );
+            return redirect()->route('orders.rejected');
         }              
       
+    }else{
+        $this->dispatch('hide-authorizationModal');
+        $this->resetInputFields();
+        $this->dispatch(
+            'alert',
+            type : 'error',
+            title : "You have insuffient funds to perform this order!!",
+            position: "center",
+        );      
+    }
         
     }
 

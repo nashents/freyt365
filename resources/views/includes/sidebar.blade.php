@@ -231,6 +231,11 @@
                 @endphp
                 <div class="collapse" id="orders">
                     <ul class="side-nav-second-level">
+                        @if (!Auth::user()->is_admin())
+                        <li>
+                            <a href="{{route('orders.create')}}">Create Order</a>
+                        </li>
+                        @endif
                         <li>
                             <a href="{{route('orders.index')}}">Manage Orders</a>
                         </li>

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('order_number')->nullable();
             $table->string('collection_date')->nullable();
             $table->string('total')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default('pending');
             $table->bigInteger('authorized_by_id')->unsigned()->nullable();
             $table->foreign('authorized_by_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('authorization')->default('pending');

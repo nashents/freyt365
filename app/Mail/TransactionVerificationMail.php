@@ -28,7 +28,11 @@ class TransactionVerificationMail extends Mailable
     {
         $this->transaction = $transaction;
         $this->admin = $admin;
-        $this->receiving_wallet = Wallet::find($transaction->receiving_wallet_id);
+        $receiving_wallet_id = $transaction->receiving_wallet_id;
+        if (isset($receiving_wallet_id)) {
+            $this->receiving_wallet = Wallet::find($receiving_wallet_id);
+        }
+      
         $this->company = Auth::user()->company;
        
     }

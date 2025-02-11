@@ -16,6 +16,9 @@ class Order extends Model
     public function country(){
         return $this->belongsTo('App\Models\Country');
     }
+    public function company(){
+        return $this->belongsTo('App\Models\Company');
+    }
     public function driver(){
         return $this->belongsTo('App\Models\Driver');
     }
@@ -25,7 +28,7 @@ class Order extends Model
     public function order_item(){
         return $this->hasOne('App\Models\OrderItem');
     }
-    public function transactions(){
+    public function transaction(){
         return $this->hasOne('App\Models\Transaction');
     }
     public function horse(){

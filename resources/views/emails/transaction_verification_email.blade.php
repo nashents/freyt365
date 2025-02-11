@@ -67,6 +67,17 @@ Transaction Verification
 															<strong>Receiving Wallet: </strong>{{$receiving_wallet->name}} {{$receiving_wallet->wallet_number}}
 															<br>
 														@endif
+													@elseif ($transaction->transaction_type->name == "Service Order")
+														@if ($transaction->order)
+															@if ($transaction->order->order_item->fuel_station)
+															{{$transaction->order->order_item->fuel_station->name}} {{$transaction->order->order_item->qty ? $transaction->order->order_item->qty." Litres" : ""}} @{{number_format($transaction->order->order_item->fuel_station->fuel_price->retail_price ? $transaction->order->order_item->fuel_station->fuel_price->retail_price : 0, 2)}} / Litre
+															@elseif ($transaction->order->order_item->branch)
+															{{$transaction->order->order_item->branch->name}} {{$transaction->order->order_item->service->name}}, {{$transaction->currency ? $transaction->currency->name : ""}} {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->order->order_item->qty ? $transaction->order->order_item->qty : 0,2)}} @ {{$transaction->transaction_type->charge->percentage ? $transaction->transaction_type->charge->percentage."%" : ""}} Service Fee
+															@elseif ($transaction->order->order_item->office)
+															{{$transaction->order->order_item->office->name}} {{$transaction->order->order_item->service->name}}, {{number_format($transaction->order->order_item->qty ? $transaction->order->order_item->qty : 0,2)}}  @ {{number_format($transaction->order->order_item->office->rate ? $transaction->order->order_item->office->rate : 0,2)}}/{{$transaction->order->order_item->office->frequency}}. 
+															@endif
+															<br>
+														@endif
 													@endif	
 													<strong>Transaction Currency:</strong> {{$transaction->currency ? $transaction->currency->name : ""}}
 													<br>

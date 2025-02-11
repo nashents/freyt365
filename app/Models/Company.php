@@ -27,6 +27,9 @@ class Company extends Model  implements Auditable
     public function transactions(){
         return $this->hasMany('App\Models\Transaction');
     }
+    public function orders(){
+        return $this->hasMany('App\Models\Order');
+    }
 
     public function wallets(){
         return $this->HasMany('App\Models\Wallet');

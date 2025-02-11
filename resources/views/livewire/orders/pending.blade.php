@@ -3,14 +3,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                @if (!Auth::user()->is_admin())
-                <div class="card-header">
-
-                    <a href="{{route('orders.create')}}" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New order</a>
-                  
-                </div>
-                @endif
-               
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-sordered dt-responsive nowrap w-100">
                         <thead>
@@ -19,9 +11,8 @@
                                 <th>Order Summary</th>
                                 <th>Driver/Horse/Trailer(s)</th>
                                 <th>Collection Date</th>
-                                <th>Currency</th>
                                 <th>Amount</th>
-                                <th>Authorization</th>
+                                <th>Auth</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -36,15 +27,29 @@
                                 <td>{{$order->order_number}}</td>
                                 <td>
                                     @if ($order->order_item)
-                                        @if (!is_null($order->order_item->fuel_station_id))
-                                            @php
-                                                $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
-                                            @endphp
-                                            <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
-                                            <br>
-                                            {{number_format($order->order_item->amount,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
-                                        @endif
+                                    @if (!is_null($order->order_item->fuel_station_id))
+                                        @php
+                                            $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
+                                        @endphp
+                                        <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                        <br>
+                                        {{number_format($order->order_item->qty,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
+                                    @elseif (!is_null($order->order_item->branch_id))
+                                        @php
+                                            $branch = App\Models\Branch::find($order->order_item->branch_id);
+                                        @endphp
+                                        <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                        <br>
+                                        {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee. 
+                                    @elseif (!is_null($order->order_item->office_id))
+                                        @php
+                                            $office = App\Models\Office::find($order->order_item->office_id);
+                                        @endphp
+                                        <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                        <br>
+                                        {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{number_format($office->rate ? $office->rate : 0,2)}}/{{$office->frequency}}. 
                                     @endif
+                                @endif
                                 </td>
                                 <td>{{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} / {{$order->horse ? $order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}} /
                                     @if ($order->trailers->count()>0)
@@ -55,8 +60,7 @@
 
                                 </td>
                                 <td>{{$order->collection_date}}</td>   
-                                <td>{{$order->currency ? $order->currency->name : ""}}</td>   
-                                <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total,2)}}</td>   
+                                <td>{{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total,2)}}</td>   
                                 <td><span class="badge bg-{{($order->authorization == 'approved') ? 'primary' : (($order->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($order->authorization == 'approved') ? 'approved' : (($order->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
                                 <td><span class="badge bg-{{($order->status == 'successful') ? 'primary' : (($order->status == 'unsuccessful') ? 'danger' : 'warning') }}">{{($order->status == 'successful') ? 'successful' : (($order->status == 'unsuccessful') ? 'unsuccessful' : 'pending') }}</span></td>
                                 <td class="w-10 line-height-35 table-dropdown">
@@ -66,6 +70,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
+                                            <li><a href="{{route('orders.show',$order->id)}}" class="dropdown-item"><i class="fa fa-eye color-default"></i> View</a></li>
                                             @if ($order->authorization == "pending" || $order->authorization == "rejected")
                                             <li><a href="#" wire:click.prevent="showAuthorize({{$order->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
                                             @endif
@@ -75,9 +80,9 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9">
+                                <td colspan="8">
                                     <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                        No Orders Found ....
+                                        No Pending Orders Found ....
                                     </div>
                                    
                                 </td>
@@ -88,7 +93,7 @@
                             <tr>
                                 <td colspan="8">
                                     <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                        No Orders Found ....
+                                        No Pending Orders Found ....
                                     </div>
                                    
                                 </td>
