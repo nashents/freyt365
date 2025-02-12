@@ -49,17 +49,17 @@ class Index extends Component
     public $admin;
     public $wallet_balance;
 
-    protected $listeners = ['echo:transactions,' . \App\Events\TransactionCreated::class => 'refreshTransactions'];
+    // protected $listeners = ['echo:transactions,' . \App\Events\TransactionCreated::class => 'refreshTransactions'];
 
-    public function refreshTransactions($payload)
-    {
-        // Handle the incoming payload if needed
-        // For example, you can log the payload or perform other actions
-        // \Log::info('Transaction Created:', $payload);
+    // public function refreshTransactions($payload)
+    // {
+    //     // Handle the incoming payload if needed
+    //     // For example, you can log the payload or perform other actions
+    //     // \Log::info('Transaction Created:', $payload);
 
-        // Refresh the component to fetch the latest transactions
-        $this->emitSelf('refresh');
-    }
+    //     // Refresh the component to fetch the latest transactions
+    //     $this->emitSelf('refresh');
+    // }
 
 
     public function mount(){

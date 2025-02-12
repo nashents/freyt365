@@ -11,9 +11,9 @@ class Transaction extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $dispatchesEvents = [
-        'created' => TransactionCreated::class,
-    ];
+    // protected $dispatchesEvents = [
+    //     'created' => TransactionCreated::class,
+    // ];
 
     public function currency(){
         return $this->belongsTo('App\Models\Currency');
