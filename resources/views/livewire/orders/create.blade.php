@@ -344,20 +344,24 @@
                                 </div>
                                 <hr>
                                 <div class="card-body" style="background-color: #ECECEC">
-                                    <p class="mb-2"><i class="fas fa-key"></i> Reg Number: <span style="float: right;"><strong>{{$selected_horse->registration_number}} {{$selected_horse->fleet_number ? "(".$selected_horse->fleet_number.")" : ""}}</strong></span></p>
-                                    <p class="mb-2"><i class="fas fa-info-circle"></i> Make/Model: <span style="float: right;"><strong>{{$selected_horse->make}} {{$selected_horse->model}}</strong></span></p>
+                                    @if (isset($selected_horse))
+                                        <p class="mb-2"><i class="fas fa-key"></i> Reg Number: <span style="float: right;"><strong>{{$selected_horse->registration_number}} {{$selected_horse->fleet_number ? "(".$selected_horse->fleet_number.")" : ""}}</strong></span></p>
+                                        <p class="mb-2"><i class="fas fa-info-circle"></i> Make/Model: <span style="float: right;"><strong>{{$selected_horse->make}} {{$selected_horse->model}}</strong></span></p>
+                                    @endif
+                                    @if (isset($trailer_id))
                                     <p class="mb-2"><i class="fas fa-trailer"></i> Trailer: 
                                         <span style="float: right;">
-                                            @if (isset($trailer_id))
+                                         
                                                 @foreach ($trailer_id as $id)
                                                     @php
                                                         $trailer = App\Models\Trailer::find($id);
                                                     @endphp
                                                    <strong>{{$trailer->registration_number}} </strong> 
                                                 @endforeach 
-                                            @endif
+                                            
                                         </span>
                                     </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
