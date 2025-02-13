@@ -13,6 +13,7 @@ use App\Mail\TransactionVerificationMail;
 class Pending extends Component
 {
     public $orders;
+    public $order;
     public $order_id;
     public $authorization;
     public $authorized_by_id;

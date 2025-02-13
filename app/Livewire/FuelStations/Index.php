@@ -25,8 +25,7 @@ class Index extends Component
     public $suburb;
     public $street_address;
     public $status;
-    public $lat;
-    public $long;
+    public $location;
     public $first_day;
     public $last_day;
     public $start_time;
@@ -56,8 +55,7 @@ class Index extends Component
         $this->street_address = "";
         $this->phonenumber = "";
         $this->email = "";
-        $this->lat = "";
-        $this->long = "";
+        $this->location = "";
         $this->first_day = "";
         $this->last_day = "";
         $this->start_time = "";
@@ -88,8 +86,7 @@ class Index extends Component
         $fuel_station->city = $this->city;
         $fuel_station->suburb = $this->suburb;
         $fuel_station->street_address = $this->street_address;
-        $fuel_station->lat = $this->lat;
-        $fuel_station->long = $this->long;
+        $fuel_station->location = $this->location;
         $fuel_station->save();
 
         if (isset($this->service_id)) {
@@ -145,8 +142,7 @@ class Index extends Component
         $this->street_address = $fuel_station->street_address;
         $this->fuel_station_id = $fuel_station->id;
         $this->status = $fuel_station->status;
-        $this->long = $fuel_station->long;
-        $this->lat = $fuel_station->lat;
+        $this->location = $fuel_station->location;
 
         $working_schedule = $fuel_station->working_schedule;
         $this->first_day = $working_schedule->first_day;
@@ -197,8 +193,7 @@ class Index extends Component
         $fuel_station->suburb = $this->suburb;
         $fuel_station->street_address = $this->street_address;
         $fuel_station->status = $this->status;
-        $fuel_station->lat = $this->lat;
-        $fuel_station->long = $this->long;
+        $fuel_station->location = $this->location;
         $fuel_station->update();
 
         $fuel_station->services()->detach();

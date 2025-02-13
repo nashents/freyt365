@@ -22,8 +22,7 @@ class Index extends Component
     public $country_id;
     public $city;
     public $name;
-    public $lat;
-    public $long;
+    public $location;
     public $first_day;
     public $last_day;
     public $start_time;
@@ -75,8 +74,7 @@ class Index extends Component
         $this->email = "";
         $this->contact_name = "";
         $this->description = "";
-        $this->lat = "";
-        $this->long = "";
+        $this->location = "";
         $this->contact_surname = "";
         $this->contact_email = "";
         $this->contact_phonenumber = "";
@@ -125,8 +123,7 @@ class Index extends Component
         $service_provider->rate = $this->rate;
         $service_provider->frequency = $this->frequency;
         $service_provider->minimum = $this->minimum;
-        $service_provider->lat = $this->lat;
-        $service_provider->long = $this->long;
+        $service_provider->location = $this->location;
         $service_provider->description = $this->description;
         $service_provider->status = 1;
 
@@ -171,8 +168,7 @@ class Index extends Component
         $office->city = $this->city;
         $office->suburb = $this->suburb;
         $office->street_address = $this->street_address;
-        $office->lat = $this->lat;
-        $office->long = $this->long;
+        $office->location = $this->location;
         $office->rate = $this->rate;
         $office->frequency = $this->frequency;
         $office->minimum = $this->minimum;
@@ -235,8 +231,7 @@ class Index extends Component
         $office->city = $this->city;
         $office->suburb = $this->suburb;
         $office->street_address = $this->street_address;
-        $office->lat = $this->lat;
-        $office->long = $this->long;
+        $office->location = $this->location;
         $office->rate = $this->rate;
         $office->frequency = $this->frequency;
         $office->minimum = $this->minimum;
@@ -343,8 +338,7 @@ class Index extends Component
         $office->city = $this->city;
         $office->suburb = $this->suburb;
         $office->street_address = $this->street_address;
-        $office->lat = $this->lat;
-        $office->long = $this->long;
+        $office->location = $this->location;
         $office->status = $this->status;
         $office->rate = $this->rate;
         $office->frequency = $this->frequency;
@@ -420,9 +414,8 @@ class Index extends Component
         $this->frequency = $service_provider->frequency;
         $this->minimum = $service_provider->minimum;
         $this->status = $service_provider->status;   
-        $this->lat = $service_provider->lat;   
-        $this->long = $service_provider->long;   
-
+        $this->location = $service_provider->location;   
+     
         $working_schedule = $service_provider->working_schedule;
         if (isset($working_schedule)) {
             $this->first_day = $working_schedule->first_day;
@@ -483,8 +476,7 @@ class Index extends Component
         $service_provider->rate = $this->rate;
         $service_provider->frequency = $this->frequency;
         $service_provider->minimum = $this->minimum;
-        $service_provider->lat = $this->lat;
-        $service_provider->long = $this->long;
+        $service_provider->location = $this->location;
         $service_provider->description = $this->description;
         $service_provider->update();
         
@@ -525,8 +517,7 @@ class Index extends Component
             $office->city = $this->city;
             $office->suburb = $this->suburb;
             $office->street_address = $this->street_address;
-            $office->lat = $this->lat;
-            $office->long = $this->long;
+            $office->location = $this->location;
             $office->rate = $this->rate;
             $office->frequency = $this->frequency;
             $office->minimum = $this->minimum;

@@ -25,6 +25,9 @@ class Order extends Model
     public function currency(){
         return $this->belongsTo('App\Models\Currency');
     }
+    public function wallet(){
+        return $this->belongsTo('App\Models\Wallet');
+    }
     public function order_item(){
         return $this->hasOne('App\Models\OrderItem');
     }

@@ -330,23 +330,11 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Latitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
-                                        placeholder="Enter latitude" >
-                                        @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Longitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
-                                        placeholder="Enter longitude" >
-                                        @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Location Pin</label>
+                            <input type="text" class="form-control" wire:model.live.debounce.300ms="location"
+                                placeholder="Copy & Paste Location Pin" >
+                                @error('location') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -361,9 +349,10 @@
                                      <label class="form-label" for="validationCustom01">Frequency</label>
                                          <select class="form-control" wire:model.live.debounce.300ms="frequency">
                                              <option value="">Select Frequency</option>
-                                             <option value="Hour">Hour</option>
-                                             <option value="Daily">Daily</option>
-                                             <option value="Weekly">Weekly</option>
+                                             <option value="Hour">Hour(s)</option>
+                                             <option value="Day">Day(s)</option>
+                                             <option value="Week">Week(s)</option>
+                                             <option value="Month">Month(s)</option>
                                          </select>
                                          @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                  </div>
@@ -669,23 +658,11 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Latitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
-                                        placeholder="Enter latitude" >
-                                        @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Longitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
-                                        placeholder="Enter longitude" >
-                                        @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Location Pin</label>
+                            <input type="text" class="form-control" wire:model.live.debounce.300ms="location"
+                                placeholder="Copy & Paste Location Pin" >
+                                @error('location') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -700,9 +677,10 @@
                                      <label class="form-label" for="validationCustom01">Frequency</label>
                                          <select class="form-control" wire:model.live.debounce.300ms="frequency">
                                             <option value="">Select Frequency</option>
-                                             <option value="Hour">Hour</option>
-                                             <option value="Daily">Daily</option>
-                                             <option value="Weekly">Weekly</option>
+                                            <option value="Hour">Hour(s)</option>
+                                            <option value="Day">Day(s)</option>
+                                            <option value="Week">Week(s)</option>
+                                            <option value="Month">Month(s)</option>
                                          </select>
                                          @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                  </div>
@@ -1004,23 +982,11 @@
                             </div>
                         </div>   
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Latitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
-                                        placeholder="Enter latitude" >
-                                        @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Longitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
-                                        placeholder="Enter longitude" >
-                                        @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Location Pin</label>
+                            <input type="text" class="form-control" wire:model.live.debounce.300ms="location"
+                                placeholder="Copy & Paste Location Pin" >
+                                @error('location') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
 
                         <h5 class="underline mt-30">Office Hours</h5> 
@@ -1244,9 +1210,10 @@
                                     <label class="form-label" for="validationCustom01">Frequency</label>
                                         <select class="form-control" wire:model.live.debounce.300ms="frequency">
                                             <option value="">Select Frequency</option>
-                                            <option value="Hour">Hour</option>
-                                            <option value="Daily">Daily</option>
-                                            <option value="Weekly">Weekly</option>
+                                            <option value="Hour">Hour(s)</option>
+                                            <option value="Day">Day(s)</option>
+                                            <option value="Week">Week(s)</option>
+                                            <option value="Month">Month(s)</option>
                                         </select>
                                         @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
@@ -1393,23 +1360,11 @@
                         </div>
 
                         
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Latitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="lat"
-                                        placeholder="Enter latitude" >
-                                        @error('lat') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Longitude</label>
-                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="long"
-                                        placeholder="Enter longitude" >
-                                        @error('long') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="validationCustom01">Location Pin</label>
+                            <input type="text" class="form-control" wire:model.live.debounce.300ms="location"
+                                placeholder="Copy & Paste Location Pin" >
+                                @error('location') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
 
                         <h5 class="underline mt-30">Office Hours</h5> 
@@ -1579,9 +1534,10 @@
                                  <label class="form-label" for="validationCustom01">Frequency</label>
                                      <select class="form-control" wire:model.live.debounce.300ms="frequency">
                                         <option value="">Select Frequency</option>
-                                         <option value="Hour">Hour</option>
-                                         <option value="Daily">Daily</option>
-                                         <option value="Weekly">Weekly</option>
+                                         <option value="Hour">Hour(s)</option>
+                                         <option value="Day">Day(s)</option>
+                                         <option value="Week">Week(s)</option>
+                                         <option value="Month">Month(s)</option>
                                      </select>
                                      @error('frequency') <span class="error" style="color:red">{{ $message }}</span> @enderror
                              </div>

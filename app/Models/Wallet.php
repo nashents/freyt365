@@ -19,5 +19,8 @@ class Wallet extends Model
     public function transactions(){
         return $this->hasMany('App\Models\Transaction');
     }
+    public function orders(){
+        return $this->hasMany('App\Models\Order');
+    }
 
 }

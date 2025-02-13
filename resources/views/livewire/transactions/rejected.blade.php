@@ -13,7 +13,7 @@
                         <thead>
                             <tr>
                                 <th>Transaction#</th>
-                                <th>Transaction Ref</th>
+                                <th>Reference</th>
                                 @if (Auth::user()->is_admin())
                                 <th>Company</th>
                                 @endif

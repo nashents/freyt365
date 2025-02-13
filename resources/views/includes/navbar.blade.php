@@ -86,19 +86,19 @@
                         </div>
                     </div>
 
-                    <div style="max-height: 300px;" data-simplebar>
+                    {{-- <div style="max-height: 300px;" data-simplebar>
                         <!-- item-->
-                        {{-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <div class="notify-icon bg-primary-subtle">
                                 <i class="mdi mdi-comment-account-outline text-primary"></i>
                             </div>
                             <p class="notify-details">Caleb Flakelar commented on Admin
                                 <small class="noti-time">1 min ago</small>
                             </p>
-                        </a> --}}
+                        </a>
 
                      
-                    </div>
+                    </div> --}}
 
                     {{-- <!-- All-->
                     <a href="javascript:void(0);"
@@ -109,11 +109,11 @@
                 </div>
             </li>
 
-            <li class="d-none d-sm-inline-block">
+            {{-- <li class="d-none d-sm-inline-block">
                 <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
                     <i class="ri-settings-3-line fs-22"></i>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="d-none d-sm-inline-block">
                 <div class="nav-link" id="light-dark-mode">
@@ -144,7 +144,7 @@
                         <span>My Account</span>
                     </a>
 
-                    <!-- item-->
+                    {{-- <!-- item-->
                     <a href="#" class="dropdown-item">
                         <i class="ri-settings-4-line fs-18 align-middle me-1"></i>
                         <span>Settings</span>
@@ -154,7 +154,7 @@
                     <a href="#" class="dropdown-item">
                         <i class="ri-customer-service-2-line fs-18 align-middle me-1"></i>
                         <span>Support</span>
-                    </a>
+                    </a> --}}
 
                     <!-- item-->
                     <a href="{{ route('logout') }}" class="dropdown-item">

@@ -106,9 +106,9 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>Name</th>
-                                                                    <th>Currencies</th>
+                                                                    <th>Cash</th>
                                                                     <th>Fuel</th>
-                                                                    <th>Service</th>
+                                                                    <th>Service(s)</th>
                                                                     <th>Actions</th>
                                                                 </tr>
                                                             </thead>
@@ -127,6 +127,10 @@
                                                                         @else   
                                                                         24/7
                                                                         @endif 
+                                                                        @if (isset($branch->location))
+                                                                        <br>
+                                                                        <a href="{{$branch->location}}" class="btn btn-outline-primary mt-2" target="_blank"><i class="bi bi-geo-alt-fill"></i> <span>View Map</span> </a>
+                                                                        @endif
                                                                     </td>
                                                                     <td>
                                                                         @if ($branch->currencies->count()>0)
@@ -192,6 +196,10 @@
                                                                                 @else   
                                                                                     24/7
                                                                                 @endif 
+                                                                                @if (isset($station->location))
+                                                                                <br>
+                                                                                <a href="{{$station->location}}" class="btn btn-outline-primary mt-2" target="_blank"><i class="bi bi-geo-alt-fill"></i> <span>View Map</span> </a>
+                                                                                @endif
                                                                             </td>
                                                                             <td>
                                                                                 @if ($station->currencies->count()>0)
@@ -251,6 +259,10 @@
                                                                         @else   
                                                                             24/7
                                                                         @endif 
+                                                                        @if (isset($office->location))
+                                                                        <br>
+                                                                        <a href="{{$office->location}}" class="btn btn-outline-primary mt-2" target="_blank"><i class="bi bi-geo-alt-fill"></i> <span>View Map</span> </a>
+                                                                        @endif
                                                                     
                                                                     </td>
                                                                     <td>
@@ -314,13 +326,16 @@
                             
                         @endif
                     @if ($next == False)
-                        <a href="#" wire:click.prevent="nextStep()" type="button" class="btn btn-outline-primary mb-5" style="float: right">Next</a>
+                            @if (isset($this->selectedDriver) &&  isset($this->selectedWallet) && isset($this->selectedCountry))
+                            <a href="#" wire:click.prevent="nextStep()" type="button" class="btn btn-outline-primary mb-5" style="float: right">Next</a>
+                            @endif
                     @endif
 
                     @if ($next == True)
                     <div class="card-header mb-1" style="background-color: #787276; color:white">
                         <h5>DRAFT ORDER SUMMARY</h5>
                     </div>
+                    @if (!is_null($selectedHorse))
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card">
@@ -340,7 +355,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header" style="background-color: #787276; color:white">
-                                    <strong>TRUCK DETAILS</strong>
+                                    <strong>HORSE DETAILS</strong>
                                 </div>
                                 <hr>
                                 <div class="card-body" style="background-color: #ECECEC">
@@ -366,6 +381,27 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #787276; color:white">
+                                    <strong>DRIVER DETAILS</strong>
+                                </div>
+                                <hr>
+                                <div class="card-body" style="background-color: #ECECEC">
+                                    <p class="mb-2"><i class="fas fa-user"></i> Driver: <span style="float:right"><strong>{{$selected_driver->name}} {{$selected_driver->surname}}</strong></span></p>
+                                    <p class="mb-2"><i class="fas fa-address-book"></i> License#: <span style="float:right"><strong>{{$selected_driver->license_number}}</strong></span></p>
+                                    <p class="mb-2"><i class="fas fa-address-book"></i> Passport# <span style="float:right"><strong>{{$selected_driver->passport_number}}</strong></span></p>
+                                    <p class="mb-2"><i class="fas fa-phone"></i> Contact# <span style="float:right"><strong>{{$selected_driver->phonenumber}}</strong></span></p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div> 
+                    @endif
+        
                     <div class="row">
                         <div class="col-md-8">
                             <div class="card">
@@ -381,6 +417,9 @@
                                                 <span class="mb-3">
                                                     @if ($fuel_station->country)
                                                     <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                                    @if (isset($fuel_station->location))
+                                                    <a href="{{$fuel_station->location}}" class="btn btn-default" target="_blank"><i class="bi bi-geo-alt-fill h2"></i> <span></span> </a>
+                                                    @endif
                                                     @endif
                                                 </span>
                                                 <br>
@@ -423,6 +462,9 @@
                                                 <span class="mb-3">
                                                     @if ($office->country)
                                                     <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong></span>  
+                                                    @if (isset($office->location))
+                                                    <a href="{{$office->location}}" class="btn btn-default" target="_blank"><i class="bi bi-geo-alt-fill h2"></i> <span></span> </a>
+                                                    @endif
                                                     @endif
                                                 </span>
                                                 <br>
@@ -448,7 +490,7 @@
                                                 </p>
                                                 <br>
                                                 @if ($office->service_provider)
-                                                <p>{{$office->service_provider->rate}} {{$office->service_provider->frequency}}</p>
+                                                <p>Rate: {{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format($office->service_provider->rate,2)}} / {{$office->service_provider->frequency}} with a minimum of {{$office->service_provider->minimum}}{{$office->service_provider->frequency}}(s) </p>
                                             @endif
                                             </div> 
                                             
@@ -462,6 +504,9 @@
                                                     <span class="mb-3">
                                                         @if ($branch->country)
                                                         <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong></span>  
+                                                        @if (isset($branch->location))
+                                                        <a href="{{$branch->location}}" class="btn btn-default" target="_blank"><i class="bi bi-geo-alt-fill h2"></i> <span></span> </a>
+                                                        @endif
                                                         @endif
                                                     </span>
                                                     <br>
@@ -469,6 +514,11 @@
                                                     @if ($branch->currencies->count()>0)
                                                         @foreach ($branch->currencies as $currency)
                                                         <span class="badge bg-primary">{{$currency->name}}</span>
+                                                        @endforeach
+                                                    @endif
+                                                    @if ($branch->services->count()>0)
+                                                        @foreach ($branch->services as $service)
+                                                        <span class="badge bg-warning">{{$service->name}}</span>
                                                         @endforeach
                                                     @endif
                                                   

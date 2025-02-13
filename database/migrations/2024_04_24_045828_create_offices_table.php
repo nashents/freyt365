@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('minimum')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
+            $table->string('location')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();

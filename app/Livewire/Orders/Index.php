@@ -4,10 +4,12 @@ namespace App\Livewire\Orders;
 
 use App\Models\Order;
 use App\Models\Driver;
+use App\Models\Company;
 use App\Models\Trailer;
 use Livewire\Component;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\Transaction;
 use App\Mail\TransactionMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -46,6 +48,9 @@ class Index extends Component
 
 
     public function mount(){
+
+        $this->admin = Company::where('type','admin')->first();
+        
         if (Auth::user()->is_admin || Auth::user()->company->is_admin()) {
             $this->orders = Order::where('authorization','approved')->orderBy('created_at','desc')->get();
 

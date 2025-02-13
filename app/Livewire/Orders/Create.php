@@ -95,9 +95,9 @@ class Create extends Component
         if (!is_null($id)) {
             $this->horse = Horse::find($id);
             $this->selected_horse = Horse::find($id);
-            $this->trailers =  $this->horse->trailers;
-            if (isset($this->trailers)) {
-                foreach ($this->trailers as $trailer) {
+            $horse_trailers =  $this->horse->trailers;
+            if (isset($horse_trailers)) {
+                foreach ($horse_trailers as $trailer) {
                     $this->trailer_id[] = $trailer->id;
                 }
             }

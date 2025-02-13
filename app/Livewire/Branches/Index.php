@@ -23,8 +23,7 @@ class Index extends Component
     public $email;
     public $phonenumber;
     public $status;
-    public $lat;
-    public $long;
+    public $location;
     public $branches;
     public $branch_id;
     public $first_day;
@@ -57,8 +56,7 @@ class Index extends Component
         $this->street_address = "";
         $this->phonenumber = "";
         $this->email = "";
-        $this->lat = "";
-        $this->long = "";
+        $this->location = "";
         $this->first_day = "";
         $this->last_day = "";
         $this->start_time = "";
@@ -80,8 +78,7 @@ class Index extends Component
         $branch->city = $this->city;
         $branch->suburb = $this->suburb;
         $branch->street_address = $this->street_address;
-        $branch->lat = $this->lat;
-        $branch->long = $this->long;
+        $branch->location = $this->location;
         $branch->status = 1;
         $branch->save();
 
@@ -133,8 +130,7 @@ class Index extends Component
         $this->city = $branch->city;
         $this->suburb = $branch->suburb;
         $this->street_address = $branch->street_address;
-        $this->lat = $branch->lat;
-        $this->long = $branch->long;
+        $this->location = $branch->location;
         $this->status = $branch->status;
         
         $working_schedule = $branch->working_schedule;
@@ -188,14 +184,24 @@ class Index extends Component
         $branch->city = $this->city;
         $branch->suburb = $this->suburb;
         $branch->street_address = $this->street_address;
+        $branch->location = $this->location;
         $branch->status = $this->status;
         $branch->update();
         $branch->services()->detach();
         $branch->fuel_types()->detach();
         $branch->currencies()->detach();
-        $branch->services()->sync($this->service_id);
-        $branch->fuel_types()->sync($this->fuel_type_id);
-        $branch->currencies()->sync($this->currency_id);
+        if (isset($this->service_id)) {
+            $branch->services()->sync($this->service_id);
+        }
+        if (isset($this->fuel_type_id)) {
+            $branch->fuel_types()->sync($this->fuel_type_id);
+        }
+        if (isset($this->currency_id)) {
+            $branch->currencies()->sync($this->currency_id);
+        }
+      
+        
+       
     
 
         $working_schedule = $branch->working_schedule ;
