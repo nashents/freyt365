@@ -1,8 +1,8 @@
 <div>
   
     <x-loading/>
-    <a href="#" data-toggle="modal" data-target="#documentModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Document</a>
-    <a href="#" data-toggle="modal" data-target="#folderModal" class="btn btn-default"><i class="fa fa-plus-square-o"></i>Folder</a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#documentModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Document</a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#folderModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Folder</a>
     <br>
     <br>
 
@@ -65,140 +65,197 @@
     </table>
 
 
+    
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="documentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i>  Add Document(s)</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="store()" >
+                    <div class="modal-body">
 
-<div wire:ignore.self data-backdrop="static" data-keyboard="false" class="modal" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="modal4Label" data-backdrop-color="blue">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modal4Label"><i class="fa fa-plus"></i> Add Document(s) <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></h4>
-            </div>
-            <form wire:submit.prevent="store()" >
-            <div class="modal-body">
-                <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="title">Folders</label>
-                        <select wire:model.debounce.300ms="folder_id" class="form-control">
-                            <option value="">Select Folder</option>
-                            @foreach ($folders as $folder)
-                            <option value="{{ $folder->id }}">{{ $folder->title }}</option>
-                            @endforeach
-                        </select>
-                        <small>  <a href="#" wire:click="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
-                        @error('folder_id') <span class="text-danger error">{{ $message }}</span>@enderror
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    @if (isset($purchase))
-                    <div class="form-group">
-                        <label for="title">Titles<span class="required" style="color: red">*</span></label>
-                        <select wire:model.debounce.300ms="title" class="form-control" required>
-                            <option value="">Select Title</option>
-                            <option value="Invoice">Invoice</option>
-                            <option value="Quotation 1">Quotation 1</option>
-                            <option value="Quotation 2">Quotation 2</option>
-                            <option value="Quotation 3">Quotation 3</option>
-                            <option value="Receipt">Receipt</option>
-                        </select>
-                        @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
-                    </div>
-                    @else
-                    <div class="form-group">
-                        <label for="title">Title<span class="required" style="color: red">*</span></label>
-                        <input type="text" class="form-control"  wire:model.debounce.300ms="title" placeholder="Enter Document Title" required>
-                        @error('title') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                    </div>
-                    @endif
-                </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="file">Upload File<span class="required" style="color: red">*</span></label>
-                                <input type="file" class="form-control"  wire:model.debounce.300ms="file" placeholder="Upload File" required>
-                                @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title">Folders</label>
+                                    <select wire:model.debounce.300ms="folder_id" class="form-control">
+                                        <option value="">Select Folder</option>
+                                        @foreach ($folders as $folder)
+                                        <option value="{{ $folder->id }}">{{ $folder->title }}</option>
+                                        @endforeach
+                                    </select>
+                                    <small>  <a href="#" wire:click="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
+                                    @error('folder_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title">Title<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control"  wire:model.debounce.300ms="title" placeholder="Enter Document Title" required>
+                                    @error('title') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="expiry_date">Expiry Date</label>
-                                <input type="date" class="form-control"  wire:model.debounce.300ms="expires_at" placeholder="Expiry Date" >
-                                @error('expires_at') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="file">Upload File<span class="required" style="color: red">*</span></label>
+                                    <input type="file" class="form-control"  wire:model.debounce.300ms="file" placeholder="Upload File" required>
+                                    @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="expiry_date">Expiry Date</label>
+                                    <input type="date" class="form-control"  wire:model.debounce.300ms="expires_at" placeholder="Expiry Date" >
+                                    @error('expires_at') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
                             </div>
                         </div>
+                       
                     </div>
-                
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-gray btn-wide btn-rounded" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
-                    <button type="submit" class="btn bg-success btn-wide btn-rounded"><i class="fa fa-save"></i>Save</button>
-                </div>
-                <!-- /.btn-group -->
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Save</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
-<div wire:ignore.self data-backdrop="static" data-keyboard="false" class="modal" id="folderModal" tabindex="-1" role="dialog" aria-labelledby="modal4Label" data-backdrop-color="blue">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modal4Label"><i class="fa fa-plus"></i> Add Folder <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></h4>
-            </div>
-            <form wire:submit.prevent="storeFolder()" >
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="title">Title<span class="required" style="color: red">*</span></label>
-                    <input type="text" class="form-control"  wire:model.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
-                    @error('folder_title') <span class="error" style="color:red">{{ $message }}</span> @enderror
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="documentEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i>  Edit Document</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-gray btn-wide btn-rounded" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
-                    <button type="submit" class="btn bg-success btn-wide btn-rounded"><i class="fa fa-save"></i>Save</button>
-                </div>
-                <!-- /.btn-group -->
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-<div wire:ignore.self data-backdrop="static" data-keyboard="false" class="modal" id="folderEditModal" tabindex="-1" role="dialog" aria-labelledby="modal4Label" data-backdrop-color="blue">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modal4Label"><i class="fa fa-edit"></i> Edit Folder <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></h4>
-            </div>
-            <form wire:submit.prevent="updateFolder()" >
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="title">Title<span class="required" style="color: red">*</span></label>
-                    <input type="text" class="form-control"  wire:model.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
-                    @error('folder_title') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-gray btn-wide btn-rounded" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
-                    <button type="submit" class="btn bg-success btn-wide btn-rounded"><i class="fa fa-refresh"></i>Update</button>
-                </div>
-                <!-- /.btn-group -->
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
+                <form wire:submit.prevent="update()" >
+                    <div class="modal-body">
 
-<div data-backdrop="static" data-keyboard="false" class="modal fade" id="documentDeleteModal" tabindex="-1" role="dialog">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title">Folders</label>
+                                    <select wire:model.debounce.300ms="folder_id" class="form-control">
+                                        <option value="">Select Folder</option>
+                                        @foreach ($folders as $folder)
+                                        <option value="{{ $folder->id }}">{{ $folder->title }}</option>
+                                        @endforeach
+                                    </select>
+                                    <small>  <a href="#" wire:click="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
+                                    @error('folder_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title">Title<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control"  wire:model.debounce.300ms="title" placeholder="Enter Document Title" required>
+                                    @error('title') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="file">Upload File<span class="required" style="color: red">*</span></label>
+                                    <input type="file" class="form-control"  wire:model.debounce.300ms="file" placeholder="Upload File" required>
+                                    @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="expiry_date">Expiry Date</label>
+                                    <input type="date" class="form-control"  wire:model.debounce.300ms="expires_at" placeholder="Expiry Date" >
+                                    @error('expires_at') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>update</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="folderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="bi bi-plus-lg"></i>  Add Folder</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="storeFolder()" >
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="title">Title<span class="required" style="color: red">*</span></label>
+                            <input type="text" class="form-control"  wire:model.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
+                            @error('folder_title') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Save</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="folderModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel"> <i class="fas fa-edit"></i>  Edit Folder</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="updateFolder()" >
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="title">Title<span class="required" style="color: red">*</span></label>
+                            <input type="text" class="form-control"  wire:model.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
+                            @error('folder_title') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-gray btn-wide btn-rounded" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>Close</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-floppy-fill"></i>Update</button>
+                        </div>
+                        <!-- /.btn-group -->
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="documentDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-danger">
             <div class="modal-body">
                <center> <strong>Are you sure you want to delete this Document?</strong> </center>
             </div>
-            <form method="POST" >
+            <form >
             <div class="modal-footer no-border">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn bg-white btn-wide btn-rounded" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
@@ -210,14 +267,13 @@
         </div>
     </div>
 </div>
-
-<div data-backdrop="static" data-keyboard="false" class="modal fade" id="folderDeleteModal" tabindex="-1" role="dialog">
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="folderDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-danger">
             <div class="modal-body">
                <center> <strong>Are you sure you want to delete this Folder?</strong> </center>
             </div>
-            <form method="POST" >
+            <form >
             <div class="modal-footer no-border">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn bg-white btn-wide btn-rounded" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
@@ -230,81 +286,8 @@
     </div>
 </div>
 
-<div wire:ignore.self data-backdrop="static" data-keyboard="false" class="modal" id="documentEditModal" tabindex="-1" role="dialog" aria-labelledby="modal4Label" data-backdrop-color="blue">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modal4Label"><i class="fa fa-edit"></i> Edit Document <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></h4>
-            </div>
-            <form wire:submit.prevent="update()" >
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="title">Folders</label>
-                            <select wire:model.debounce.300ms="folder_id" class="form-control"yy>
-                                <option value="">Select Folder</option>
-                                @foreach ($folders as $folder)
-                                <option value="{{ $folder->id }}">{{ $folder->title }}</option>
-                                @endforeach
-                            </select>
-                            <small>  <a href="#" wire:click="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
-                            @error('folder_id') <span class="text-danger error">{{ $message }}</span>@enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        @if (isset($purchase))
-                        <div class="form-group">
-                            <label for="title">Titles<span class="required" style="color: red">*</span></label>
-                            <select wire:model.debounce.300ms="title" class="form-control" required>
-                                <option value="">Select Title</option>
-                                <option value="Invoice">Invoice</option>
-                                <option value="Quotation 1">Quotation 1</option>
-                                <option value="Quotation 2">Quotation 2</option>
-                                <option value="Quotation 3">Quotation 3</option>
-                                <option value="Receipt">Receipt</option>
-                            </select>
-                            @error('title') <span class="text-danger error">{{ $message }}</span>@enderror
-                        </div>
-                        @else
-                        <div class="form-group">
-                            <label for="title">Title<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control"  wire:model.debounce.300ms="title" placeholder="Enter Document Title" required>
-                            @error('title') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                        </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="file">Upload File</label>
-                            <small style="color: red">Selected File: <a href="{{asset('myfiles/documents/'.$filename)}}"><i class="fa fa-file"></i> {{$filename}}</a></small>
-                            <input type="file" class="form-control"  wire:model.debounce.300ms="file" placeholder="Upload File" >
-                            @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="expiry_date">Expiry Date</label>
-                            <input type="date" class="form-control"  wire:model.debounce.300ms="expires_at" placeholder="Expiry Date" >
-                            @error('expires_at') <span class="error" style="color:red">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-gray btn-wide btn-rounded" data-dismiss="modal"><i class="fa fa-times"></i>Close</button>
-                    <button type="submit" class="btn bg-success btn-wide btn-rounded"><i class="fa fa-save"></i>Update</button>
-                </div>
-                <!-- /.btn-group -->
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
+
 
 </div>
 

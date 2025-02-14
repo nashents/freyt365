@@ -36,7 +36,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="{{route('orders.index')}}">All Order</a></li>
+                                        <li class="breadcrumb-item"><a href="{{route('orders.index')}}">All Orders</a></li>
                                         <li class="breadcrumb-item" active><a href="javascript: void(0);">Order {{$order->order_number}}</a></li>
                                     </ol>
                                 </div>

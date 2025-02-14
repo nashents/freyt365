@@ -25,6 +25,7 @@ return new class extends Migration
             $table->bigInteger('driver_id')->unsigned()->nullable();
             $table->foreign('horse_id')->references('id')->on('horses')->onDelete('cascade');
             $table->string('order_number')->nullable();
+            $table->string('own_reference')->nullable();
             $table->string('collection_date')->nullable();
             $table->string('total')->nullable();
             $table->string('status')->default('pending');

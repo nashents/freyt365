@@ -68,7 +68,6 @@ class DatabaseSeeder extends Seeder
            $this->call(BranchSeeder::class);
            $this->call(ColorSeeder::class);
            $this->call(MeasurementSeeder::class);
-           $this->call(FolderSeeder::class);
 
     }
 }

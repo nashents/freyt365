@@ -136,22 +136,24 @@ class Index extends Component
     public function showDocumentDelete($id){
         $this->document_id = $id;
         $this->document = Document::find($id);
-        $this->dispatchBrowserEvent('show-documentDeleteModal');
+        $this->dispatch('show-documentDeleteModal');
     }
     public function deleteDocument(){
         $this->document->delete();
         $this->resetInputFields();
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'success',
-            'message'=>"Document Deleted Successfully Successfully!!"
-        ]);
-        $this->dispatchBrowserEvent('hide-documentDeleteModal');
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Document Deleted Successfully Successfully!!",
+            position: "center",
+        );
+        $this->dispatch('hide-documentDeleteModal');
     }
 
     public function showFolderDelete($id){
         $this->folder_id = $id;
         $this->folder = Folder::find($id);
-        $this->dispatchBrowserEvent('show-folderDeleteModal');
+        $this->dispatch('show-folderDeleteModal');
     }
     public function deleteFolder(){
         $documents = $this->folder->documents;
@@ -162,14 +164,17 @@ class Index extends Component
         }
         $this->folder->delete();
         $this->resetInputFields();
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'success',
-            'message'=>"Folder Deleted Successfully Successfully!!"
-        ]);
-        $this->dispatchBrowserEvent('hide-folderDeleteModal');
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Folder Deleted Successfully Successfully!!",
+            position: "center",
+        );
+       
+        $this->dispatch('hide-folderDeleteModal');
     }
     public function showFolder(){
-        $this->dispatchBrowserEvent('show-folderModal');
+        $this->dispatch('show-folderModal');
     }
 
     public function storeFolder(){
@@ -183,16 +188,18 @@ class Index extends Component
 
             $this->folder_id = $folder->id;
 
-            $this->dispatchBrowserEvent('hide-folderModal');
+            $this->dispatch('hide-folderModal');
             $this->resetInputFields();
-            $this->dispatchBrowserEvent('alert',[
-                'type'=>'success',
-                'message'=>"Folder Created Successfully!!"
-            ]);
-
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Folder Created Successfully!!",
+                position: "center",
+            );
+           
         }catch(\Exception $e){
             // Set Flash Message
-            $this->dispatchBrowserEvent('alert',[
+            $this->dispatch('alert',[
                 'type'=>'error',
                 'message'=>"Something went wrong while creating folder!!"
             ]);
@@ -208,16 +215,19 @@ class Index extends Component
             $folder->title = $this->folder_title;
             $folder->update();
 
-            $this->dispatchBrowserEvent('hide-folderEditModal');
+            $this->dispatch('hide-folderEditModal');
             $this->resetInputFields();
-            $this->dispatchBrowserEvent('alert',[
-                'type'=>'success',
-                'message'=>"Folder Updated Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Folder Updated Successfully!!",
+                position: "center",
+            );
+           
 
         }catch(\Exception $e){
             // Set Flash Message
-            $this->dispatchBrowserEvent('alert',[
+            $this->dispatch('alert',[
                 'type'=>'error',
                 'message'=>"Something went wrong while updating folder!!"
             ]);
@@ -269,16 +279,19 @@ class Index extends Component
 
          
 
-            $this->dispatchBrowserEvent('hide-documentModal');
+            $this->dispatch('hide-documentModal');
             $this->resetInputFields();
-            $this->dispatchBrowserEvent('alert',[
-                'type'=>'success',
-                'message'=>"Document(s) Uploaded Successfully!!"
-            ]);
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Document(s) Uploaded Successfully!!",
+                position: "center",
+            );
+           
 
         // }catch(\Exception $e){
         //     // Set Flash Message
-        //     $this->dispatchBrowserEvent('alert',[
+        //     $this->dispatch('alert',[
         //         'type'=>'error',
         //         'message'=>"Something went wrong while uploading document(s)!!"
         //     ]);
@@ -291,7 +304,7 @@ class Index extends Component
         $this->folder_title = $folder->title;
         $this->folder_id = $folder->id;
 
-        $this->dispatchBrowserEvent('show-folderEditModal');
+        $this->dispatch('show-folderEditModal');
 
         }
 
@@ -304,7 +317,7 @@ class Index extends Component
         $this->filename = $document->filename;
         $this->document_id = $document->id;
 
-        $this->dispatchBrowserEvent('show-documentEditModal');
+        $this->dispatch('show-documentEditModal');
 
         }
 
@@ -343,15 +356,18 @@ class Index extends Component
                 }
                 $document->update();
 
-                $this->dispatchBrowserEvent('hide-documentEditModal');
+                $this->dispatch('hide-documentEditModal');
                 $this->resetInputFields();
-                $this->dispatchBrowserEvent('alert',[
-                    'type'=>'success',
-                    'message'=>"Document Updated Successfully!!"
-                ]);
+                $this->dispatch(
+                    'alert',
+                    type : 'success',
+                    title : "Document Updated Successfully!!",
+                    position: "center",
+                );
+               
             }catch(\Exception $e){
                 // Set Flash Message
-                $this->dispatchBrowserEvent('alert',[
+                $this->dispatch('alert',[
                     'type'=>'error',
                     'message'=>"Something went wrong while updating document(s)!!"
                 ]);

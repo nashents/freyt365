@@ -13,12 +13,6 @@ class FolderSeeder extends Seeder
      */
     public function run(): void
     {
-        $folders = ['Uncategorized'];
-        foreach($folders as $folder){
-            Folder::create([
-                'user_id' => 1,
-                'title' => $folder
-            ]);
-        }
+       
     }
 }

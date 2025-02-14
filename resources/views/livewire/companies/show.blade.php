@@ -70,9 +70,7 @@
 
                             <!-- Activities -->
                             <div id="documents" class="tab-pane">
-                                <div class="timeline-2">
                                 @livewire('documents.index', ['category' => 'company','id' => $company->id])
-                                </div>
                             </div>
 
                         </div>
