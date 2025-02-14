@@ -82,17 +82,17 @@ class Index extends Component
         $branch->status = 1;
         $branch->save();
 
-        if (isset($this->service_id)) {
+        if (isset($this->service_id) && !empty($this->service_id)) {
            foreach ($this->service_id as $key => $value) {
             $branch->services()->attach($key);
            }
         }
-        if (isset($this->fuel_type_id)) {
+        if (isset($this->fuel_type_id) && !empty($this->fuel_type_id)) {
             foreach ($this->fuel_type_id as $key =>  $value) {
                 $branch->fuel_types()->attach($key);
             }
         }
-        if (isset($this->currency_id)) {
+        if (isset($this->currency_id) && !empty($this->currency_id)) {
             foreach ($this->currency_id as $key => $value) {
                 $branch->currencies()->attach($key);
             }
@@ -190,13 +190,14 @@ class Index extends Component
         $branch->services()->detach();
         $branch->fuel_types()->detach();
         $branch->currencies()->detach();
-        if (isset($this->service_id)) {
+        
+        if (isset($this->service_id) && !empty($this->service_id)) {
             $branch->services()->sync($this->service_id);
         }
-        if (isset($this->fuel_type_id)) {
+        if (isset($this->fuel_type_id) && !empty($this->fuel_type_id)) {
             $branch->fuel_types()->sync($this->fuel_type_id);
         }
-        if (isset($this->currency_id)) {
+        if (isset($this->currency_id) && !empty($this->currency_id)) {
             $branch->currencies()->sync($this->currency_id);
         }
       

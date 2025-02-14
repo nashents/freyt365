@@ -89,17 +89,17 @@ class Index extends Component
         $fuel_station->location = $this->location;
         $fuel_station->save();
 
-        if (isset($this->service_id)) {
+        if (isset($this->service_id) && !empty($this->service_id)) {
             foreach ($this->service_id as $key => $value) {
              $fuel_station->services()->attach($key);
             }
          }
-         if (isset($this->fuel_type_id)) {
+         if (isset($this->fuel_type_id) && !empty($this->fuel_type_id)) {
              foreach ($this->fuel_type_id as $key =>  $value) {
                  $fuel_station->fuel_types()->attach($key);
              }
          }
-         if (isset($this->currency_id)) {
+         if (isset($this->currency_id) && !empty($this->currency_id)) {
              foreach ($this->currency_id as $key => $value) {
                  $fuel_station->currencies()->attach($key);
              }
@@ -199,9 +199,17 @@ class Index extends Component
         $fuel_station->services()->detach();
         $fuel_station->fuel_types()->detach();
         $fuel_station->currencies()->detach();
-        $fuel_station->services()->sync($this->service_id);
-        $fuel_station->fuel_types()->sync($this->fuel_type_id);
-        $fuel_station->currencies()->sync($this->currency_id);
+
+        if(isset($this->service_id) && !empty($this->service_id)){
+            $fuel_station->services()->sync($this->service_id);
+        }
+        if(isset($this->fuel_type_id) && !empty($this->fuel_type_id)){
+            $fuel_station->fuel_types()->sync($this->fuel_type_id);
+        }
+        if(isset($this->currency_id) && !empty($this->currency_id)){
+            $fuel_station->currencies()->sync($this->currency_id);
+        }
+
 
         $working_schedule = $fuel_station->working_schedule ;
         $working_schedule->fuel_station_id = $fuel_station->id;

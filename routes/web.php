@@ -28,6 +28,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ChargeController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CompanyController;
@@ -102,6 +103,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/admin/users/',[UserController::class,'admin'])->name('users.admins');
 
+    Route::resource('/folders',FolderController::class);
     Route::resource('/partners',PartnerController::class);
     Route::resource('/posts',PostController::class);
     Route::resource('/testimonials',TestimonialController::class);

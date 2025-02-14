@@ -140,19 +140,20 @@ class Index extends Component
         $working_schedule->start_time = $this->start_time;
         $working_schedule->everyday = $this->everyday;
         $working_schedule->save();
+      
 
-        if (isset($this->fuel_type_id)) {
+        if (isset($this->fuel_type_id) && !empty($this->fuel_type_id)) {
             foreach ($this->fuel_type_id as $key =>  $value) {
                 $service_provider->fuel_types()->attach($key);
             }
         }
-        if (isset($this->currency_id)) {
+        if (isset($this->currency_id) && !empty($this->currency_id)) {
             foreach ($this->currency_id as $key => $value) {
                 $service_provider->currencies()->attach($key);
             }
         }
 
-       if (isset($this->service_id)) {
+       if (isset($this->service_id) && !empty($this->service_id)) {
           foreach ($this->service_id as $key => $value) {
            $service_provider->services()->attach($key);
           }
@@ -184,18 +185,18 @@ class Index extends Component
         $working_schedule->everyday = $this->everyday;
         $working_schedule->save();
 
-        if (isset($this->fuel_type_id)) {
+        if (isset($this->fuel_type_id) && !empty($this->fuel_type_id)) {
             foreach ($this->fuel_type_id as $key =>  $value) {
                 $office->fuel_types()->attach($key);
             }
         }
-        if (isset($this->currency_id)) {
+        if (isset($this->currency_id) && !empty($this->currency_id)) {
             foreach ($this->currency_id as $key => $value) {
                 $office->currencies()->attach($key);
             }
         }
 
-       if (isset($this->service_id)) {
+       if (isset($this->service_id) && !empty($this->service_id) ) {
           foreach ($this->service_id as $key => $value) {
            $office->services()->attach($key);
           }
@@ -247,18 +248,18 @@ class Index extends Component
         $working_schedule->everyday = $this->everyday;
         $working_schedule->save();
 
-        if (isset($this->fuel_type_id)) {
+        if (isset($this->fuel_type_id) && !empty($this->fuel_type_id)) {
             foreach ($this->fuel_type_id as $key =>  $value) {
                 $office->fuel_types()->attach($key);
             }
         }
-        if (isset($this->currency_id)) {
+        if (isset($this->currency_id) && !empty($this->currency_id)) {
             foreach ($this->currency_id as $key => $value) {
                 $office->currencies()->attach($key);
             }
         }
 
-       if (isset($this->service_id)) {
+       if (isset($this->service_id) && !empty($this->service_id)) {
           foreach ($this->service_id as $key => $value) {
            $office->services()->attach($key);
           }
@@ -357,10 +358,18 @@ class Index extends Component
         $office->services()->detach();
         $office->fuel_types()->detach();
         $office->currencies()->detach();
-        $office->services()->sync($this->service_id);
-        $office->fuel_types()->sync($this->fuel_type_id);
-        $office->currencies()->sync($this->currency_id);
-
+        if(isset($this->service_id) && !empty($this->service_id)){
+            $office->services()->sync($this->service_id);
+        }
+        if(isset($this->fuel_type_id) && !empty($this->fuel_type_id)){
+            $office->fuel_types()->sync($this->fuel_type_id);
+        }
+        if(isset($this->currency_id) && !empty($this->currency_id)){
+            $office->currencies()->sync($this->currency_id);
+        }
+       
+       
+       
 
         $this->dispatch('hide-officeEditModal');
 
@@ -483,9 +492,17 @@ class Index extends Component
         $service_provider->services()->detach();
         $service_provider->fuel_types()->detach();
         $service_provider->currencies()->detach();
-        $service_provider->services()->sync($this->service_id);
-        $service_provider->fuel_types()->sync($this->fuel_type_id);
-        $service_provider->currencies()->sync($this->currency_id);
+
+        if(isset($this->service_id) && !empty($this->service_id)){
+            $service_provider->services()->sync($this->service_id);
+        }
+        if(isset($this->fuel_type_id) && !empty($this->fuel_type_id)){
+            $service_provider->fuel_types()->sync($this->fuel_type_id);
+        }
+        if(isset($this->currency_id) && !empty($this->currency_id)){
+            $service_provider->currencies()->sync($this->currency_id);
+        }
+      
 
         
         $working_schedule = $service_provider->working_schedule ;
@@ -527,9 +544,16 @@ class Index extends Component
             $office->services()->detach();
             $office->fuel_types()->detach();
             $office->currencies()->detach();
-            $office->services()->sync($this->service_id);
-            $office->fuel_types()->sync($this->fuel_type_id);
-            $office->currencies()->sync($this->currency_id);
+            if(isset($this->service_id) && !empty($this->service_id)){
+                $office->services()->sync($this->service_id);
+            }
+            if(isset($this->fuel_type_id) && !empty($this->fuel_type_id)){
+                $office->fuel_types()->sync($this->fuel_type_id);
+            }
+            if(isset($this->currency_id) && !empty($this->currency_id)){
+                $office->currencies()->sync($this->currency_id);
+            }
+        
     
             $working_schedule = $office->working_schedule;
             $working_schedule->office_id = $office->id;

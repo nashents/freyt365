@@ -9,25 +9,24 @@
     @endif
    
 
-    <table id="documentsTable" class="table  table-striped table-borderless table-sm table-responsive" cellspacing="0" width="100%">
+    <table id="documentsTable" class="table  table-striped table-borderless table-sm " cellspacing="0" width="100%">
         
         <tbody>
             @if ($folders->count()>0)
                 @foreach ($folders as $folder)
-                    <tr>
+                    <tr >
                         <td style="padding-top: 15px; width:100px" >   
                             @if ($selectedFolder != $folder->id)   
 
-                                <a href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder"></i> {{$folder->title}}</a> 
+                                <a href="#" wire:click="setFolder({{$folder->id}})" style="margin-left:20px"><i class="fa fa-folder"></i> {{$folder->title}}</a> 
                                 @if (Auth::user()->is_admin())
-                                <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
+                                    <a href="#" ><i class="fa fa-edit color-success  fa-xs"></i></a> <a href="#"><i class="fa fa-trash color-danger fa-xs"></i></a> 
                                 @endif
-                            
                             @else 
 
-                                <a style="padding-left:5px; " href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder-open"></i> {{$folder->title}}</a>
+                                <a style="margin-left:20px; " href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder-open"></i> {{$folder->title}}</a>
                                 
-                                @if (isset($selectedFolder))
+                                @if ($is_open == True)
                                     @php
                                         $folder_documents = $documents->where('folder_id',$selectedFolder)
                                     @endphp
@@ -35,16 +34,17 @@
                                         @foreach ($folder_documents as $document)
                                             <tr>
                                             <td style="padding-left: 29px;">
-                                                <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span> 
+                                                <a href="{{asset('myfiles/documents/'.$document->filename)}}" style="margin-left:30px;"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span>
                                                 @if (Auth::user()->is_admin())
-                                                    <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showDelete({{$document->id}})"><i class="fa fa-trash color-danger"></i></a> </td>
+                                                    <a href="#" ><i class="fa fa-edit fa-xs color-success"></i></a> <a href="#"><i class="fa fa-trash fa-xs color-danger"></i></a>
                                                 @endif
+                                            </td>
                                             </tr>
                                         @endforeach
                                     @else
                                     <tr>
                                         <td>
-                                            <p style="text-alight:center; text-color:grey; margin-left:27px;">No documents in this folder.</p> 
+                                            <p style="text-alight:center; text-color:grey; margin-left:47px; padding-top:10px;">No documents in this folder.</p> 
                                         </td>
                                     </tr>
                                     @endif
@@ -63,10 +63,10 @@
                 @foreach ($uncategorized_documents as $document)
                 <tr>
                     <td> 
-                        <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}} 
-                            @if (Auth::user()->is_admin())
-                            <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" data-toggle="modal" data-target="#documentDeleteModal{{ $document->id }}"><i class="fa fa-trash color-danger"></i></a> </span>
-                            @endif
+                        <a href="{{asset('myfiles/documents/'.$document->filename)}}" style="margin-left:20px;"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span>
+                        @if (Auth::user()->is_admin())
+                             <a href="#"  ><i class="fa fa-edit fa-xs color-success"></i></a> <a href="#" ><i class="fa fa-trash fa-xs color-danger"></i></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

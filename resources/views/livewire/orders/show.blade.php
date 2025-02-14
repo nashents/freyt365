@@ -122,7 +122,7 @@
                                     @endif
                                     @endif
                                 </span>
-                                <p>{{$fuel_station->street_address}} {{$fuel_station->suburb}} {{$fuel_station->city}} {{$fuel_station->country->name}}</p>
+                                <p>{{$fuel_station->street_address}} {{$fuel_station->suburb}} {{$fuel_station->city ? ", ".$fuel_station->city : ""}} {{$fuel_station->country->name}}</p>
                             </div>
                             <div class="col-md-4">
                                 <p>
@@ -153,7 +153,7 @@
                                     @endif
                                     @endif
                                 </span>
-                                <p>{{$fuel_station->street_address}} {{$fuel_station->suburb}} {{$fuel_station->city}} {{$fuel_station->country->name}}</p>
+                                <p>{{$office->street_address}} {{$office->suburb}} {{$office->city ? ", ".$office->city : ""}} {{$office->country->name}}</p>
                             </div>
                             <div class="col-md-4">
                                 <p>
@@ -187,7 +187,7 @@
                                         @endif
                                         @endif
                                     </span>
-                                    <p>{{$branch->street_address}} {{$branch->suburb}}, {{$branch->city}} {{$branch->country->name}}</p>
+                                    <p>{{$branch->street_address}} {{$branch->suburb}} {{$branch->city ? ", ".$branch->city : ""}} {{$branch->country->name}}</p>
                                    
                                 </div>
                                 <div class="col-md-4">
@@ -211,7 +211,6 @@
                 </div>
 
                 <div class="card">
-               
                     <div class="col-md-12">
                         <div class="mb-4" style="background-color:#ECECEC; padding-left:15px; padding-top:10px;  border-radius:5px">
                             @if (isset($order_item))

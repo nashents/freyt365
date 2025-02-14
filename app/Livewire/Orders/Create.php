@@ -314,7 +314,7 @@ class Create extends Component
                     $this->total = $this->amount * $this->order_item->fuel_station->fuel_price->retail_price;
                 }
             }elseif ($this->order_item->office) {
-                if ((isset($this->amount) && is_numeric($this->amount)) && isset($this->order_item->office->rate) && is_numeric($this->order_item->fuel_station->fuel_price->retail_price)) {
+                if ((isset($this->amount) && is_numeric($this->amount)) && isset($this->order_item->office->rate) && is_numeric($this->order_item->office->rate)) {
                     $this->total = $this->amount * $this->order_item->office->rate;
                 }
             }elseif ($this->order_item->branch) {

@@ -16,61 +16,15 @@ class Index extends Component
     use WithFileUploads;
 
     public $category;
-    public $loading_point;
-    public $loading_point_id;
-    public $offloading_point;
-    public $offloading_point_id;
-    public $truck_stop;
-    public $truck_stop_id;
-    public $horse;
-    public $horse_id;
-    public $consignee;
-    public $consignee_id;
-    public $incident;
-    public $incident_id;
-    public $route;
-    public $route_id;
-    public $vehicle;
-    public $vehicle_id;
-    public $trailer;
-    public $trailer_id;
-    public $requisition;
-    public $requisition_id;
-    public $employee;
-    public $employee_id;
-    public $cash_flow;
-    public $cash_flow_id;
     public $company;
     public $company_id;
-    public $vendor;
-    public $vendor_id;
-    public $recovery;
-    public $recovery_id;
-    public $payment;
-    public $payment_id;
-    public $broker;
-    public $broker_id;
-    public $department;
-    public $department_id;
-    public $clearing_agent;
-    public $clearing_agent_id;
-    public $purchase;
-    public $purchase_id;
-    public $agent;
-    public $agent_id;
     public $item_id;
-    public $asset;
-    public $asset_id;
-    public $transporter;
-    public $transporter_id;
-    public $customer;
-    public $customer_id;
     public $user_id;
     public $documents;
     public $document_id;
     public $folders;
     public $folder_id;
-    public $selectedFolder;
+    public $selectedFolder = Null;
     public $is_open = FALSE;
     public $folder_title;
 
@@ -97,9 +51,12 @@ class Index extends Component
                 $this->is_open = FALSE;
             }
         }else{
+            // dd('is open');
             $this->selectedFolder = $id;
             $this->is_open = TRUE;
-        }  
+        }
+        
+       
     }
 
 
@@ -133,46 +90,28 @@ class Index extends Component
         }
     }
 
-    public function showDocumentDelete($id){
-        $this->document_id = $id;
-        $this->document = Document::find($id);
-        $this->dispatch('show-documentDeleteModal');
-    }
-    public function deleteDocument(){
-        $this->document->delete();
-        $this->resetInputFields();
+    public function deleteDocument($id){
+        $document = Document::find($id);
+        $document->delete();
         $this->dispatch(
             'alert',
             type : 'success',
-            title : "Document Deleted Successfully Successfully!!",
+            title : "Document Deleted Successfully!!",
             position: "center",
         );
-        $this->dispatch('hide-documentDeleteModal');
+    }
+    public function deleteFolder($id){
+        $folder = Folder::find($id);
+        $folder->delete();
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Folder Deleted Successfully!!",
+            position: "center",
+        );
     }
 
-    public function showFolderDelete($id){
-        $this->folder_id = $id;
-        $this->folder = Folder::find($id);
-        $this->dispatch('show-folderDeleteModal');
-    }
-    public function deleteFolder(){
-        $documents = $this->folder->documents;
-        if (isset($documents)) {
-            foreach ($documents as $document) {
-                $document->delete();
-            }
-        }
-        $this->folder->delete();
-        $this->resetInputFields();
-        $this->dispatch(
-            'alert',
-            type : 'success',
-            title : "Folder Deleted Successfully Successfully!!",
-            position: "center",
-        );
-       
-        $this->dispatch('hide-folderDeleteModal');
-    }
+
     public function showFolder(){
         $this->dispatch('show-folderModal');
     }
@@ -379,9 +318,8 @@ class Index extends Component
 
     public function render()
     {
-            $this->folders = Folder::latest()->get();
-            $this->documents = Document::latest()->get();
-     
+        $this->folders = Folder::where('category', $this->category)->orderBy('title','asc')->get();
+        $this->documents = Document::where('category', $this->category)->where('company_id', $this->company->id)->orderBy('title','asc')->get();
         return view('livewire.documents.index',[
             'documents'=> $this->documents,
             'folders'=> $this->folders

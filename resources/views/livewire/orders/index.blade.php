@@ -48,7 +48,11 @@
                                         @endphp
                                         <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
                                         <br>
-                                        {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee. 
+                                        {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  
+                                        @if ($order->transaction_type)
+                                        @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee.  
+                                        @endif
+                                        
                                     @elseif (!is_null($order->order_item->office_id))
                                         @php
                                             $office = App\Models\Office::find($order->order_item->office_id);
@@ -60,8 +64,9 @@
                                 @endif
                                 </td>
                                 <td>
-                                    {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} / {{$order->horse ? $order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}} /
+                                    {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} {{$order->horse ? " / ".$order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}}
                                     @if ($order->trailers->count()>0)
+                                        /
                                         @foreach ($order->trailers as $trailer)
                                             [{{$trailer->registration_number}}]
                                         @endforeach
@@ -80,7 +85,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a href="{{route('orders.show',$order->id)}}" class="dropdown-item"><i class="fa fa-eye color-default"></i> View</a></li>
-                                            @if (Auth::user()->is_admin() && $order->transaction->verification != "verified" && $order->authorization == "approved")
+                                            @if (Auth::user()->is_admin() && $order->authorization == "approved" && $order->verification != "verified")
                                             <li><a href="#" wire:click.prevent="showVerify({{$order->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Verify</a></li>
                                             @endif
                                             @if (!Auth::user()->is_admin() && $order->authorization == "pending")
