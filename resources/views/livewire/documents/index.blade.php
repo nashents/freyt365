@@ -1,10 +1,13 @@
 <div>
   
     <x-loading/>
-    <a href="#" data-bs-toggle="modal" data-bs-target="#documentModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Document</a>
-    <a href="#" data-bs-toggle="modal" data-bs-target="#folderModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Folder</a>
-    <br>
-    <br>
+    @if (Auth::user()->is_admin())
+        <a href="#" data-bs-toggle="modal" data-bs-target="#documentModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Document</a>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#folderModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Folder</a>
+        <br>
+        <br>
+    @endif
+   
 
     <table id="documentsTable" class="table  table-striped table-borderless table-sm table-responsive" cellspacing="0" width="100%">
         
@@ -16,9 +19,10 @@
                             @if ($selectedFolder != $folder->id)   
 
                                 <a href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder"></i> {{$folder->title}}</a> 
-                                
+                                @if (Auth::user()->is_admin())
                                 <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
-
+                                @endif
+                            
                             @else 
 
                                 <a style="padding-left:5px; " href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder-open"></i> {{$folder->title}}</a>
@@ -31,7 +35,10 @@
                                         @foreach ($folder_documents as $document)
                                             <tr>
                                             <td style="padding-left: 29px;">
-                                                <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span> <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showDelete({{$document->id}})"><i class="fa fa-trash color-danger"></i></a> </td>
+                                                <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span> 
+                                                @if (Auth::user()->is_admin())
+                                                    <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showDelete({{$document->id}})"><i class="fa fa-trash color-danger"></i></a> </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     @else
@@ -56,7 +63,10 @@
                 @foreach ($uncategorized_documents as $document)
                 <tr>
                     <td> 
-                        <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}} <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" data-toggle="modal" data-target="#documentDeleteModal{{ $document->id }}"><i class="fa fa-trash color-danger"></i></a> </span>
+                        <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}} 
+                            @if (Auth::user()->is_admin())
+                            <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" data-toggle="modal" data-target="#documentDeleteModal{{ $document->id }}"><i class="fa fa-trash color-danger"></i></a> </span>
+                            @endif
                     </td>
                 </tr>
                 @endforeach
