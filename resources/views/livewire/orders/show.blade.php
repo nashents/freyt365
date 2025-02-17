@@ -326,7 +326,10 @@
                                         </p>
                                         <br>
                                         <p>{{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format(1,2)}} for {{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format(1,2)}}</p>
-                                        <p>Service fee: {{$charge->percentage}} %</p>
+                                        @if (isset($transaction_type->charge))
+                                        <p>Service fee: {{$transaction_type->charge->percentage ? $transaction_type->charge->percentage."%" : ""}}</p>
+                                        @endif
+                                       
                                     </div> 
                                 
                                 </div>

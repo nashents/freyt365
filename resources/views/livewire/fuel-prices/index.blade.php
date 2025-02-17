@@ -48,6 +48,7 @@
                                                     @forelse ($country->fuel_prices as $fuel_price)
                                                         <tr>
                                                             <td>
+                                                                @if (isset($fuel_price->fuel_station))
                                                                 <strong>{{$fuel_price->fuel_station ? $fuel_price->fuel_station->name : ""}}</strong> <br>
                                                                 <i class="fas fa-envelope"></i> {{$fuel_price->fuel_station ? $fuel_price->fuel_station->email : ""}} | <i class="fas fa-phone"></i> {{$fuel_price->fuel_station ? $fuel_price->fuel_station->phonenumber : ""}} <br>
                                                                 <i class="fas fa-map-marker"></i> {{$fuel_price->fuel_station ? $fuel_price->fuel_station->street_address : ""}} {{$fuel_price->fuel_station->suburb ? $fuel_price->fuel_station->suburb.", " : ""}} {{$fuel_price->fuel_station ? $fuel_price->fuel_station->city : ""}} <br>
@@ -57,7 +58,8 @@
                                                                 @else
                                                                 Open Everyday
                                                                 @endif
-                                                               
+                                                                @endif
+                                                             
                                                             </td>
                                                             
                                                             <td>

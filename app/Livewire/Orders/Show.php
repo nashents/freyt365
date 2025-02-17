@@ -53,6 +53,7 @@ class Show extends Component
         $this->order = Order::find($id);
         $this->order_item = $this->order->order_item;
         $this->selected_currency = $this->order->currency;
+        $this->transaction_type = $this->order->transaction->transaction_type;
         $this->selected_wallet = $this->order->wallet;
         $order_trailers = $this->order->trailers;
         if (isset($order_trailers)) {
