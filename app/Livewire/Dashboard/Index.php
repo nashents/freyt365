@@ -25,7 +25,7 @@ class Index extends Component
     public $newest_orders;
     public $latest_orders;
     public $orders;
-    public $completed_orders_count;
+    public $all_authorized_orders_count;
     public $transactions;
     public $wallet;
 
@@ -39,7 +39,7 @@ class Index extends Component
         $this->trailers = Trailer::latest()->take(5)->get();
         $this->trips = Trip::latest()->take(5)->get();
         $this->orders = Order::where('authorization','approved')->orderBy('created_at','desc')->take(5)->get();
-        $this->completed_orders_count = Order::where('company_id',Auth::user()->company_id)->whereYear('created_at',date('Y'))->where('status','completed')->get()->count();
+        $this->all_authorized_orders_count = Order::where('company_id',Auth::user()->company_id)->whereYear('created_at',date('Y'))->where('authorization','approved')->get()->count();
         $this->newest_orders = Order::where('company_id',Auth::user()->company_id)->orderBy('created_at','desc')->take(5)->get();
         $this->latest_orders = Order::where('company_id',Auth::user()->company_id)->orderBy('created_at','desc')->where('status','completed')->take(5)->get();
     }

@@ -1,5 +1,10 @@
 <div class="leftside-menu">
-
+    @php
+           $roles = Auth::user()->roles;
+            foreach($roles as $role){
+                $role_names[] = $role->name;
+            }
+    @endphp
     <!-- Brand Logo Light -->
     <a href="{{route('dashboard')}}" class="logo logo-light">
         <span class="logo-lg">
@@ -103,6 +108,7 @@
                             <a href="{{ route('transactions.index') }}">Manage Transactions</a>
                         </li>
                         @if (!Auth::user()->is_admin())
+                        @if (in_array('Authorizer', $role_names) |)
                         <li>
                             <a href="{{ route('transactions.pending') }}">
                                 @if ($transactionsAuthPendingCount>0)
@@ -129,6 +135,7 @@
                                 <span>Rejected Transactions</span>
                             </a>
                         </li>
+                        @endif
                         @endif
                        
                     </ul>
@@ -241,6 +248,7 @@
                             <a href="{{route('orders.index')}}">Manage Orders</a>
                         </li>
                         @if (!Auth::user()->is_admin())
+                        @if (in_array('Authorizer', $role_names) |)
                         <li>
                             <a href="{{ route('orders.pending') }}">
                                 @if ($ordersAuthPendingCount>0)
@@ -267,6 +275,7 @@
                                 <span>Rejected Orders</span>
                             </a>
                         </li>
+                        @endif
                         @endif
                     </ul>
                 </div>

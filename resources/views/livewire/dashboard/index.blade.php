@@ -56,8 +56,8 @@
                     <div class="float-end">
                         <i class="ri-file-list-3-fill widget-icon"></i>
                     </div>
-                    <h6 class="text-uppercase mt-0" title="Customers">Orders</h6>
-                    <h2 class="my-2">{{$completed_orders_count}}</h2>
+                    <h6 class="text-uppercase mt-0" title="Customers">All Orders</h6>
+                    <h2 class="my-2">{{$all_authorized_orders_count}}</h2>
                     <p class="mb-0">
                         {{-- <span class="badge bg-white bg-opacity-25 me-1">-5.75%</span>
                         <span class="text-nowrap">Since last month</span> --}}
