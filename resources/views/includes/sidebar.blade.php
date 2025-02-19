@@ -108,7 +108,7 @@
                             <a href="{{ route('transactions.index') }}">Manage Transactions</a>
                         </li>
                         @if (!Auth::user()->is_admin())
-                        @if (in_array('Authorizer', $role_names) |)
+                        @if (in_array('Authorizer', $role_names))
                         <li>
                             <a href="{{ route('transactions.pending') }}">
                                 @if ($transactionsAuthPendingCount>0)
@@ -248,7 +248,7 @@
                             <a href="{{route('orders.index')}}">Manage Orders</a>
                         </li>
                         @if (!Auth::user()->is_admin())
-                        @if (in_array('Authorizer', $role_names) |)
+                        @if (in_array('Authorizer', $role_names))
                         <li>
                             <a href="{{ route('orders.pending') }}">
                                 @if ($ordersAuthPendingCount>0)
