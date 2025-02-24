@@ -157,7 +157,7 @@
                                     <select class="form-control" wire:model.live.debounce.300ms="fuel_station_id" required>
                                         <option value="">Select Fuel Station</option>
                                         @foreach ($fuel_stations as $fuel_station)
-                                            <option value="{{$fuel_station->id}}">{{$fuel_station->name}}</option>
+                                            <option value="{{$fuel_station->id}}">{{$fuel_station->name}} {{$fuel_station->street_address}} {{$fuel_station->suburb}} {{$fuel_station->city ? ", ".$fuel_station->city : ""}} {{$fuel_station->country ? $fuel_station->country->name : ""}}</option>
                                         @endforeach
                                     </select>
                                     @error('fuel_station_id') <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -277,7 +277,7 @@
                                     <select class="form-control" wire:model.live.debounce.300ms="fuel_station_id" required>
                                         <option value="">Select Fuel Station</option>
                                         @foreach ($fuel_stations as $fuel_station)
-                                            <option value="{{$fuel_station->id}}">{{$fuel_station->name}}</option>
+                                        <option value="{{$fuel_station->id}}">{{$fuel_station->name}} {{$fuel_station->street_address}} {{$fuel_station->suburb}} {{$fuel_station->city ? ", ".$fuel_station->city : ""}} {{$fuel_station->country ? $fuel_station->country->name : ""}}</option>
                                         @endforeach
                                     </select>
                                     @error('fuel_station_id') <span class="error" style="color:red">{{ $message }}</span> @enderror

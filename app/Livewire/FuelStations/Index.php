@@ -234,6 +234,9 @@ class Index extends Component
 
     public function delete($id){
         $fuel_station = FuelStation::find($id);
+        $services = $fuel_station->services()->detach();
+        $fuel_types = $fuel_station->fuel_types()->detach();
+        $currencies = $fuel_station->currencies()->detach();
         $fuel_station->delete();
         $this->dispatch(
             'alert',

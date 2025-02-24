@@ -240,25 +240,9 @@ class Index extends Component
     public function delete($id){
         $branch = Branch::find($id);
 
-        $services = $branch->services;
-        $fuel_types = $branch->fuel_types;
-        $currencies = $branch->currencies;
-
-        if (isset($currencies)) {
-            foreach ($currencies as $currency) {
-              $currency->delete();
-            }
-        }
-        if (isset($fuel_types)) {
-            foreach ($fuel_types as $fuel_type) {
-              $fuel_type->delete();
-            }
-        }
-        if (isset($services)) {
-            foreach ($services as $service) {
-              $service->delete();
-            }
-        }
+        $services = $branch->services()->detach();
+        $fuel_types = $branch->fuel_types()->detach();
+        $currencies = $branch->currencies()->detach();
 
         $branch->delete();
         $this->dispatch(
