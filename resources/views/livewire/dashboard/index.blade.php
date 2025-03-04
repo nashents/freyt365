@@ -352,10 +352,12 @@
                                     <thead>
                                         <tr>
                                             <th>Order Ref</th>
-                                            <th>Status</th>
+                                            <th>Company</th>
+                                            <th>Order Summary</th>
                                             <th>Driver/Truck/Trailer</th>
                                             <th>Order Date</th>
                                             <th>Amount</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -363,17 +365,48 @@
                                         @forelse ($latest_orders as $order)
                                         <tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{$order->order_number}}</td>
+                                                <td>{{$order->company ? $order->company->name : ""}}</td>
+                                                <td>
+                                                    @if ($order->order_item)
+                                                        @if (!is_null($order->order_item->fuel_station_id))
+                                                            @php
+                                                                $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
+                                                            @endphp
+                                                            <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                                            <br>
+                                                            {{number_format($order->order_item->amount,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} / {{$order->horse ? $order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}} /
+                                                    @if ($order->trailers->count()>0)
+                                                        @foreach ($order->trailers as $trailer)
+                                                            [{{$trailer->registration_number}}]
+                                                        @endforeach
+                                                    @endif
+                
+                                                </td>
+                                                <td>{{$order->collection_date}}</td>
+                                                <td> {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total,2)}}</td>   
+                                                <td><span class="badge bg-{{($order->status == 'successful') ? 'primary' : (($order->status == 'unsuccessful') ? 'danger' : 'warning') }}">{{($order->status == 'successful') ? 'successful' : (($order->status == 'unsuccessful') ? 'unsuccessful' : 'pending') }}</span></td>
+                                                <td class="w-10 line-height-35 table-dropdown">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-bars"></i>
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="{{route('orders.show',$order->id)}}" class="dropdown-item"><i class="fa fa-eye color-default"></i> View</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="6">
+                                            <td colspan="8">
                                                 <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
                                                     No Latest Completed Orders Found ....
                                                 </div>
@@ -397,7 +430,7 @@
                                 <a data-bs-toggle="collapse" href="#yearly-sales-collapse" role="button" aria-expanded="false" aria-controls="yearly-sales-collapse"><i class="ri-subtract-line"></i></a>
                                 <a href="#" data-bs-toggle="remove"><i class="ri-close-line"></i></a>
                             </div>
-                            <h5 class="header-title mb-0">Orders Orders</h5>
+                            <h5 class="header-title mb-0">Newest Orders</h5>
                         </div>
     
                         <div id="yearly-sales-collapse" class="collapse show">
@@ -407,10 +440,12 @@
                                     <thead>
                                         <tr>
                                             <th>Order Ref</th>
-                                            <th>Status</th>
+                                            <th>Company</th>
+                                            <th>Order Summary</th>
                                             <th>Driver/Truck/Trailer</th>
                                             <th>Order Date</th>
                                             <th>Amount</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -418,17 +453,48 @@
                                         @forelse ($newest_orders as $order)
                                         <tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{$order->order_number}}</td>
+                                                <td>{{$order->company ? $order->company->name : ""}}</td>
+                                                <td>
+                                                    @if ($order->order_item)
+                                                        @if (!is_null($order->order_item->fuel_station_id))
+                                                            @php
+                                                                $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
+                                                            @endphp
+                                                            <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">  <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                                            <br>
+                                                            {{number_format($order->order_item->amount,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} / {{$order->horse ? $order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}} /
+                                                    @if ($order->trailers->count()>0)
+                                                        @foreach ($order->trailers as $trailer)
+                                                            [{{$trailer->registration_number}}]
+                                                        @endforeach
+                                                    @endif
+                
+                                                </td>
+                                                <td>{{$order->collection_date}}</td>
+                                                <td> {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total,2)}}</td>   
+                                                <td><span class="badge bg-{{($order->status == 'successful') ? 'primary' : (($order->status == 'unsuccessful') ? 'danger' : 'warning') }}">{{($order->status == 'successful') ? 'successful' : (($order->status == 'unsuccessful') ? 'unsuccessful' : 'pending') }}</span></td>
+                                                <td class="w-10 line-height-35 table-dropdown">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-bars"></i>
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="{{route('orders.show',$order->id)}}" class="dropdown-item"><i class="fa fa-eye color-default"></i> View</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="6">
+                                            <td colspan="8">
                                                 <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
                                                     No Newest Orders Found ....
                                                 </div>
