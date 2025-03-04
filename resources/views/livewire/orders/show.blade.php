@@ -351,11 +351,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{$order->order_item->service->name}}</td>
+                                    <td>{{$order->order_item->service ? $order->order_item->service->name : ""}}</td>
                                     <td>{{$order->status}}</td>
-                                    <td>{{$order->wallet->name}}</td>
-                                    <td>{{$order->transaction->transaction_reference}}</td>
-                                    <td>{{$order->currency->name}}</td>
+                                    <td>{{$order->wallet ? $order->wallet->name : ""}}</td>
+                                    <td>{{$order->transaction ? $order->transaction->transaction_reference : ""}}</td>
+                                    <td>{{$order->currency ? $order->currency->name : ""}}</td>
                                     <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->qty ? $order->order_item->qty : 0,2)}}</td>
                                     <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->amount ? $order->order_item->amount : 0,2)}}</td>
                                     <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total ? $order->total : 0,2)}}</td>
