@@ -272,18 +272,39 @@
                                                 <td>{{$order->company ? $order->company->name : ""}}</td>
                                                 <td>
                                                     @if ($order->order_item)
-                                                        @if (!is_null($order->order_item->fuel_station_id))
-                                                            @php
-                                                                $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
-                                                            @endphp
-                                                            @if ($fuel_station->country)
-                                                            <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">
-                                                            @endif
-                                                             <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                                    @if (!is_null($order->order_item->fuel_station_id))
+                                                        @php
+                                                            $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
+                                                        @endphp
+                                                        @if (isset($fuel_station))
+                                                            <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
                                                             <br>
-                                                            {{number_format($order->order_item->amount,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
                                                         @endif
+                                                        {{number_format($order->order_item->qty,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
+                                                    @elseif (!is_null($order->order_item->branch_id))
+                                                        @php
+                                                            $branch = App\Models\Branch::find($order->order_item->branch_id);
+                                                        @endphp
+                                                        @if (isset($branch))
+                                                            <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt=""> <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                                            <br>
+                                                        @endif
+                                                        {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  
+                                                        @if ($order->transaction_type)
+                                                        @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee.  
+                                                        @endif
+                                                        
+                                                    @elseif (!is_null($order->order_item->office_id))
+                                                        @php
+                                                            $office = App\Models\Office::find($order->order_item->office_id);
+                                                        @endphp
+                                                        @if (isset($office))
+                                                            <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                                            <br>
+                                                        @endif
+                                                        {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{number_format($office->rate ? $office->rate : 0,2)}}/{{$office->frequency}}. 
                                                     @endif
+                                                @endif
                                                 </td>
                                                 <td>
                                                     {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} / {{$order->horse ? $order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}} /
@@ -378,21 +399,19 @@
                                                     @php
                                                         $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
                                                     @endphp
-                                                    @if ($fuel_station->country)
-                                                    <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">
+                                                    @if (isset($fuel_station))
+                                                        <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                                        <br>
                                                     @endif
-                                                     <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
-                                                    <br>
                                                     {{number_format($order->order_item->qty,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
                                                 @elseif (!is_null($order->order_item->branch_id))
                                                     @php
                                                         $branch = App\Models\Branch::find($order->order_item->branch_id);
                                                     @endphp
-                                                    @if ($branch->country)
-                                                    <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt="">
+                                                    @if (isset($branch))
+                                                        <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt=""> <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                                        <br>
                                                     @endif
-                                                     <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
-                                                    <br>
                                                     {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  
                                                     @if ($order->transaction_type)
                                                     @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee.  
@@ -402,11 +421,10 @@
                                                     @php
                                                         $office = App\Models\Office::find($order->order_item->office_id);
                                                     @endphp
-                                                    @if ($office->country)
-                                                    <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt="">
+                                                    @if (isset($office))
+                                                        <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                                        <br>
                                                     @endif
-                                                    <span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
-                                                    <br>
                                                     {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{number_format($office->rate ? $office->rate : 0,2)}}/{{$office->frequency}}. 
                                                 @endif
                                             @endif
@@ -520,21 +538,19 @@
                                                     @php
                                                         $fuel_station = App\Models\FuelStation::find($order->order_item->fuel_station_id);
                                                     @endphp
-                                                    @if ($fuel_station->country)
-                                                    <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt="">
+                                                    @if (isset($fuel_station))
+                                                        <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
+                                                        <br>
                                                     @endif
-                                                      <span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
-                                                    <br>
                                                     {{number_format($order->order_item->qty,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
                                                 @elseif (!is_null($order->order_item->branch_id))
                                                     @php
                                                         $branch = App\Models\Branch::find($order->order_item->branch_id);
                                                     @endphp
-                                                    @if ($branch->country)
-                                                    <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt="">
+                                                    @if (isset($branch))
+                                                        <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt=""> <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                                        <br>
                                                     @endif
-                                                     <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
-                                                    <br>
                                                     {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  
                                                     @if ($order->transaction_type)
                                                     @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee.  
@@ -544,11 +560,10 @@
                                                     @php
                                                         $office = App\Models\Office::find($order->order_item->office_id);
                                                     @endphp
-                                                    @if ($office->country)
-                                                    <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt=""> 
+                                                    @if (isset($office))
+                                                        <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
+                                                        <br>
                                                     @endif
-                                                    <span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
-                                                    <br>
                                                     {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{number_format($office->rate ? $office->rate : 0,2)}}/{{$office->frequency}}. 
                                                 @endif
                                             @endif
