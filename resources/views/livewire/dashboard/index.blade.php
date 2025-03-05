@@ -391,7 +391,7 @@
                                     <tbody>
                                         @if (isset($latest_orders))
             
-                                        @forelse ($lastest_orders as $order)
+                                        @forelse ($latest_orders as $order)
                                         <tr>
                                             <td>{{$order->order_number}}</td>
                                             <td>
