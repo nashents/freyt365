@@ -494,11 +494,11 @@
                                 </table>
             
                             </div> <!-- end card body-->
-                            </div>        
-                        </div>
-                    </div>                           
-                </div> <!-- end card-->
-
+                        </div>        
+                    </div>
+                </div> 
+                    
+                
                 <div class="card">
                     <div class="card-body p-0">
                         <div class="p-3">
@@ -636,9 +636,10 @@
                             </div> <!-- end card body-->
                             </div>        
                         </div>
-                    </div>                           
-                </div> <!-- end card-->
+                    </div>     
+                      
             </div>
+        </div>
 
             <div class="col-lg-3">
                 <div class="card">
