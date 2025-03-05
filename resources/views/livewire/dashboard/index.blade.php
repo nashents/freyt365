@@ -496,10 +496,10 @@
                             </div> <!-- end card body-->
                         </div>        
                     </div>
-                </div> 
+                    </div> 
                     
                 
-                <div class="card">
+                    <div class="card">
                     <div class="card-body p-0">
                         <div class="p-3">
                             <div class="card-widgets">
@@ -638,54 +638,43 @@
                         </div>
                     </div>     
                       
-            </div>
-        </div>
+                </div>
 
-            <div class="col-lg-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="fs-22 fw-semibold">Balances</h4>
-                        <a href="{{route('wallets.index')}}" ><i class="bi bi-wallet-fill" style="float: right;margin-top:-33px;"></i></a>
-                    </div>
-                    <div class="card-body">
-                        <div class="accordion" id="accordionExample">
-                            @foreach (Auth::user()->company->wallets as $wallet)
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{$wallet->id}}">
-                                    <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$wallet->id}}"
-                                        aria-expanded="true" aria-controls="collapse{{$wallet->id}}">
-                                       <h4>{{$wallet->currency ? $wallet->currency->name : ""}} {{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->balance ? $wallet->balance : 0,2)}}</h4>
-                                    </button>
-                                </h2>
-                                <div id="collapse{{$wallet->id}}" class="accordion-collapse collapse collapse" aria-labelledby="heading{{$wallet->id}}"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong> {{$wallet->name}} <i>{{$wallet->default == True ? "Default Wallet" : ""}}</i></strong>
-                                        <p>Available <span class="float:right">{{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->balance ? $wallet->balance : 0,2)}}</span></p>
-                                        <p style="margin-top: -15px;">Reserved <span class="float:right">{{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->reserved ? $wallet->reserved : 0,2)}}</span></p>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="fs-22 fw-semibold">Balances</h4>
+                            <a href="{{route('wallets.index')}}" ><i class="bi bi-wallet-fill" style="float: right;margin-top:-33px;"></i></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="accordion" id="accordionExample">
+                                @foreach (Auth::user()->company->wallets as $wallet)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{$wallet->id}}">
+                                        <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$wallet->id}}"
+                                            aria-expanded="true" aria-controls="collapse{{$wallet->id}}">
+                                           <h4>{{$wallet->currency ? $wallet->currency->name : ""}} {{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->balance ? $wallet->balance : 0,2)}}</h4>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{$wallet->id}}" class="accordion-collapse collapse collapse" aria-labelledby="heading{{$wallet->id}}"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <strong> {{$wallet->name}} <i>{{$wallet->default == True ? "Default Wallet" : ""}}</i></strong>
+                                            <p>Available <span class="float:right">{{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->balance ? $wallet->balance : 0,2)}}</span></p>
+                                            <p style="margin-top: -15px;">Reserved <span class="float:right">{{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->reserved ? $wallet->reserved : 0,2)}}</span></p>
+                                        </div>
                                     </div>
                                 </div>
+                                @endforeach
+                               
+                               
+                              
                             </div>
-                            @endforeach
-                           
-                           
-                          
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
-                {{-- <div class="card">
-                    <div class="card-header">
-                        <h4 class="fs-22 fw-semibold">Toll Balances</h4>
-                    </div>
-                    <div class="card-body">
-                       <p>Company not registered on road toll system yet. Please complete a Zimbabwean inland road toll order first</p>
-                    </div><!-- end card body -->
-                </div> <!-- end card--> --}}
-            </div> <!-- end col-->
-  
-        </div>
+                        </div><!-- end card body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div>
 
-      
         @endif
 
 
