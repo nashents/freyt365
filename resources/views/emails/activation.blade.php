@@ -81,7 +81,7 @@ Account Activation
 													<br>
 												<p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
 													&reg;
-													Freyt365 {{date('Y')}} | <a href="mailto:info@freight365.com" style="color:#ffffff;text-decoration:underline;">info@freight365.com</a>
+													Freyt365 {{date('Y')}} | <a href="mailto:info@freyt365.com" style="color:#ffffff;text-decoration:underline;">info@freyt365.com</a>
 												</p>
 											
 											</td>
