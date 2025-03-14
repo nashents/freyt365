@@ -14,6 +14,7 @@ class Index extends Component
     public $surname;
     public $license_number;
     public $passport_number;
+    public $idnumber;
     public $gender;
     public $dob;
     public $phonenumber;
@@ -25,6 +26,7 @@ class Index extends Component
         $this->surname = "";
         $this->license_number = "";
         $this->passport_number = "";
+        $this->idnumber = "";
         $this->gender = "";
         $this->dob = "";
         $this->phonenumber = "";
@@ -41,7 +43,7 @@ class Index extends Component
     protected $rules = [
         'name' => 'required',
         'surname' => 'required',
-        'passport_number' => 'required',
+        'idnumber' => 'required',
         'license_number' => 'required',
         'phonenumber' => 'required',
         'gender' => 'required',
@@ -56,6 +58,7 @@ class Index extends Component
         $driver->company_id = Auth::user()->company_id;
         $driver->name = $this->name;
         $driver->surname = $this->surname;
+        $driver->idnumber = $this->idnumber;
         $driver->passport_number = $this->passport_number;
         $driver->license_number = $this->license_number;
         $driver->phonenumber = $this->phonenumber;
@@ -86,6 +89,7 @@ class Index extends Component
         $this->name = $driver->name;
         $this->surname = $driver->surname;
         $this->license_number = $driver->license_number;
+        $this->idnumber = $driver->idnumber;
         $this->passport_number = $driver->passport_number;
         $this->phonenumber = $driver->phonenumber;
         $this->gender = $driver->gender;
@@ -102,6 +106,7 @@ class Index extends Component
         $driver =  Driver::find($this->driver_id);
         $driver->name = $this->name;
         $driver->surname = $this->surname;
+        $driver->idnumber = $this->idnumber;
         $driver->passport_number = $this->passport_number;
         $driver->license_number = $this->license_number;
         $driver->phonenumber = $this->phonenumber;

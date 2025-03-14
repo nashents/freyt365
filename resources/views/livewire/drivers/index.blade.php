@@ -13,6 +13,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Fullname</th>
+                                <th>ID#</th>
                                 <th>Passport#</th>
                                 <th>License#</th>
                                 <th>Phonenumber</th>
@@ -29,6 +30,7 @@
                             <tr>
                                 <td>{{$driver->id}}</td>
                                 <td>{{$driver->name}} {{$driver->surname}}</td>
+                                <td>{{$driver->idnumber}}</td>
                                 <td>{{$driver->passport_number}}</td>
                                 <td>{{$driver->license_number}}</td>
                                 <td>{{$driver->phonenumber}}</td>
@@ -109,15 +111,23 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Passport Number<span class="required" style="color: red">*</span></label>
+                                    <label class="form-label" for="validationCustom01">ID Number<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="idnumber"
+                                        placeholder="Enter ID#" required>
+                                        @error('idnumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Passport Number</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="passport_number"
-                                        placeholder="Enter passport number" required>
+                                        placeholder="Enter passport number" >
                                         @error('passport_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">License Number<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="license_number"
@@ -205,15 +215,23 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Passport Number<span class="required" style="color: red">*</span></label>
+                                    <label class="form-label" for="validationCustom01">ID Number<span class="required" style="color: red">*</span></label>
+                                    <input type="text" class="form-control" wire:model.live.debounce.300ms="idnumber"
+                                        placeholder="Enter ID#" required>
+                                        @error('idnumber') <span class="error" style="color:red">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="validationCustom01">Passport Number</label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="passport_number"
-                                        placeholder="Enter passport number" required>
+                                        placeholder="Enter passport number" >
                                         @error('passport_number') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="validationCustom01">License Number<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="license_number"
