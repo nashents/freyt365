@@ -41,7 +41,7 @@ class Index extends Component
         $this->orders = Order::where('authorization','approved')->orderBy('created_at','desc')->take(5)->get();
         $this->all_authorized_orders_count = Order::where('company_id',Auth::user()->company_id)->whereYear('created_at',date('Y'))->where('authorization','approved')->get()->count();
         $this->newest_orders = Order::where('company_id',Auth::user()->company_id)->orderBy('created_at','desc')->take(5)->get();
-        $this->latest_orders = Order::where('company_id',Auth::user()->company_id)->orderBy('created_at','desc')->where('status','completed')->take(5)->get();
+        $this->latest_orders = Order::where('company_id',Auth::user()->company_id)->orderBy('created_at','desc')->where('status','successful')->take(5)->get();
     }
 
     public function render()

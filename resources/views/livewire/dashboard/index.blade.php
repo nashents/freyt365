@@ -386,8 +386,6 @@
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-            
-            
                                     <tbody>
                                         @if (isset($latest_orders))
             
