@@ -124,6 +124,7 @@ class Signup extends Component
         if (isset($company)) {
             $user->company_id = $company->id;
         }
+        
         $user->name = $this->name;
         $user->surname = $this->surname;
         $user->category = "Employee";
