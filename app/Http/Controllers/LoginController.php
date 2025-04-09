@@ -149,6 +149,6 @@ class LoginController extends Controller
     public function logout(Request $request){
         Auth::logout();
         Session::flash('success','Logout Successful');
-        return redirect('/login');
+        return redirect('/');
     }
 }
