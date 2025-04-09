@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TransactionVerificationMail extends Mailable
+class TransactionVerificationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $transaction;

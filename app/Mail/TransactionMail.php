@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TransactionMail extends Mailable
+class TransactionMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $transaction;

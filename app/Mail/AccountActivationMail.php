@@ -9,9 +9,10 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AccountActivationMail extends Mailable
+class AccountActivationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public  $company;
@@ -56,8 +57,13 @@ class AccountActivationMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
+
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromPath(public_path('myfiles/documents/user_manual.pdf'))
+                      ->as('User_Manual.pdf')
+                      ->withMime('application/pdf'),
+        ];
     }
 }
