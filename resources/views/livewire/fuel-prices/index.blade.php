@@ -81,7 +81,7 @@
                                                                 {{$fuel_price->currency ? $fuel_price->currency->name : ""}}
                                                                 </span>
                                                             </td>
-                                                            <td>{{$fuel_price->currency ? $fuel_price->currency->symbol : ""}}{{number_format($fuel_price->retail_price,2)}}</td>
+                                                            <td>{{$fuel_price->currency ? $fuel_price->currency->symbol : ""}}{{number_format($fuel_price->retail_price ? $fuel_price->retail_price : 0,2)}}</td>
                                                             @if (Auth::user()->is_admin() || Auth::user()->company->type == "admin")
                                                             <td><span class="badge bg-{{$fuel_price->status == 1 ? "primary" : "danger"}}">{{$fuel_price->status == 1 ? "Active" : "Inactive"}}</span></td>
                                                             <td class="w-10 line-height-35 table-dropdown">
@@ -193,17 +193,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Pump Price</label>
+                                    <label class="form-label" for="validationCustom01">Pump Price<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="pump_price"
-                                        placeholder="Enter pump price" >
+                                        placeholder="Enter pump price"  required>
                                         @error('pump_price') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Retail Price</label>
+                                    <label class="form-label" for="validationCustom01">Retail Price<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="retail_price"
-                                        placeholder="Enter retail price" >
+                                        placeholder="Enter retail price" required>
                                         @error('retail_price') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -213,8 +213,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Stock Levels</label>
-                                   <select class="form-control" wire:model.live.debounce.300ms="stock_level">
+                                    <label class="form-label" for="validationCustom01">Stock Levels<span class="required" style="color: red">*</span></label>
+                                   <select class="form-control" wire:model.live.debounce.300ms="stock_level" required>
                                     <option value="">Select Stock level</option>
                                     <option value="High">High</option>
                                     <option value="Medium">Medium</option>
@@ -225,8 +225,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Status</label>
-                                    <select class="form-control" wire:model.live.debounce.300ms="status">
+                                    <label class="form-label" for="validationCustom01">Status<span class="required" style="color: red">*</span></label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status" required>
                                     <option value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
@@ -313,17 +313,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Pump Price</label>
+                                    <label class="form-label" for="validationCustom01">Pump Price<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="pump_price"
-                                        placeholder="Enter pump price" >
+                                        placeholder="Enter pump price" required>
                                         @error('pump_price') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Retail Price</label>
+                                    <label class="form-label" for="validationCustom01">Retail Price<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="retail_price"
-                                        placeholder="Enter retail price" >
+                                        placeholder="Enter retail price" required>
                                         @error('retail_price') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -333,8 +333,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Stock Levels</label>
-                                   <select class="form-control" wire:model.live.debounce.300ms="stock_level">
+                                    <label class="form-label" for="validationCustom01">Stock Levels<span class="required" style="color: red">*</span></label>
+                                   <select class="form-control" wire:model.live.debounce.300ms="stock_level" required>
                                     <option value="">Select Stock level</option>
                                     <option value="High">High</option>
                                     <option value="Medium">Medium</option>
@@ -345,8 +345,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Status</label>
-                                    <select class="form-control" wire:model.live.debounce.300ms="status">
+                                    <label class="form-label" for="validationCustom01">Status<span class="required" style="color: red">*</span></label>
+                                    <select class="form-control" wire:model.live.debounce.300ms="status" required>
                                     <option value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>

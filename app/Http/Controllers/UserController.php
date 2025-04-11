@@ -27,6 +27,7 @@ class UserController extends Controller
         return view('users.profile')->with([
            'id' => $id,
         ]);
+        
     }
 
     public function profile(Request $request, $id){

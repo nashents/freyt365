@@ -65,16 +65,19 @@
                                                         </label>
                                                     <input type="text" wire:model.live.debounce.300ms="name" 
                                                         class="form-control">
+                                                        @error('name') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="mb-2">
                                                     <label class="form-label" for="FullName">Surname
                                                         </label>
                                                     <input type="text" wire:model.live.debounce.300ms="surname" 
                                                         class="form-control">
+                                                        @error('surname') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label" for="Email">Email</label>
                                                     <input type="email"  class="form-control" wire:model.live.debounce.300ms="email" >
+                                                    @error('email') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label" for="web-url">Phonenumber</label>
@@ -85,23 +88,29 @@
                                                         for="Username">Username</label>
                                                     <input type="text"
                                                         class="form-control" required wire:model.live.debounce.300ms="username" >
+                                                        @error('userma,e') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label"
-                                                        for="Password">Current Password</label>
+                                                        for="Current Password">Current Password</label>
                                                     <input type="current_password" required wire:model.live.debounce.300ms="current_password"  class="form-control" >
                                                     <small>Specify your current password to change your credentials.</small>
+                                                    <br>
+                                                    @error('current_password') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="Password">New Password</label>
                                                     <input type="password" required wire:model.live.debounce.300ms="password"  class="form-control">
                                                     <small>The password needs to be a minimum of 8 characters and must contain at least one non-alphanumeric character.</small>
+                                                    <br>
+                                                    @error('password') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label"
-                                                        for="RePassword">Confirm-Password</label>
+                                                        for="PassowordConfirmation">Confirm-Password</label>
                                                     <input type="password" required wire:model.live.debounce.300ms="password_confirmation"  class="form-control">
+                                                    @error('password_confirmation') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                                 </div>
                                                
                                             </div>
