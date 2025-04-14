@@ -440,7 +440,7 @@
             
                                             </td>
                                             <td>{{$order->collection_date}}</td>   
-                                            <td> {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total ? $order->total ; 0,2)}}</td>   
+                                            <td> {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total ? $order->total : 0,2)}}</td>   
                                             <td><span class="badge bg-{{($order->authorization == 'approved') ? 'primary' : (($order->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($order->authorization == 'approved') ? 'approved' : (($order->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
                                             <td><span class="badge bg-{{($order->status == 'successful') ? 'primary' : (($order->status == 'unsuccessful') ? 'danger' : 'warning') }}">{{($order->status == 'successful') ? 'successful' : (($order->status == 'unsuccessful') ? 'unsuccessful' : 'pending') }}</span></td>
                                             <td class="w-10 line-height-35 table-dropdown">
