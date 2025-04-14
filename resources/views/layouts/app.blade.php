@@ -126,6 +126,37 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-countryModal', (event) => {
+        $('#countryModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-countryModal', (event) => {
+        $('#countryModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-countryEditModal', (event) => {
+        $('#countryEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-countryEditModal', (event) => {
+        $('#countryEditModal').modal('hide');
+       });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-folderModal', (event) => {
         $('#folderModal').modal('show');
        });

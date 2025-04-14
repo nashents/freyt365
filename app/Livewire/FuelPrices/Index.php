@@ -29,7 +29,7 @@ class Index extends Component
     public $status;
 
     public function mount(){
-        $this->countries = Country::orderBy('name','asc')->get();
+        $this->countries = Country::where('status',1)->orderBy('name','asc')->get();
         $this->currencies = Currency::orderBy('name','asc')->get();
         $this->fuel_types = FuelType::orderBy('name','asc')->get();
         // $this->fuel_stations = collect();

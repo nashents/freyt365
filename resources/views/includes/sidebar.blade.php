@@ -60,6 +60,9 @@
                             <a href="{{ route('currencies.index') }}">Currencies</a>
                         </li>
                         <li>
+                            <a href="{{ route('countries.index') }}">Countries</a>
+                        </li>
+                        <li>
                             <a href="{{ route('services.index') }}">Services</a>
                         </li>
                         <li>

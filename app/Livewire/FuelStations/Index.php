@@ -40,7 +40,7 @@ class Index extends Component
 
     public function mount(){
         $this->fuel_stations = FuelStation::orderBy('name','asc')->get();
-        $this->countries = Country::orderBy('name','asc')->get();
+        $this->countries = Country::where('status',1)->orderBy('name','asc')->get();
         $this->currencies = Currency::orderBy('name','asc')->get();
         $this->fuel_types = FuelType::orderBy('name','asc')->get();
         $this->services = Service::orderBy('name','asc')->get();
@@ -249,7 +249,7 @@ class Index extends Component
     public function render()
     {
         $this->fuel_stations = FuelStation::orderBy('name','asc')->get();
-        $this->countries = Country::orderBy('name','asc')->get();
+        $this->countries = Country::where('status',1)->orderBy('name','asc')->get();
         return view('livewire.fuel-stations.index',[
             'fuel_stations' => $this->fuel_stations,
             'countries' => $this->countries,

@@ -65,7 +65,7 @@ class Create extends Component
         $this->horses = Horse::where('company_id',Auth::user()->company_id)->orderBy('registration_number','asc')->get();
         $this->trailers = Trailer::where('company_id',Auth::user()->company_id)->orderBy('registration_number','asc')->get();
         $this->currencies = Currency::orderBy('name','asc')->get();
-        $this->countries = Country::orderBy('name','asc')->get();
+        $this->countries = Country::where('status',1)->orderBy('name','asc')->get();
         $this->services = Service::orderBy('name','asc')->get();
         $this->wallets = Wallet::where('company_id',Auth::user()->company_id)->get();
         $this->uniqueid = $this->generatePIN();

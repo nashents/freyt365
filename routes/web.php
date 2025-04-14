@@ -32,6 +32,7 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ServiceController;
@@ -139,6 +140,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/vendors',VendorController::class);
     Route::resource('/transactions',TransactionController::class);
     Route::resource('/charges',ChargeController::class);
+    Route::resource('/countries',CountryController::class);
 
 
 

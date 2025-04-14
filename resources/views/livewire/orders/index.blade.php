@@ -42,7 +42,7 @@
                                         @if (isset($fuel_station))
                                             <img src="{{asset('images/flags/'.$fuel_station->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($fuel_station->name)}}</strong></span>  
                                             <br>
-                                            {{number_format($order->order_item->qty,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price,2)}}
+                                            {{number_format($order->order_item->qty ? $order->order_item->qty : 0,2)}} Litres @ {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->fuel_station->fuel_price->retail_price ? $order->order_item->fuel_station->fuel_price->retail_price : 0,2)}}
                                         @endif
                                        
                                     @elseif (!is_null($order->order_item->branch_id))
@@ -52,7 +52,7 @@
                                         @if (isset($branch))
                                             <img src="{{asset('images/flags/'.$branch->country->flag)}}" width="25px" height="20px" alt=""> <span style="padding-left:0px;"><strong>{{strtoupper($branch->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
                                             <br>
-                                            {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  
+                                            {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty ? $order->order_item->qty : 0,2)}}  
                                             @if ($order->transaction_type)
                                             @ {{$order->transaction_type->charge ? $order->transaction_type->charge->percentage."%" : ""}} Service Fee.  
                                             @endif
@@ -64,7 +64,7 @@
                                         @if (isset($office))
                                             <img src="{{asset('images/flags/'.$office->country->flag)}}" width="25px" height="20px" alt=""><span style="padding-left:0px;"><strong>{{strtoupper($office->name)}}</strong> | {{$order->order_item->service ? $order->order_item->service->name : ""}}</span>  
                                             <br>
-                                            {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty,2)}}  @ {{number_format($office->rate ? $office->rate : 0,2)}}/{{$office->frequency}}. 
+                                            {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->name : ""}}{{number_format($order->order_item->qty ? $order->order_item->qty : 0,2)}}  @ {{number_format($office->rate ? $office->rate : 0,2)}}/{{$office->frequency}}. 
                                         @endif
                                        
                                     @endif
@@ -81,7 +81,7 @@
 
                                 </td>
                                 <td>{{$order->collection_date}}</td>   
-                                <td> {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total,2)}}</td>   
+                                <td> {{$order->currency ? $order->currency->name : ""}} {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total ? $order->total : 0,2)}}</td>   
                                 <td><span class="badge bg-{{($order->authorization == 'approved') ? 'primary' : (($order->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($order->authorization == 'approved') ? 'approved' : (($order->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
                                 <td><span class="badge bg-{{($order->status == 'successful') ? 'primary' : (($order->status == 'unsuccessful') ? 'danger' : 'warning') }}">{{($order->status == 'successful') ? 'successful' : (($order->status == 'unsuccessful') ? 'unsuccessful' : 'pending') }}</span></td>
                                 <td class="w-10 line-height-35 table-dropdown">

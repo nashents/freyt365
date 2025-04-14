@@ -193,9 +193,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Pump Price<span class="required" style="color: red">*</span></label>
+                                    <label class="form-label" for="validationCustom01">Order Price<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="pump_price"
-                                        placeholder="Enter pump price"  required>
+                                        placeholder="Enter Fuel Order Price"  required>
                                         @error('pump_price') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -313,9 +313,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label" for="validationCustom01">Pump Price<span class="required" style="color: red">*</span></label>
+                                    <label class="form-label" for="validationCustom01">Order Price<span class="required" style="color: red">*</span></label>
                                     <input type="text" class="form-control" wire:model.live.debounce.300ms="pump_price"
-                                        placeholder="Enter pump price" required>
+                                        placeholder="Enter Fuel Order Price" required>
                                         @error('pump_price') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
