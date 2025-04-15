@@ -166,7 +166,7 @@
                                 </p>
                                 <br>
                                 @if ($office->service_provider)
-                                <p>Rate: {{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format($office->service_provider->rate,2)}} / {{$office->service_provider->frequency}} with a minimum of {{$office->service_provider->minimum}}{{$office->service_provider->frequency}}(s) </p>
+                                <p>Rate: {{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format($office->service_provider->rate ? $office->service_provider->rate : 0,2)}} / {{$office->service_provider->frequency}} with a minimum of {{$office->service_provider->minimum}}{{$office->service_provider->frequency}}(s) </p>
                             @endif
                             </div> 
                             <div class="col-md-4">
@@ -282,7 +282,7 @@
                                     </p>
                                     <br>
                                     @if ($office->service_provider)
-                                    <p>Rate: {{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format($office->service_provider->rate,2)}} / {{$office->service_provider->frequency}} with a minimum of {{$office->service_provider->minimum}}{{$office->service_provider->frequency}}(s) </p>
+                                    <p>Rate: {{$selected_currency->name}} {{$selected_currency->symbol}}{{number_format($office->service_provider->rate ? $office->service_provider->rate : 0,2)}} / {{$office->service_provider->frequency}} with a minimum of {{$office->service_provider->minimum}}{{$office->service_provider->frequency}}(s) </p>
                                 @endif
                                 </div> 
                                 

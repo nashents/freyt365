@@ -59,7 +59,7 @@
                             <select class="form-control select2" data-toggle="select2" wire:model.live.debounce.300ms="selectedWallet" required>
                                 <option>Select Wallet</option>
                                 @foreach ($wallets as $wallet)
-                                    <option value="{{$wallet->id}}">{{$wallet->name}} {{$wallet->default == True ? "Default Wallet" : ""}} {{$wallet->currency ? $wallet->currency->name : ""}} {{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->balance,2)}} </option>
+                                    <option value="{{$wallet->id}}">{{$wallet->name}} {{$wallet->default == True ? "Default Wallet" : ""}} {{$wallet->currency ? $wallet->currency->name : ""}} {{$wallet->currency ? $wallet->currency->symbol : ""}}{{number_format($wallet->balance ? $wallet->balance : 0,2)}} </option>
                                 @endforeach
                             </select>
                             @error('selectedWallet') <span class="error" style="color:red">{{ $message }}</span> @enderror
@@ -392,7 +392,7 @@
                                                 <span>
                                                     <strong>
                                                         @if ($fuel_station->fuel_price->retail_price)
-                                                            <h5>{{$fuel_station->fuel_price->currency ? $fuel_station->fuel_price->currency->name : ""}} {{$fuel_station->fuel_price->currency ? $fuel_station->fuel_price->currency->symbol : ""}}{{number_format($fuel_station->fuel_price->retail_price,2)}} /  Litre</h5>
+                                                            <h5>{{$fuel_station->fuel_price->currency ? $fuel_station->fuel_price->currency->name : ""}} {{$fuel_station->fuel_price->currency ? $fuel_station->fuel_price->currency->symbol : ""}}{{number_format($fuel_station->fuel_price->retail_price ? $fuel_station->fuel_price->retail_price : 0,2)}} /  Litre</h5>
                                                         @endif
                                                     </strong>
                                                    
