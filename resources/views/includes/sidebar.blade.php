@@ -88,11 +88,10 @@
                         <li>
                             <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>
                         </li>
+                        @endif
                         <li>
                             <a href="{{ route('wallets.index') }}">Wallets</a>
                         </li>
-                        @endif
-                       
                         @php
                         $transactionsAuthPendingCount = App\Models\Transaction::where('authorization','pending')
                         ->where('company_id',Auth::user()->company_id)

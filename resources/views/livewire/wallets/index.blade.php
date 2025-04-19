@@ -10,6 +10,9 @@
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
+                                @if (Auth::user()->is_admin())
+                                <th>Company</th> 
+                                @endif
                                 <th>Account#</th>
                                 <th>Name</th>
                                 <th>Currency</th>
@@ -23,6 +26,9 @@
                         <tbody>
                             @foreach ($wallets as $wallet)
                             <tr>
+                                @if (Auth::user()->is_admin())
+                                <td>{{$wallet->company ? $wallet->company->name : ""}}</td>
+                                @endif
                                 <td>{{$wallet->wallet_number}}</td>
                                 <td>{{$wallet->name}} {{$wallet->default == True ? "(Default)" : ""}}</td>
                                 <td>{{$wallet->currency ? $wallet->currency->name : ""}}</td>
@@ -35,9 +41,11 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" wire:click.prevent="loadDeposit({{$wallet->id}})"  class="dropdown-item"><i class="fa fa-piggy-bank color-success"></i> Load Deposit</a></li>
                                             <li><a href="{{route('account_statement.index',['wallet_id'=> $wallet->id])}}"   class="dropdown-item"><i class="fa fa-file color-success"></i> Account Statement</a></li>
+                                            @if (!Auth::user()->is_admin())
+                                            <li><a href="#" wire:click.prevent="loadDeposit({{$wallet->id}})"  class="dropdown-item"><i class="fa fa-piggy-bank color-success"></i> Load Deposit</a></li>
                                             <li><a href="#" wire:click.prevent="edit({{$wallet->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                            @endif
                                         </ul>
                                     </div>
                             </td>
