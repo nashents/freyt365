@@ -3,9 +3,12 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                @if (!Auth::user()->is_admin())
                 <div class="card-header">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#walletModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> Wallet</a>
-                </div>
+                </div> 
+                @endif
+               
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
