@@ -49,6 +49,10 @@
                                             <li><a href="#" wire:click.prevent="loadDeposit({{$wallet->id}})"  class="dropdown-item"><i class="fa fa-piggy-bank color-success"></i> Load Deposit</a></li>
                                             <li><a href="#" wire:click.prevent="edit({{$wallet->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
                                             @endif
+                                            <li>
+                                                <a href="#" wire:click="delete({{$wallet->id}})"
+                                                wire:confirm="Are you sure you want to delete this wallet?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                            </li>
                                         </ul>
                                     </div>
                             </td>

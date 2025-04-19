@@ -230,6 +230,29 @@ class Index extends Component
         );
     }
 
+    public function delete($id){
+        $wallet = Wallet::find($id);
+        $transactions = $wallet->transactions;
+        if($transactions){
+            foreach($transactions as $transaction){
+                $transaction->delete();
+            }
+        }
+        $orders = $wallet->orders;
+        if($orders){
+            foreach($orders as $order){
+                $order->delete();
+            }
+        }
+        $wallet->delete();
+        $this->dispatch(
+            'alert',
+            type : 'success',
+            title : "Wallet Deleted Successfully!!",
+            position: "center",
+        );
+    }
+
     public function render()
     {
         $this->currencies = Currency::orderBy('name','asc')->get();

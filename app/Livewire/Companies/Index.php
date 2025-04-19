@@ -83,6 +83,12 @@ class Index extends Component
 
     public function delete($id){
         $company = Company::find($id);
+        $wallets = $company->wallets;
+        if($wallets){
+            foreach($wallets as $wallet){
+                $wallet->delete();
+            }
+        }
         $company->delete();
         $this->dispatch(
             'alert',
