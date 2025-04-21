@@ -42,11 +42,14 @@ class Signup extends Component
         $this->validateOnly($value);
     }
     protected $rules =[
-        'name' => 'required',
-        'company_name' => 'required',
+        'company_name' => 'required|unique:companies,name,NULL,id,deleted_at,NULL',
+        'company_email' => 'required|email|unique:companies,email,NULL,id,deleted_at,NULL',
+        'company_phonenumber' => 'required|unique:companies,phonenumber,NULL,id,deleted_at,NULL',
         'surname' => 'required',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:2|confirmed',
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
+        'phonenumber' => 'required|unique:users,phonenumber,NULL,id,deleted_at,NULL',
+        'password' => 'required|string|min:8|confirmed|regex:/[^a-zA-Z0-9]/',
 
     ];
 
@@ -88,6 +91,8 @@ class Signup extends Component
     }
 
     public function store(){
+
+        $this->validate();
 
         $company = new Company;
         $company->company_number = $this->companyNumber();
