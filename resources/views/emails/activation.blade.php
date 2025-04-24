@@ -32,7 +32,7 @@ Account Activation
 															This is a secure platform for all services freyt365, attached is a Freyt365 User Manual to get you started.
 															Please click on the link below and log in with your username and password.
 															<br>
-															<p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="https://freyt365.com/login" style="color:#fcc02d;text-decoration:underline;" target="_blank">Click me to get started</a></p>
+															<p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="https://app.freyt365.com/" style="color:#fcc02d;text-decoration:underline;" target="_blank">Click me to get started</a></p>
 														@else
 															Unfortunately your account was not activated to use <a href="https://freyt365.com/" target="_blank">freyt365</a>.
 															<br>
