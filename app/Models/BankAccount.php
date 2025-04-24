@@ -10,6 +10,9 @@ class BankAccount extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function country(){
+        return $this->belongsTo('App\Models\Country');
+    }
     public function currency(){
         return $this->belongsTo('App\Models\Currency');
     }

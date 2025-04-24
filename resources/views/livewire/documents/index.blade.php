@@ -1,6 +1,5 @@
 <div>
-  
-    <x-loading/>
+    {{-- <x-loading/> --}}
     @if (Auth::user()->is_admin())
         <a href="#" data-bs-toggle="modal" data-bs-target="#documentModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Document</a>
         <a href="#" data-bs-toggle="modal" data-bs-target="#folderModal" class="btn btn-outline-primary"><i class="fa fa-plus-square-o"></i> Folder</a>
@@ -9,49 +8,59 @@
     @endif
    
 
-    <table id="documentsTable" class="table  table-striped table-borderless table-sm " cellspacing="0" width="100%">
-        
+    <table id="documentsTable" class="table  table-striped table-borderless table-sm table-responsive" cellspacing="0" width="100%">
+                                
         <tbody>
             @if ($folders->count()>0)
                 @foreach ($folders as $folder)
-                    <tr >
-                        <td style="padding-top: 15px; width:100px" >   
-                            @if ($selectedFolder != $folder->id)   
-
-                                <a href="#" wire:click="setFolder({{$folder->id}})" style="margin-left:20px"><i class="fa fa-folder"></i> {{$folder->title}}</a> 
-                                @if (Auth::user()->is_admin())
-                                    <a href="#" ><i class="fa fa-edit color-success  fa-xs"></i></a> <a href="#"><i class="fa fa-trash color-danger fa-xs"></i></a> 
-                                @endif
-                            @else 
-
-                                <a style="margin-left:20px; " href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder-open"></i> {{$folder->title}}</a>
-                                
-                                @if ($is_open == True)
-                                    @php
-                                        $folder_documents = $documents->where('folder_id',$selectedFolder)
-                                    @endphp
-                                    @if ($folder_documents->count()>0)
-                                        @foreach ($folder_documents as $document)
-                                            <tr>
-                                            <td style="padding-left: 29px;">
-                                                <a href="{{asset('myfiles/documents/'.$document->filename)}}" style="margin-left:30px;"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span>
-                                                @if (Auth::user()->is_admin())
-                                                    <a href="#" ><i class="fa fa-edit fa-xs color-success"></i></a> <a href="#"><i class="fa fa-trash fa-xs color-danger"></i></a>
-                                                @endif
-                                            </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                    <tr>
-                                        <td>
-                                            <p style="text-alight:center; text-color:grey; margin-left:47px; padding-top:10px;">No documents in this folder.</p> 
-                                        </td>
-                                    </tr>
+                <tr>
+                    <td style="padding-top: 15px; width:100px">   
+                        @if ($selectedFolder != $folder->id)   
+                            <a href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder"></i> {{$folder->title}}</a> 
+                            @if (Auth::user()->is_admin())
+                            <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> 
+                            <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
+                            @endif
+                        @else 
+                            <a style="padding-left:5px;" href="#" wire:click="setFolder({{$folder->id}})"><i class="fa fa-folder-open"></i> {{$folder->title}}</a>
+                            @if (Auth::user()->is_admin())
+                            <a href="#" wire:click="editFolder({{$folder->id}})" ><i class="fa fa-edit color-success"></i></a> 
+                            <a href="#" wire:click="showFolderDelete({{$folder->id}})"><i class="fa fa-trash color-danger"></i></a> 
+                            @endif
+                        @endif 
+                    </td>
+                </tr>
+                
+                @if ($selectedFolder == $folder->id)
+                    @php
+                        $folder_documents = $documents->where('folder_id', $selectedFolder);
+                    @endphp
+                
+                    @if ($folder_documents->count() > 0)
+                        @foreach ($folder_documents as $document)
+                            <tr>
+                                <td style="padding-left: 29px;">
+                                    <a href="{{ asset('myfiles/documents/' . $document->filename) }}">
+                                        <i class="fa fa-file"></i> {{ $document->title }} - {{ $document->filename }}
+                                    </a> | {{ $document->expires_at }}
+                                    <span class="badge bg-{{ $document->status == 1 ? 'success' : 'danger' }}">
+                                        {{ $document->status == 1 ? 'Valid' : 'Expired' }}
+                                    </span> 
+                                    @if (Auth::user()->is_admin())
+                                    <a href="#" wire:click="edit({{ $document->id }})"><i class="fa fa-edit color-success"></i></a> 
+                                    <a href="#" wire:click="showDocumentDelete({{ $document->id }})"><i class="fa fa-trash color-danger"></i></a>
                                     @endif
-                                @endif
-                            @endif 
-                        </td> 
-                    </tr>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td>
+                                <p style="text-align:center; color:grey; margin-left:27px;">No documents in this folder.</p> 
+                            </td>
+                        </tr>
+                    @endif
+                @endif
                 @endforeach
            
             @endif
@@ -63,10 +72,7 @@
                 @foreach ($uncategorized_documents as $document)
                 <tr>
                     <td> 
-                        <a href="{{asset('myfiles/documents/'.$document->filename)}}" style="margin-left:20px;"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span>
-                        @if (Auth::user()->is_admin())
-                             <a href="#"  ><i class="fa fa-edit fa-xs color-success"></i></a> <a href="#" ><i class="fa fa-trash fa-xs color-danger"></i></a>
-                        @endif
+                        <a href="{{asset('myfiles/documents/'.$document->filename)}}"><i class="fa fa-file"></i> {{$document->title}} -  {{$document->filename}}</a> | {{$document->expires_at}} <span class="badge bg-{{$document->status == 1 ? "success" : "danger"}}">{{$document->status == 1 ? "Valid" : "Expired"}}</span> <a href="#" wire:click="edit({{$document->id}})" ><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="showDocumentDelete({{$document->id}})"><i class="fa fa-trash color-danger"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -90,20 +96,20 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="title">Folders</label>
-                                    <select wire:model.debounce.300ms="folder_id" class="form-control">
+                                    <select wire:model.defer="folder_id" class="form-control">
                                         <option value="">Select Folder</option>
                                         @foreach ($folders as $folder)
                                         <option value="{{ $folder->id }}">{{ $folder->title }}</option>
                                         @endforeach
                                     </select>
-                                    <small>  <a href="#" wire:click="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
+                                    <small>  <a href="#" wire:click.prevent="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
                                     @error('folder_id') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="title">Title<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control"  wire:model.debounce.300ms="title" placeholder="Enter Document Title" required>
+                                    <input type="text" class="form-control"  wire:model.live.debounce.300ms="title" placeholder="Enter Document Title" required>
                                     @error('title') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -112,14 +118,14 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="file">Upload File<span class="required" style="color: red">*</span></label>
-                                    <input type="file" class="form-control"  wire:model.debounce.300ms="file" placeholder="Upload File" required>
+                                    <input type="file" class="form-control"  wire:model.live.debounce.300ms="file" placeholder="Upload File" required>
                                     @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="expiry_date">Expiry Date</label>
-                                    <input type="date" class="form-control"  wire:model.debounce.300ms="expires_at" placeholder="Expiry Date" >
+                                    <input type="date" class="form-control"  wire:model.live.debounce.300ms="expires_at" placeholder="Expiry Date" >
                                     @error('expires_at') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -152,20 +158,20 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="title">Folders</label>
-                                    <select wire:model.debounce.300ms="folder_id" class="form-control">
+                                    <select wire:model.live.debounce.300ms="folder_id" class="form-control">
                                         <option value="">Select Folder</option>
                                         @foreach ($folders as $folder)
                                         <option value="{{ $folder->id }}">{{ $folder->title }}</option>
                                         @endforeach
                                     </select>
-                                    <small>  <a href="#" wire:click="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
+                                    <small>  <a href="#" wire:click.prevent="showFolder()" ><i class="fa fa-plus-square-o"></i> New Folder</a></small> 
                                     @error('folder_id') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="title">Title<span class="required" style="color: red">*</span></label>
-                                    <input type="text" class="form-control"  wire:model.debounce.300ms="title" placeholder="Enter Document Title" required>
+                                    <input type="text" class="form-control"  wire:model.live.debounce.300ms="title" placeholder="Enter Document Title" required>
                                     @error('title') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -174,14 +180,14 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="file">Upload File<span class="required" style="color: red">*</span></label>
-                                    <input type="file" class="form-control"  wire:model.debounce.300ms="file" placeholder="Upload File" required>
+                                    <input type="file" class="form-control"  wire:model.live.debounce.300ms="file" placeholder="Upload File" required>
                                     @error('file') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="expiry_date">Expiry Date</label>
-                                    <input type="date" class="form-control"  wire:model.debounce.300ms="expires_at" placeholder="Expiry Date" >
+                                    <input type="date" class="form-control"  wire:model.live.debounce.300ms="expires_at" placeholder="Expiry Date" >
                                     @error('expires_at') <span class="error" style="color:red">{{ $message }}</span> @enderror
                                 </div>
                             </div>
@@ -211,7 +217,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="title">Title<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control"  wire:model.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
+                            <input type="text" class="form-control"  wire:model.live.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
                             @error('folder_title') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
                        
@@ -239,7 +245,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="title">Title<span class="required" style="color: red">*</span></label>
-                            <input type="text" class="form-control"  wire:model.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
+                            <input type="text" class="form-control"  wire:model.live.debounce.300ms="folder_title" placeholder="Enter Folder Title" required>
                             @error('folder_title') <span class="error" style="color:red">{{ $message }}</span> @enderror
                         </div>
                        

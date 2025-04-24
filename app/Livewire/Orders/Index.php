@@ -50,15 +50,6 @@ class Index extends Component
     public function mount(){
 
         $this->admin = Company::where('type','admin')->first();
-        
-        if (Auth::user()->is_admin || Auth::user()->company->is_admin()) {
-            $this->orders = Order::where('authorization','approved')->orderBy('created_at','desc')->get();
-
-        }else {
-            $this->orders = Order::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->get();
-
-        }
-
       
     }
 

@@ -10,6 +10,9 @@ class Country extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function bank_accounts(){
+        return $this->hasMany('App\Models\BankAccount');
+    }
     public function fuel_prices(){
         return $this->hasMany('App\Models\FuelPrice');
     }

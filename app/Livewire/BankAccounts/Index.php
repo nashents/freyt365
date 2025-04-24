@@ -2,6 +2,7 @@
 
 namespace App\Livewire\BankAccounts;
 
+use App\Models\Country;
 use Livewire\Component;
 use App\Models\Currency;
 use App\Events\ModalClosed;
@@ -14,6 +15,8 @@ class Index extends Component
     public $name;
     public $currencies;
     public $currency_id;
+    public $countries;
+    public $country_id;
     public $company_id;
     public $type;
     public $account_name;
@@ -22,6 +25,7 @@ class Index extends Component
     public $branch_code;
     public $swift_code;
     public $status;
+    public $bank_account_id;
 
     public $inputs = [];
     public $i = 1;
@@ -41,12 +45,14 @@ class Index extends Component
     public function mount(){
     
         $this->bank_accounts = BankAccount::where('company_id',Auth::user()->company_id)->orderBy('name')->get();
+        $this->countries = Country::orderBy('name')->get();
         $this->currencies = Currency::orderBy('name')->get();
 
     }
 
     private function resetInputFields(){
         $this->branch = "" ;
+        $this->country_id = "" ;
         $this->currency_id = "" ;
         $this->branch_code = "";
         $this->swift_code = "";
@@ -60,13 +66,14 @@ class Index extends Component
         $this->validateOnly($value);
     }
     protected $rules = [
-        'account_name' => 'required',
-        'account_number' => 'required',
         'currency_id' => 'required',
+        'country_id' => 'required',
         'name' => 'required',
     ];
 
     public function store(){
+
+        $this->validate();
         try{
 
             $bank_account = new BankAccount;
@@ -74,6 +81,7 @@ class Index extends Component
             $bank_account->company_id =  Auth::user()->company->id;
             $bank_account->name = $this->name;
             $bank_account->currency_id = $this->currency_id;
+            $bank_account->country_id = $this->country_id;
             $bank_account->account_number = $this->account_number;
             $bank_account->account_name = $this->account_name;
             $bank_account->branch = $this->branch;
@@ -114,6 +122,7 @@ class Index extends Component
         $this->branch = $bank_account->branch;
         $this->branch_code = $bank_account->branch_code;
         $this->currency_id = $bank_account->currency_id;
+        $this->country_id = $bank_account->country_id;
         $this->swift_code = $bank_account->swift_code;
         $this->status = $bank_account->status;
         $this->bank_account_id = $bank_account->id;
@@ -128,6 +137,7 @@ class Index extends Component
         $bank_account->account_name = $this->account_name;
         $bank_account->branch = $this->branch;
         $bank_account->currency_id = $this->currency_id;
+        $bank_account->country_id = $this->country_id;
         $bank_account->branch_code = $this->branch_code;
         $bank_account->swift_code = $this->swift_code;
         $bank_account->status = $this->status;

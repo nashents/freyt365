@@ -84,11 +84,11 @@
                 </a>
                 <div class="collapse" id="sidebarExtendedUI">
                     <ul class="side-nav-second-level">
-                        @if (!Auth::user()->is_admin())
+                        {{-- @if (!Auth::user()->is_admin()) --}}
                         <li>
                             <a href="{{route('bank_accounts.index')}}">Bank Accounts</a>
                         </li>
-                        @endif
+                        {{-- @endif --}}
                         <li>
                             <a href="{{ route('wallets.index') }}">Wallets</a>
                         </li>

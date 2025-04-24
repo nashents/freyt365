@@ -51,31 +51,36 @@ class Index extends Component
                 $this->is_open = FALSE;
             }
         }else{
-            // dd('is open');
             $this->selectedFolder = $id;
             $this->is_open = TRUE;
-        }
-        
-       
+        }  
+    }
+
+    public function unsetFolder(){
+
     }
 
 
     public function mount($id,$category){
         $this->category = $category;
         $this->item_id = $id;  
-    if ($this->category == "company") {
-        $this->company = Company::find($id);
-        $this->folders = Folder::where('category', $this->category)->latest()->get();
-        $this->documents = Document::where('category', $this->category)
-        ->where('company_id', $this->company->id)->latest()->get();
+        if ($this->category == "company") {
+            $this->company = Company::find($id);
+            $this->folders = Folder::where('category', $this->category)->latest()->get();
+            $this->documents = Document::where('category', $this->category)
+            ->where('company_id', $this->company->id)->latest()->get();
+        }
     }
-   
-   
-   
-   
-    
 
+    public function updated($value){
+        $this->validateOnly($value);
     }
+    protected $rules = [
+        'folder_title' => 'required|string',
+        'title' => 'required|string',
+        'folder_id' => 'nullable',
+        'file' => 'required|max:2048',
+    ];
 
     public function updatedSelectedFolder($selected_folder_id){
 
@@ -117,6 +122,8 @@ class Index extends Component
     }
 
     public function storeFolder(){
+
+        $this->validate();
         try{
 
             $folder = new Folder;
@@ -146,6 +153,9 @@ class Index extends Component
     }
    
     public function updateFolder(){
+
+        $this->validate();
+
         try{
 
             $folder = Folder::find($this->folder_id);
@@ -173,9 +183,12 @@ class Index extends Component
         }
     }
     public function store(){
+
+        $this->validate();
+
         // try{
 
-            if(isset($this->file)){
+            if($this->file){
                 $file = $this->file;
                 // get file with ext
                 $fileNameWithExt = $file->getClientOriginalName();
@@ -262,6 +275,9 @@ class Index extends Component
 
         public function update()
         {
+
+            $this->validate();
+
             if ($this->document_id) {
                 try{
                     if(isset($this->file)){
