@@ -305,6 +305,7 @@ class Create extends Component
         return redirect()->route('orders.index');
 
     }
+    
 
     public function render()
     {

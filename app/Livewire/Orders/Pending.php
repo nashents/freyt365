@@ -57,6 +57,7 @@ class Pending extends Component
     }
 
 
+
     public function showAuthorize($id){
         $this->order_id = $id;
         $this->order = Order::find($id);
@@ -65,30 +66,42 @@ class Pending extends Component
 
     public function saveAuthorize(){
         $transaction = $this->order->transaction;
-        if (isset($transaction)) {
-            $wallet = $transaction->wallet;
-            if (isset($wallet) && (is_numeric($wallet->balance) && is_numeric($transaction->amount)) && $wallet->balance > $transaction->amount) {
-    
+        $wallet = $this->order->wallet;
+
+        if (!$wallet && ! $transaction) {
+         
+            $this->dispatch('hide-authorizationModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'error',
+                title : "Something wrong with the order, delete and create a new one!!",
+                position: "center",
+            );
+
+            return ;
+        }
+        
+        if ((is_numeric($wallet->balance) && is_numeric($transaction->amount)) && $wallet->balance > $transaction->amount) {
+            
             $order = Order::find($this->order_id);
             $order->authorized_by_id = Auth::user()->id;
             $order->authorization = $this->authorization;
             $order->reason = $this->reason;
             $order->update();
+
+            $transaction->authorized_by_id = Auth::user()->id;
+            $transaction->authorization = $this->authorization;
+            $transaction->reason = $this->reason;
+            $transaction->update();
             
             if ($this->authorization == "approved") {
                
-                $transaction = $order->transaction;
-             
-                if (isset($transaction)) {
-                    $transaction->transaction_reference = $this->generateTransactionReference();
-                    $transaction->authorized_by_id = Auth::user()->id;
-                    $transaction->authorization = $this->authorization;
-                    $transaction->reason = $this->reason;
-                    $transaction->update();
-                } 
+                $transaction->transaction_reference = $this->generateTransactionReference();
+                $transaction->update();
                
     
-                if (isset($this->admin->email)) {
+                if ($this->admin->email) {
                     Mail::to($this->admin->email)->send(new TransactionVerificationMail($transaction, $this->admin));
                 }  
     
@@ -124,18 +137,7 @@ class Pending extends Component
                 position: "center",
             );      
         }
-        }else{
-            $this->dispatch('hide-authorizationModal');
-            $this->resetInputFields();
-            $this->dispatch(
-                'alert',
-                type : 'success',
-                title : "Order incomplete, edit order to continue",
-                position: "center",
-            );
-        }
-     
-        
+    
     }
 
     public function render()

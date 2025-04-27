@@ -108,8 +108,6 @@ class Index extends Component
 
         return  $transaction_number;
    
-
-
     }
 
 
@@ -134,6 +132,7 @@ class Index extends Component
            
 
             if (is_numeric($wallet->balance) && is_numeric($transaction->amount) ) {
+
                 $transaction_wallet_balance = $wallet->balance - $transaction->amount;
                 $wallet->balance =  $transaction_wallet_balance;
                 $wallet->update();
@@ -146,7 +145,7 @@ class Index extends Component
                 $order->status = "successful";
                 $order->update();
 
-                if (isset($transaction->company->email)) {
+                if ($transaction->company->email) {
                     Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
                 }
             }  
