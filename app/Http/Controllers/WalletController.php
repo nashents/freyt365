@@ -15,9 +15,10 @@ class WalletController extends Controller
     {
         return view('wallets.index');
     }
-    public function accountStatement()
+    public function accountStatement($id)
     {
-        return view('account_statement.index');
+        $wallet = Wallet::find($id);
+        return view('account_statement.index')->with('wallet',$wallet);
     }
 
     /**

@@ -45,7 +45,7 @@
                     </div>
                     <!-- end page title -->
 
-                    @livewire('account-statement.index')
+                    @livewire('account-statement.index',['wallet' => $wallet])
 
                 </div> <!-- container -->
 

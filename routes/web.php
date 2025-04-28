@@ -92,7 +92,7 @@ Route::get('/contact-us',[PagesController::class, 'contactUs'])->name('contact_u
 
 Route::group(['middleware' => 'auth'], function(){
 
-    Route::get('/account_statement/report/', [WalletController::class,'accountStatement'])->name('account_statement.index');
+    Route::get('/account_statement/{wallet_id}/report/', [WalletController::class,'accountStatement'])->name('account_statement.index');
 
     Route::get('/transactions/pending/',[TransactionController::class,'pending'])->name('transactions.pending');
     Route::get('/transactions/approved/',[TransactionController::class,'approved'])->name('transactions.approved');
