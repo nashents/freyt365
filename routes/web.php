@@ -144,6 +144,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 
+    Route::get('/companies/{company}/horses',[CompanyController::class,'getHorses'])->name('companies.horses');
+    Route::get('/companies/{company}/trailers',[CompanyController::class,'getTrailers'])->name('companies.trailers');
+    Route::get('/companies/{company}/drivers',[CompanyController::class,'getDrivers'])->name('companies.drivers');
+
     Route::get('/companies/{company}/profile',[CompanyController::class,'getProfile'])->name('company-profile');
 
     Route::get('/users/{id}/profile',[UserController::class,'getProfile'])->name('profile');

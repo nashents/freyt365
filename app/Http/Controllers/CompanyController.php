@@ -15,6 +15,21 @@ class CompanyController extends Controller
     {
         return view('companies.index');
     }
+    public function getDrivers($id)
+    {   
+        $company = Company::find($id);
+        return view('companies.drivers')->with('company',$company);
+    }
+    public function getTrailers($id)
+    {
+        $company = Company::find($id);
+        return view('companies.trailers')->with('company',$company);
+    }
+    public function getHorses($id)
+    {
+        $company = Company::find($id);
+        return view('companies.horses')->with('company',$company);
+    }
 
     public function getProfile(Company $company){
         return view('companies.profile')->with('company', $company);

@@ -40,6 +40,9 @@
                                                     <li><a href="{{route('companies.show',$company->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> View</a></li>
                                                     <li><a href="#" wire:click.prevent="showAuthorize({{$company->id}})" class="dropdown-item"><i class="fa fa-gavel color-success"></i> Authorize</a></li>
                                                     {{-- <li><a href="#" wire:click.prevent="edit({{$company->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li> --}}
+                                                    <li><a href="{{route('companies.drivers',$company->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> Drivers</a></li>
+                                                    <li><a href="{{route('companies.horses',$company->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> Horses</a></li>
+                                                    <li><a href="{{route('companies.trailers',$company->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> Trailers</a></li>
                                                     <li>
                                                         <a href="#" wire:click="delete({{$company->id}})"
                                                         wire:confirm="Are you sure you want to delete this company?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
