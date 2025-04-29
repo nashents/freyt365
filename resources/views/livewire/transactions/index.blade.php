@@ -9,7 +9,6 @@
                 @if (!Auth::user()->company->is_admin())
                 <div class="card-header">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#transactionModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Transaction</a>
-                    <a href="{{route('account_statement.index')}}" type="button" class="btn btn-outline-primary"><i class="ri-file-list-3-fill"></i> Account Statements</a>
                 </div>
                 @endif
               
