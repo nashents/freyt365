@@ -12,6 +12,7 @@ class Index extends Component
     public $makes;
     public $name;
     public $make_id;
+    public $model_id;
     public $model_name;
     public $models;
    
@@ -20,6 +21,7 @@ class Index extends Component
 
     private function resetInputFields(){
         $this->name = "";
+        $this->make_id = "";
     }
 
     public function store(){

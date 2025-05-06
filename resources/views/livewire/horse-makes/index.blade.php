@@ -29,7 +29,9 @@
                                         <td>{{$make->name}}</td>
                                         <td>
                                             @foreach ($make->horse_models as $model)
-                                            {{$model->name}} <br>
+                                            <span> {{$model->name}} </span>
+                                                <a href="#" wire:click.prevent="editModel({{$model->id}})"><i class="fa fa-edit color-success"></i></a> <a href="#" wire:click="delete({{$make->id}})"
+                                                wire:confirm="Are you sure you want to delete this horse model?" ><i class="fa fa-trash color-danger"></i></a> <br>
                                             @endforeach
                                         </td>                
                                         <td class="w-10 line-height-35 table-dropdown">
@@ -39,10 +41,10 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="#" wire:click.prevent="edit({{$make->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
+                                                    <li><a href="#" wire:click.prevent="edit({{$make->id}})"><i class="fa fa-edit color-success"></i> Edit</a></li>
                                                     <li>
                                                         <a href="#" wire:click="delete({{$make->id}})"
-                                                        wire:confirm="Are you sure you want to delete this horse make?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
+                                                        wire:confirm="Are you sure you want to delete this horse make?" ><i class="fa fa-trash color-danger"></i> Delete</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -133,7 +135,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="modelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div wire:ignore.self data-bs-backdrop="static" data-bs-keyboard="false" id="modelEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">

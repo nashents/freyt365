@@ -29,7 +29,7 @@ Signup
 													Thank you signing up on <a href="https://freyt365.com/" target="_blank">freyt365</a>.
 													For your account to be activated we need to verify your business first.
 													⁠Please send the following to  <a href="mailto: activations@freyt365.com">activations@freyt365.com</a>
-													Certificate of Incorporation, List of Directors, Certificate showing shareholding, Adress Confirmation, Name of Account Signatory and ID.
+													Certificate of Incorporation, Certificate showing shareholding, Adress Confirmation, Name of Account Signatory and ID.
 													<br>
 													Once the verifitcation process is done and your account is activated, you will receive an email.
 													<br>
