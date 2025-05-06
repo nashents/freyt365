@@ -13,7 +13,7 @@ class HorseMakeController extends Controller
      */
     public function index()
     {
-        //
+        return view('horse_makes.index');
     }
 
     /**

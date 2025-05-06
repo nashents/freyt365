@@ -63,6 +63,9 @@
                             <a href="{{ route('countries.index') }}">Countries</a>
                         </li>
                         <li>
+                            <a href="{{ route('horse_makes.index') }}">Horse Makes</a>
+                        </li>
+                        <li>
                             <a href="{{ route('services.index') }}">Services</a>
                         </li>
                         <li>

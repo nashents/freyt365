@@ -42,6 +42,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FuelPriceController;
+use App\Http\Controllers\HorseMakeController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DestinationController;
@@ -141,6 +142,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/transactions',TransactionController::class);
     Route::resource('/charges',ChargeController::class);
     Route::resource('/countries',CountryController::class);
+    Route::resource('/horse_makes',HorseMakeController::class);
 
 
 

@@ -126,6 +126,65 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-modelModal', (event) => {
+        $('#modelModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-modelModal', (event) => {
+        $('#modelModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-modelEditModal', (event) => {
+        $('#modelEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-modelEditModal', (event) => {
+        $('#modelEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-makeModal', (event) => {
+        $('#makeModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-makeModal', (event) => {
+        $('#makeModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-makeEditModal', (event) => {
+        $('#makeEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-makeEditModal', (event) => {
+        $('#makeEditModal').modal('hide');
+       });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-countryModal', (event) => {
         $('#countryModal').modal('show');
        });
