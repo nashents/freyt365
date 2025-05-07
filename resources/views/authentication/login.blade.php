@@ -45,7 +45,7 @@
                                                    >
                                             </div>
                                             <div class="mb-3">
-                                                <a href="#" class="text-muted float-end"><small>Forgot
+                                                <a href="{{route('password.request')}}" class="text-muted float-end"><small>Forgot
                                                         your
                                                         password?</small></a>
                                                 <label for="password" class="form-label">Password</label>

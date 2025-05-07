@@ -23,6 +23,19 @@ class LoginController extends Controller
 
         return view('authentication.login');
     }
+    public function forgotPassword()
+    {
+        return view('authentication.forgot-password');
+    }
+
+    public function resetPassword($token)
+    {
+        return view('authentication.reset-password')->with([
+                'token' => $token,
+            ]);
+    }
+
+    
 
     public function getSignup()
     {
@@ -132,19 +145,9 @@ class LoginController extends Controller
 
        }
 
-    public function forgotPassword()
-    {
-        return view('authentication.forgot-password');
-    }
     
-    public function resetPassword($token, $id)
-    {
-        $user = User::find($id);
-        return view('authentication.reset-password')->with([
-                'token' => $token,
-                'user' => $user,
-            ]);
-    }
+    
+    
 
     public function logout(Request $request){
         Auth::logout();

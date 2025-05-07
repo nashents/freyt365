@@ -44,12 +44,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FuelPriceController;
 use App\Http\Controllers\HorseMakeController;
 use App\Http\Controllers\QuotationController;
+use App\Livewire\Authentication\ResetPassword;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\FuelStationController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransporterController;
+use App\Livewire\Authentication\ForgotPassword;
 use App\Http\Controllers\LoadingPointController;
 use App\Http\Controllers\ClearingAgentController;
 use SebastianBergmann\CodeCoverage\Driver\Driver;
@@ -76,6 +78,12 @@ Route::post('/login',[LoginController::class, 'postLogin'])->name('postLogin');
 Route::get('/signup',[LoginController::class, 'getSignup'])->name('signup');
 Route::post('/signup',[LoginController::class, 'postSignup'])->name('post-signup');
 Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
+
+Route::get('/forgot-password',[LoginController::class, 'forgotPassword'])->name('password.request');
+Route::get('/reset-password/{token}',[LoginController::class, 'resetPassword'])->name('password.reset');
+
+// Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
+// Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 
 
 Route::get('/posts/all/', [PostController::class, 'posts'])->name('posts.posts');
@@ -143,6 +151,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/charges',ChargeController::class);
     Route::resource('/countries',CountryController::class);
     Route::resource('/horse_makes',HorseMakeController::class);
+
+
 
 
 
