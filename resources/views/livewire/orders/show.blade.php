@@ -351,7 +351,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{$order->order_item->service ? $order->order_item->service->name : ""}}</td>
+                                    <td>
+                                        @if ($order->order_item)
+                                                {{$order->order_item->service ? $order->order_item->service->name : ""}}        
+                                        @endif
+                                    </td>
                                     <td>{{$order->status}}</td>
                                     <td>{{$order->wallet ? $order->wallet->name : ""}}</td>
                                     <td>{{$order->transaction ? $order->transaction->transaction_reference : ""}}</td>
