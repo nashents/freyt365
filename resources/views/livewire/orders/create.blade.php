@@ -94,9 +94,9 @@
                                         </a>
                                         @if (in_array($service->id, $opened_service_ids))
                                             @php
-                                                $branches = $service->branches->where('country_id',$selectedCountry);
-                                                $fuel_stations = $service->fuel_stations->where('country_id',$selectedCountry);
-                                                $offices = $service->offices->where('country_id',$selectedCountry);
+                                                $branches = $service->branches->where('status',1)->where('country_id',$selectedCountry);
+                                                $fuel_stations = $service->fuel_stations->where('status',1)->where('country_id',$selectedCountry);
+                                                $offices = $service->offices->where('status',1)->where('country_id',$selectedCountry);
                                             @endphp
                                             <div class="card-body mb-2">
                                                 @if ($fuel_stations->count() > 0 || $branches->count() > 0 || $offices->count() > 0)
@@ -214,7 +214,13 @@
                                                                                 @if ($station->fuel_types->count()>0)
                                                                                     @foreach ($station->fuel_types as $fuel_type)
                                                                                     <span class="badge bg-success">{{$fuel_type->name}}</span>
-                                                                                    
+                                                                                    @php
+                                                                                        $fuel_price = App\Models\FuelPrice::where('fuel_station_id',$station->id)->where('fuel_type_id',$fuel_type->id)->first();
+                                                                                    @endphp
+                                                                                    @if ($fuel_price)
+                                                                                        <br>
+                                                                                       <span class="badge bg-primary"><small>@ {{$fuel_price->currency ? $fuel_price->currency->name : ""}} {{$fuel_price->currency ? $fuel_price->currency->symbol : ""}}{{number_format($fuel_price->retail_price,2)}}</small></span> 
+                                                                                    @endif
                                                                                     @endforeach
                                                                                 @else
                                                                                 <span class="badge bg-secondary">N/A</span>
