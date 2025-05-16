@@ -20,7 +20,9 @@ class Company extends Model  implements Auditable
         }
 
     }
-
+    public function overdrafts(){
+        return $this->hasMany('App\Models\Overdraft');
+    }
     public function users(){
         return $this->hasMany('App\Models\User');
     }

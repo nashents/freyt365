@@ -126,6 +126,35 @@
 
 <script>
     document.addEventListener('livewire:init', () => {
+       Livewire.on('show-overdraftModal', (event) => {
+        $('#overdraftModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-overdraftModal', (event) => {
+        $('#overdraftModal').modal('hide');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('show-overdraftEditModal', (event) => {
+        $('#overdraftEditModal').modal('show');
+       });
+    });
+</script>
+<script>
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('hide-overdraftEditModal', (event) => {
+        $('#overdraftEditModal').modal('hide');
+       });
+    });
+</script>
+
+<script>
+    document.addEventListener('livewire:init', () => {
        Livewire.on('show-modelModal', (event) => {
         $('#modelModal').modal('show');
        });

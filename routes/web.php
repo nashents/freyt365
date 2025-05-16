@@ -43,6 +43,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FuelPriceController;
 use App\Http\Controllers\HorseMakeController;
+use App\Http\Controllers\OverdraftController;
 use App\Http\Controllers\QuotationController;
 use App\Livewire\Authentication\ResetPassword;
 use App\Http\Controllers\BankAccountController;
@@ -113,6 +114,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/admin/users/',[UserController::class,'admin'])->name('users.admins');
 
+    Route::resource('/overdrafts',OverdraftController::class);
     Route::resource('/folders',FolderController::class);
     Route::resource('/partners',PartnerController::class);
     Route::resource('/posts',PostController::class);

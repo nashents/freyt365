@@ -22,5 +22,8 @@ class Wallet extends Model
     public function orders(){
         return $this->hasMany('App\Models\Order');
     }
+    public function overdraft(){
+        return $this->hasOne('App\Models\Overdraft');
+    }
 
 }

@@ -57,6 +57,10 @@ class User extends Authenticatable implements Auditable
         }
 
     }
+
+    public function overdrafts(){
+        return $this->hasMany('App\Models\Overdraft');
+    }
   
     public function requisitions(){
         return $this->hasMany('App\Models\Requisition');

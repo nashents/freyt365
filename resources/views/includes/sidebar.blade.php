@@ -71,6 +71,9 @@
                         <li>
                             <a href="{{ route('charges.index') }}">Transaction Charges</a>
                         </li>
+                        <li>
+                            <a href="{{ route('overdrafts.index') }}">Overdrafts</a>
+                        </li>
                        
                     </ul>
                 </div>
