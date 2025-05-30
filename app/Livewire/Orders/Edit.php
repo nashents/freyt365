@@ -17,9 +17,11 @@ use App\Models\Transaction;
 use App\Models\TransactionType;
 use Illuminate\Support\Facades\Auth;
 
-class Create extends Component
+class Edit extends Component
 {
 
+    public $order_id;
+    public $order_number;
     public $wallets;
     public $wallet;
     public $selected_wallet;
@@ -59,7 +61,40 @@ class Create extends Component
     public $fuel_station_id = [];
     public $office_id = [];
 
-    public function mount(){
+    public function mount($id){
+        $order = Order::find($id);
+        $this->order_id = $id;
+        $this->order_number = $order->order_number;
+        $this->selectedHorse = $order->horse_id;
+        $this->selected_horse = Horse::find($order->horse_id);
+        $this->selectedCountry = $order->country_id;
+        $this->country = Country::find($order->country_id);
+        $this->selected_country = Country::find($order->country_id);
+        $this->service_providers = $this->country->service_providers;
+        $this->selectedDriver = $order->driver_id;
+        $this->selected_driver = Driver::find($order->driver_id);
+        $this->selectedWallet = $order->wallet_id;
+        $this->selected_wallet = Wallet::find($order->wallet_id);
+        $this->currency_id = $this->selected_wallet->currency_id;
+        $this->selected_currency = $this->selected_wallet->currency;
+        $this->total = $order->total;
+        $this->order_item = $order->order_item;
+        $this->next = True;
+         
+        if ($this->order_item) {
+            $this->uniqueid = $this->order_item->uniqueid;
+            $this->amount = $this->order_item->qty;
+            $this->total = $this->order_item->amount;
+            $this->opened_service_ids[] = $this->order_item->service_id;
+        }
+      
+        $this->collection_date = $order->collection_date;
+        $trailers = $order->trailers;
+        if ($trailers) {
+            foreach($trailers as $trailer){
+                $this->trailer_id[] = $trailer->id;
+            }
+        }
         $this->customers = Customer::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->get();
         $this->drivers = Driver::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->get();
         $this->horses = Horse::where('company_id',Auth::user()->company_id)->orderBy('registration_number','asc')->get();
@@ -68,7 +103,7 @@ class Create extends Component
         $this->countries = Country::where('status',1)->orderBy('name','asc')->get();
         $this->services = Service::orderBy('name','asc')->get();
         $this->wallets = Wallet::where('company_id',Auth::user()->company_id)->get();
-        $this->uniqueid = $this->generatePIN();
+        // $this->uniqueid = $this->generatePIN();
         $this->transaction_type = TransactionType::where('name','Service Order')->first();
         $this->charge = $this->transaction_type->charge;
     }
@@ -258,12 +293,11 @@ class Create extends Component
 
 
 
-    public function store(){
+    public function update(){
+
         if ((is_numeric($this->selected_wallet->balance) && is_numeric($this->total)) && $this->selected_wallet->balance > $this->total) {
-        $order = new Order;
-        $order->user_id = Auth::user()->id;
-        $order->order_number = $this->orderNumber();
-        $order->company_id = Auth::user()->company_id;
+
+        $order = Order::find($this->order_id);
         $order->horse_id = $this->selectedHorse;
         $order->driver_id = $this->selectedDriver;
         $order->country_id = $this->selectedCountry;
@@ -271,7 +305,8 @@ class Create extends Component
         $order->currency_id = $this->currency_id;
         $order->collection_date = $this->collection_date;
         $order->total = $this->total;
-        $order->save();
+        $order->update();
+        $order->trailers()->detach();
         $order->trailers()->sync($this->trailer_id);
 
         $order_item = $this->order_item;
@@ -283,52 +318,63 @@ class Create extends Component
                 $order_item->update();
         }
 
-        $transaction = new Transaction;
-        $transaction->transaction_number = $this->transactionNumber();
-        $transaction->user_id = Auth::user()->id;
-        $transaction->order_id = $order->id;
-        $transaction->company_id = Auth::user()->company_id;
-        $transaction->wallet_id = $this->selectedWallet;
-        $transaction->movement = "Dbt";
-        $transaction->transaction_date = date('Y-m-d');
-        $transaction->transaction_type_id =  $this->transaction_type->id;
-        $transaction->amount = $this->total;
-        $transaction->currency_id = $this->currency_id;
-        $transaction->save();
+        $transaction = $order->transaction;
+        if ($transaction) {
+            $transaction->wallet_id = $this->selectedWallet;
+            $transaction->movement = "Dbt";
+            $transaction->transaction_date = date('Y-m-d');
+            $transaction->transaction_type_id =  $this->transaction_type->id;
+            $transaction->amount = $this->total;
+            $transaction->currency_id = $this->currency_id;
+            $transaction->update();
+        }else{
+            $transaction = new Transaction;
+            $transaction->transaction_number = $this->transactionNumber();
+            $transaction->user_id = Auth::user()->id;
+            $transaction->order_id = $order->id;
+            $transaction->company_id = Auth::user()->company_id;
+            $transaction->wallet_id = $this->selectedWallet;
+            $transaction->movement = "Dbt";
+            $transaction->transaction_date = date('Y-m-d');
+            $transaction->transaction_type_id =  $this->transaction_type->id;
+            $transaction->amount = $this->total;
+            $transaction->currency_id = $this->currency_id;
+            $transaction->save();
+        }
+       
         
         $this->dispatch(
             'alert',
             type : 'success',
-            title : "Order Created Successfully!!",
+            title : "Order Updated Successfully!!",
             position: "center",
         );
 
         return redirect()->route('orders.index');
-        }
+         }
         else{
             $this->dispatch(
                 'alert',
                 type : 'error',
-                title : "You have insuffient wallet funds to create this order!!",
+                title : "You have insuffient wallet funds to update this order!!",
                 position: "center",
             );      
         }
     }
     
-
     public function render()
     {
-        if (isset($this->order_item)) {
+        if ($this->order_item) {
             if ($this->order_item->fuel_station) {
-                if ((isset($this->amount) && is_numeric($this->amount)) && isset($this->order_item->fuel_station->fuel_price->retail_price) && is_numeric($this->order_item->fuel_station->fuel_price->retail_price)) {
+                if (($this->amount && is_numeric($this->amount)) && ($this->order_item->fuel_station->fuel_price->retail_price && is_numeric($this->order_item->fuel_station->fuel_price->retail_price))) {
                     $this->total = $this->amount * $this->order_item->fuel_station->fuel_price->retail_price;
                 }
             }elseif ($this->order_item->office) {
-                if ((isset($this->amount) && is_numeric($this->amount)) && isset($this->order_item->office->rate) && is_numeric($this->order_item->office->rate)) {
+                if (($this->amount && is_numeric($this->amount)) && ($this->order_item->office->rate && is_numeric($this->order_item->office->rate))) {
                     $this->total = $this->amount * $this->order_item->office->rate;
                 }
             }elseif ($this->order_item->branch) {
-                if ((isset($this->amount) && is_numeric($this->amount)) && isset($this->charge->percentage) && is_numeric($this->charge->percentage)) {
+                if (($this->amount && is_numeric($this->amount)) && ($this->charge->percentage && is_numeric($this->charge->percentage))) {
                     $this->charge_amount = ($this->charge->percentage/100) * $this->amount;
                     $this->total = $this->amount + $this->charge_amount;
                 }
@@ -336,6 +382,6 @@ class Create extends Component
         }
         
        
-        return view('livewire.orders.create');
+        return view('livewire.orders.edit');
     }
 }

@@ -40,14 +40,14 @@
             </button>
 
             <!-- Topbar Search Form -->
-            <div class="app-search d-none d-lg-block">
+            {{-- <div class="app-search d-none d-lg-block">
                 <form>
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Search...">
                         <span class="ri-search-line search-icon text-muted"></span>
                     </div>
                 </form>
-            </div>
+            </div> --}}
         </div>
         <a href="{{route('fuel_prices.index')}}" type="button" class="btn btn-outline-primary"><i class="ri-gas-station-fill"></i> View Fuel Prices</a>
         <a href="{{route('branches.index')}}" type="button" class="btn btn-outline-primary"><i class="bi bi-building-fill-add"></i> View Branches</a>

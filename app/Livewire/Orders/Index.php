@@ -130,8 +130,7 @@ class Index extends Component
   
         if ($this->verification == "verified") {
            
-
-            if (is_numeric($wallet->balance) && is_numeric($transaction->amount) ) {
+            if ((is_numeric($wallet->balance) && is_numeric($transaction->amount)) && $wallet->balance > $transaction->amount) {
 
                 $transaction_wallet_balance = $wallet->balance - $transaction->amount;
                 $wallet->balance =  $transaction_wallet_balance;
@@ -148,16 +147,28 @@ class Index extends Component
                 if ($transaction->company->email) {
                     Mail::to($transaction->company->email)->send(new TransactionMail($transaction, $this->admin));
                 }
-            }  
+           
+             
 
-        $this->dispatch('hide-verificationModal');
-        $this->resetInputFields();
-        $this->dispatch(
-            'alert',
-            type : 'success',
-            title : "Transaction Verified & Processed Successfully!!",
-            position: "center",
-        );
+            $this->dispatch('hide-verificationModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'success',
+                title : "Transaction Verified & Processed Successfully!!",
+                position: "center",
+            );
+
+          }else{
+            $this->dispatch('hide-verificationModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'error',
+                title : "The client has insuffient funds to verify this order!!",
+                position: "center",
+            );      
+        } 
           
         }else {
 
