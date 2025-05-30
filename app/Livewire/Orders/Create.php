@@ -259,53 +259,66 @@ class Create extends Component
 
 
     public function store(){
-        if ((is_numeric($this->selected_wallet->balance) && is_numeric($this->total)) && $this->selected_wallet->balance > $this->total) {
-        $order = new Order;
-        $order->user_id = Auth::user()->id;
-        $order->order_number = $this->orderNumber();
-        $order->company_id = Auth::user()->company_id;
-        $order->horse_id = $this->selectedHorse;
-        $order->driver_id = $this->selectedDriver;
-        $order->country_id = $this->selectedCountry;
-        $order->wallet_id = $this->selectedWallet;
-        $order->currency_id = $this->currency_id;
-        $order->collection_date = $this->collection_date;
-        $order->total = $this->total;
-        $order->save();
-        $order->trailers()->sync($this->trailer_id);
 
-        $order_item = $this->order_item;
-        if (isset($order_item)) {
-                $order_item->order_id = $order->id;
-                $order_item->qty = $this->amount;
-                $order_item->amount = $this->total;
-                $order_item->collection_date = $order->collection_date;
-                $order_item->update();
-        }
+        if (($this->selected_wallet->balance && is_numeric($this->selected_wallet->balance)) && ($this->total && is_numeric($this->total)) && ($this->selected_wallet->balance > $this->total)) {
+            
+            if ($this->order_item) {
+                
+                    $order = new Order;
+                    $order->user_id = Auth::user()->id;
+                    $order->order_number = $this->orderNumber();
+                    $order->company_id = Auth::user()->company_id;
+                    $order->horse_id = $this->selectedHorse;
+                    $order->driver_id = $this->selectedDriver;
+                    $order->country_id = $this->selectedCountry;
+                    $order->wallet_id = $this->selectedWallet;
+                    $order->currency_id = $this->currency_id;
+                    $order->collection_date = $this->collection_date;
+                    $order->total = $this->total;
+                    $order->save();
+                    $order->trailers()->sync($this->trailer_id);
 
-        $transaction = new Transaction;
-        $transaction->transaction_number = $this->transactionNumber();
-        $transaction->user_id = Auth::user()->id;
-        $transaction->order_id = $order->id;
-        $transaction->company_id = Auth::user()->company_id;
-        $transaction->wallet_id = $this->selectedWallet;
-        $transaction->movement = "Dbt";
-        $transaction->transaction_date = date('Y-m-d');
-        $transaction->transaction_type_id =  $this->transaction_type->id;
-        $transaction->amount = $this->total;
-        $transaction->currency_id = $this->currency_id;
-        $transaction->save();
-        
-        $this->dispatch(
-            'alert',
-            type : 'success',
-            title : "Order Created Successfully!!",
-            position: "center",
-        );
+                    $order_item = $this->order_item;
+                    if (isset($order_item)) {
+                            $order_item->order_id = $order->id;
+                            $order_item->qty = $this->amount;
+                            $order_item->amount = $this->total;
+                            $order_item->collection_date = $order->collection_date;
+                            $order_item->update();
+                    }
 
-        return redirect()->route('orders.index');
-        }
-        else{
+                    $transaction = new Transaction;
+                    $transaction->transaction_number = $this->transactionNumber();
+                    $transaction->user_id = Auth::user()->id;
+                    $transaction->order_id = $order->id;
+                    $transaction->company_id = Auth::user()->company_id;
+                    $transaction->wallet_id = $this->selectedWallet;
+                    $transaction->movement = "Dbt";
+                    $transaction->transaction_date = date('Y-m-d');
+                    $transaction->transaction_type_id =  $this->transaction_type->id;
+                    $transaction->amount = $this->total;
+                    $transaction->currency_id = $this->currency_id;
+                    $transaction->save();
+                    
+                    $this->dispatch(
+                        'alert',
+                        type : 'success',
+                        title : "Order Created Successfully!!",
+                        position: "center",
+                    );
+
+                    return redirect()->route('orders.index');
+            }else{
+                $this->dispatch(
+                    'alert',
+                    type : 'error',
+                    title : "Please select & place an order before creating an order !!",
+                    position: "center",
+                );
+
+            }
+    
+        }else{
             $this->dispatch(
                 'alert',
                 type : 'error',
