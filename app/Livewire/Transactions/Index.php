@@ -8,20 +8,25 @@ use Livewire\Component;
 use App\Models\Currency;
 use App\Models\BankAccount;
 use App\Models\Transaction;
+use Livewire\WithPagination;
 use App\Mail\TransactionMail;
 use App\Models\TransactionType;
 use App\Models\TransactionCharge;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class Index extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
 
     public $wallets;
     public $selectedWallet;
     public $receiving_wallet_number;
     public $currency_id;
-    public $transactions;
+    private $transactions;
     public $transaction;
     public $transaction_id;
     public $transaction_date;
@@ -49,6 +54,8 @@ class Index extends Component
     public $admin;
     public $wallet_balance;
 
+    
+
     // protected $listeners = ['echo:transactions,' . \App\Events\TransactionCreated::class => 'refreshTransactions'];
 
     // public function refreshTransactions($payload)
@@ -67,19 +74,7 @@ class Index extends Component
         $this->wallets = Wallet::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $this->currencies = Currency::orderBy('name','asc')->get();
         $this->transaction_types = TransactionType::orderBy('name','asc')->get();
-        
-        if (Auth::user()->is_admin || Auth::user()->company->is_admin()) {
-            $this->transactions = Transaction::where('authorization','approved')->orderBy('created_at','desc')->get();
-
-        }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->get();
-
-        }
-
-        
-
-       
-       
+      
     }
 
    
@@ -485,15 +480,20 @@ class Index extends Component
         $this->from_bank_accounts = BankAccount::where('company_id', Auth::user()->company->id)->orderBy('name','asc')->get();
 
         if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
-            $this->transactions = Transaction::where('authorization','approved')->whereYear('created_at',date('Y'))->whereMonth('created_at',date('m'))->orderBy('created_at','desc')->get();
+            return view('livewire.transactions.index',[
+            'from_bank_accounts' => $this->from_bank_accounts,
+            'transactions' => Transaction::where('authorization','approved')->orderBy('created_at','desc')->paginate(10)
+        ]);
+           
 
         }else {
-            $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->whereYear('created_at',date('Y'))->whereMonth('created_at',date('m'))->orderBy('created_at','desc')->get();
+         return view('livewire.transactions.index',[
+            'from_bank_accounts' => $this->from_bank_accounts,
+            'transactions' => Transaction::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->paginate(10)
+        ]);
+       
 
         }
-        return view('livewire.transactions.index',[
-            'from_bank_accounts' => $this->from_bank_accounts,
-            'transactions' => $this->transactions
-        ]);
+        
     }
 }

@@ -11,7 +11,6 @@
                     <a href="#" data-bs-toggle="modal" data-bs-target="#transactionModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New Transaction</a>
                 </div>
                 @endif
-              
                 <div class="card-body">
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
@@ -103,6 +102,13 @@
                             @endif
                         </tbody>
                     </table>
+                      <nav class="text-center" style="float: right">
+                                <ul class="pagination rounded-corners">
+                                    @if (isset($transactions))
+                                        {{ $transactions->links() }} 
+                                    @endif 
+                                </ul>
+                            </nav>  
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->
