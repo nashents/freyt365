@@ -63,25 +63,8 @@ class Rejected extends Component
         $this->dispatch('show-authorizationModal');
     }
 
-    public function saveAuthorize(){
-        $transaction = $this->order->transaction;
-        $wallet = $transaction->wallet;
+        public function authorizeOrder($transaction, $wallet){
 
-        if (!$wallet && ! $transaction) {
-         
-            $this->dispatch('hide-authorizationModal');
-            $this->resetInputFields();
-            $this->dispatch(
-                'alert',
-                type : 'error',
-                title : "Something wrong with the order, delete and create a new one!!",
-                position: "center",
-            );
-
-            return ;
-        }
-        
-        if ((is_numeric($wallet->balance) && is_numeric($transaction->amount)) && $wallet->balance > $transaction->amount) {
             $order = Order::find($this->order_id);
             $order->authorized_by_id = Auth::user()->id;
             $order->authorization = $this->authorization;
@@ -123,7 +106,51 @@ class Rejected extends Component
                     position: "center",
                 );
                 return redirect()->route('orders.rejected');
-            }              
+            }  
+    }
+
+    public function saveAuthorize(){
+
+        $transaction = $this->order->transaction;
+        $wallet = $this->order->wallet;
+
+        if (!$wallet && ! $transaction) {
+         
+            $this->dispatch('hide-authorizationModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'error',
+                title : "Something wrong with the order, delete and create a new one!!",
+                position: "center",
+            );
+
+            return ;
+        }
+
+        $total = floatval($transaction->amount); // ensure it's numeric
+
+        if ($wallet->overdraft && $wallet->overdraft->is_active) {
+            $overdraftLimit = $wallet->overdraft->limit;
+            $availableLimit = $wallet->balance - $total;
+
+            if ($availableLimit < -$overdraftLimit) {
+                $this->dispatch(
+                    'alert',
+                    type: 'error',
+                    title: "Insufficient funds, overdraft limit exceeded!!",
+                    position: "center",
+                );
+                return;
+            }
+
+            $this->authorizeOrder($transaction, $wallet); // Order is allowed within overdraft
+            return;
+        }
+        
+      if (is_numeric($wallet->balance) && is_numeric($total) && $wallet->balance >= $total) {
+            
+            $this->authorizeOrder($transaction, $wallet);            
           
         }else{
             $this->dispatch('hide-authorizationModal');

@@ -257,12 +257,8 @@ class Create extends Component
     }
 
 
-
-    public function store(){
-
-        if (($this->selected_wallet->balance && is_numeric($this->selected_wallet->balance)) && ($this->total && is_numeric($this->total)) && ($this->selected_wallet->balance > $this->total)) {
-            
-            if ($this->order_item) {
+    public function createOrder(){
+             if ($this->order_item) {
                 
                     $order = new Order;
                     $order->user_id = Auth::user()->id;
@@ -317,16 +313,50 @@ class Create extends Component
                 );
 
             }
-    
-        }else{
+    }
+
+
+    public function store()
+    {
+        $wallet = $this->selected_wallet;
+
+        if (!$wallet || !$this->total) {
+            return;
+        }
+
+        $total = floatval($this->total); // ensure it's numeric
+
+        if ($wallet->overdraft && $wallet->overdraft->is_active) {
+            $overdraftLimit = $wallet->overdraft->limit;
+            $availableLimit = $wallet->balance - $total;
+
+            if ($availableLimit < -$overdraftLimit) {
+                $this->dispatch(
+                    'alert',
+                    type: 'error',
+                    title: "Insufficient funds, overdraft limit exceeded!!",
+                    position: "center",
+                );
+                return;
+            }
+
+            $this->createOrder(); // Order is allowed within overdraft
+            return;
+        }
+
+        // No overdraft, check balance only
+        if (is_numeric($wallet->balance) && is_numeric($total) && $wallet->balance >= $total) {
+            $this->createOrder();
+        } else {
             $this->dispatch(
                 'alert',
-                type : 'error',
-                title : "You have insuffient wallet funds to create this order!!",
+                type: 'error',
+                title: "You have insufficient wallet funds to create this order!!",
                 position: "center",
-            );      
+            );
         }
     }
+    
     
 
     public function render()

@@ -65,11 +65,12 @@ class Index extends Component
         $this->is_active = $overdraft->is_active;
         $this->wallets = Wallet::where('company_id',$overdraft->company_id)->orderBy('name','asc')->get();
         $this->wallet_id = $overdraft->wallet_id;
+        $this->overdraft_id = $overdraft->id;
         $this->dispatch('show-overdraftEditModal');
     }
 
     public function update(){
-        $overdraft =  overdraft::find($this->overdraft_id);
+        $overdraft =  Overdraft::find($this->overdraft_id);
         $overdraft->wallet_id = $this->wallet_id;
         $overdraft->company_id = $this->selectedCompany;
         $overdraft->limit = $this->limit;
