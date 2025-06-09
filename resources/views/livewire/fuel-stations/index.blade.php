@@ -44,8 +44,8 @@
                     
                     
                                             <tbody>
-                                                @if (isset($country->fuel_stations))
-                                                    @forelse ($country->fuel_stations as $fuel_station)
+                                                @if ( Auth::user()->is_admin() ? $fuel_stations = $country->fuel_stations : $fuel_stations = $country->fuel_stations->where('status',1))
+                                                    @forelse ($fuel_stations as $fuel_station)
                                                         <tr>
                                                             <td>
                                                                 <strong>{{$fuel_station->name}}</strong> <br>

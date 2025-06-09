@@ -44,8 +44,8 @@
                     
                     
                                             <tbody>
-                                                @if (isset($country->fuel_prices))
-                                                    @forelse ($country->fuel_prices as $fuel_price)
+                                                @if ( Auth::user()->is_admin() ? $fuel_prices = $country->fuel_prices : $fuel_prices = $country->fuel_prices->where('status',1))
+                                                    @forelse ($fuel_prices as $fuel_price)
                                                         <tr>
                                                             <td>
                                                                 @if (isset($fuel_price->fuel_station))

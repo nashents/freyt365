@@ -110,17 +110,9 @@ class Index extends Component
    
     }
 
+    public function verifyOrder(){
 
-    public function showVerify($id){
-        $this->order_id = $id;
-        $this->order = Order::find($id);
-        $this->transaction = $this->order->transaction;
-        $this->dispatch('show-verificationModal');
-    }
-
-    public function saveVerify(){
-
-        $transaction = Transaction::find($this->transaction->id);
+        $transaction = Transaction::find($this->transaction_id);
         $transaction->verified_by_id = Auth::user()->id;
         $transaction->verification = $this->verification;
         $transaction->verification_reason = $this->reason;
@@ -129,9 +121,7 @@ class Index extends Component
         $wallet = $transaction->wallet;
   
         if ($this->verification == "verified") {
-           
-            if ((is_numeric($wallet->balance) && is_numeric($transaction->amount)) && $wallet->balance > $transaction->amount) {
-
+    
                 $transaction_wallet_balance = $wallet->balance - $transaction->amount;
                 $wallet->balance =  $transaction_wallet_balance;
                 $wallet->update();
@@ -159,16 +149,7 @@ class Index extends Component
                 position: "center",
             );
 
-          }else{
-            $this->dispatch('hide-verificationModal');
-            $this->resetInputFields();
-            $this->dispatch(
-                'alert',
-                type : 'error',
-                title : "The client has insuffient funds to verify this order!!",
-                position: "center",
-            );      
-        } 
+         
           
         }else {
 
@@ -186,8 +167,66 @@ class Index extends Component
             );
         }
 
-        
-      
+    }
+
+    public function showVerify($id){
+        $this->order_id = $id;
+        $this->order = Order::find($id);
+        $this->transaction_id = $this->order->transaction->id;
+        $this->dispatch('show-verificationModal');
+    }
+
+    public function saveVerify(){
+
+        $transaction = $this->order->transaction;
+        $wallet = $this->order->wallet;
+
+        if (!$wallet && ! $transaction) {
+         
+            $this->dispatch('hide-authorizationModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'error',
+                title : "Something wrong with the order, delete and create a new one!!",
+                position: "center",
+            );
+
+            return ;
+        }
+
+        $total = floatval($transaction->amount); // ensure it's numeric
+
+        if ($wallet->overdraft && $wallet->overdraft->is_active) {
+            $overdraftLimit = $wallet->overdraft->limit;
+            $availableLimit = $wallet->balance - $total;
+
+            if ($availableLimit < -$overdraftLimit) {
+                $this->dispatch(
+                    'alert',
+                    type: 'error',
+                    title: "Insufficient funds, overdraft limit exceeded!!",
+                    position: "center",
+                );
+                return;
+            }
+
+             $this->verifyOrder(); // Order is allowed within overdraft
+            return;
+        }
+
+      if (is_numeric($wallet->balance) && is_numeric($total) && $wallet->balance >= $total) {
+            $this->verifyOrder();
+       }else{
+            $this->dispatch('hide-verificationModal');
+            $this->resetInputFields();
+            $this->dispatch(
+                'alert',
+                type : 'error',
+                title : "The client has insuffient funds to verify this order!!",
+                position: "center",
+            );      
+        } 
         
     }
 
