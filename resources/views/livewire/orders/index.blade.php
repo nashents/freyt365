@@ -95,7 +95,7 @@
                                             @if (Auth::user()->is_admin() && $order->authorization == "approved" && $order->verification != "verified")
                                             <li><a href="#" wire:click.prevent="showVerify({{$order->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Verify</a></li>
                                             @endif
-                                            @if (!Auth::user()->is_admin() && $order->authorization == "pending")
+                                            @if (!Auth::user()->is_admin())
                                                 <li><a href="{{route('orders.edit',$order->id)}}" class="dropdown-item"><i class="fa fa-edit color-default"></i> Edit</a></li>
                                                 <li>
                                                     <a href="#" wire:click="delete({{$order->id}})"
