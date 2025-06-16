@@ -151,90 +151,61 @@ class Create extends Component
         $this->next = True;
     }
 
-    public function placeOrder($service_id, $category, $id){
-
-       if ($category == "branch") {
-            $previous_order_item = OrderItem::where('uniqueid',$this->uniqueid)->first();
-            if (isset($previous_order_item)) {
-                $previous_order_item->delete();
-                $order_item = new OrderItem;
-                $order_item->uniqueid = $this->uniqueid;
-                $order_item->branch_id = $id;
-                $order_item->service_id = $service_id;
-                $order_item->save();
-                $this->order_item = $order_item;
-
-            }{
-                $order_item = new OrderItem;
-                $order_item->uniqueid = $this->uniqueid;
-                $order_item->branch_id = $id;
-                $order_item->service_id = $service_id;
-                $order_item->save();
-                $this->order_item = $order_item;
-            }
-
-       }elseif($category == "fuel_station"){
-           $previous_order_item = OrderItem::where('uniqueid',$this->uniqueid)->first();
-            if (isset($previous_order_item)) {
-                $previous_order_item->delete();
-                $order_item = new OrderItem;
-                $order_item->uniqueid = $this->uniqueid;
-                $order_item->fuel_station_id = $id;
-                $order_item->service_id = $service_id;
-                $order_item->save();
-                $this->order_item = $order_item;
-
-            }{
-                $order_item = new OrderItem;
-                $order_item->uniqueid = $this->uniqueid;
-                $order_item->fuel_station_id = $id;
-                $order_item->service_id = $service_id;
-                $order_item->save();
-                $this->order_item = $order_item;
-            }
-            
-       }elseif ($category == "office") {
-        $previous_order_item = OrderItem::where('uniqueid',$this->uniqueid)->first();
-        if (isset($previous_order_item)) {
+    public function placeOrder($service_id, $category, $id)
+    {
+        // Delete existing order item if any
+        $previous_order_item = OrderItem::where('uniqueid', $this->uniqueid)->first();
+        if ($previous_order_item) {
             $previous_order_item->delete();
-            $order_item = new OrderItem;
-            $order_item->uniqueid = $this->uniqueid;
-            $order_item->office_id = $id;
-            $order_item->service_id = $service_id;
-            $order_item->save();
-            $this->order_item = $order_item;
-
-        }{
-            $order_item = new OrderItem;
-            $order_item->uniqueid = $this->uniqueid;
-            $order_item->office_id = $id;
-            $order_item->service_id = $service_id;
-            $order_item->save();
-            $this->order_item = $order_item;
         }
-       }
+
+        // Create new order item
+        $order_item = new OrderItem;
+        $order_item->uniqueid = $this->uniqueid;
+        $order_item->service_id = $service_id;
+
+        // Dynamically set the category-specific foreign key
+        switch ($category) {
+            case 'branch':
+                $order_item->branch_id = $id;
+                break;
+            case 'fuel_station':
+                $order_item->fuel_station_id = $id;
+                break;
+            case 'office':
+                $order_item->office_id = $id;
+                break;
+            default:
+                throw new \Exception("Invalid category provided: {$category}");
+        }
+
+        $order_item->save();
+        $this->order_item = $order_item;
     }
  
-    public function unPlaceOrder($service_id, $category, $id){
+    public function unPlaceOrder($service_id, $category, $id)
+    {
+        // Map category to the corresponding column
+        $categoryColumns = [
+            'branch' => 'branch_id',
+            'fuel_station' => 'fuel_station_id',
+            'office' => 'office_id'
+        ];
 
-       if ($category == "branch") {
-            $order_item =  OrderItem::where('uniqueid',$this->uniqueid)->where('branch_id', $id)->where('service_id',$service_id)->first();
-            if (isset($order_item)) {
-                $order_item->delete();
-            }
-       }elseif($category == "fuel_station"){
-        $order_item =  OrderItem::where('uniqueid',$this->uniqueid)->where('fuel_station_id', $id)->where('service_id',$service_id)->first();
-        if (isset($order_item)) {
+        if (!array_key_exists($category, $categoryColumns)) {
+            throw new \Exception("Invalid category provided: {$category}");
+        }
+
+        $column = $categoryColumns[$category];
+
+        $order_item = OrderItem::where('uniqueid', $this->uniqueid)
+            ->where($column, $id)
+            ->where('service_id', $service_id)
+            ->first();
+
+        if ($order_item) {
             $order_item->delete();
         }
-            
-       }elseif ($category == "office") {
-        $order_item =  OrderItem::where('uniqueid',$this->uniqueid)->where('office_id', $id)->where('service_id',$service_id)->first();
-        if (isset($order_item)) {
-            $order_item->delete();
-        }
-           
-       }
     }
 
     public function transactionNumber(){
@@ -258,7 +229,17 @@ class Create extends Component
 
 
     public function createOrder(){
-             if ($this->order_item) {
+
+             if (!$this->order_item) {
+                 $this->dispatch(
+                    'alert',
+                    type : 'error',
+                    title : "Please select & place an order before creating an order !!",
+                    position: "center",
+                );
+
+                return;
+             }
                 
                     $order = new Order;
                     $order->user_id = Auth::user()->id;
@@ -304,15 +285,7 @@ class Create extends Component
                     );
 
                     return redirect()->route('orders.index');
-            }else{
-                $this->dispatch(
-                    'alert',
-                    type : 'error',
-                    title : "Please select & place an order before creating an order !!",
-                    position: "center",
-                );
-
-            }
+           
     }
 
 

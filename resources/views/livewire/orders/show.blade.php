@@ -360,9 +360,21 @@
                                     <td>{{$order->wallet ? $order->wallet->name : ""}}</td>
                                     <td>{{$order->transaction ? $order->transaction->transaction_reference : ""}}</td>
                                     <td>{{$order->currency ? $order->currency->name : ""}}</td>
-                                    <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->qty ? $order->order_item->qty : 0,2)}}</td>
-                                    <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->amount ? $order->order_item->amount : 0,2)}}</td>
-                                    <td>{{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total ? $order->total : 0,2)}}</td>
+                                    <td>
+                                        @if ($order->order_item)
+                                             {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->qty ? $order->order_item->qty : 0,2)}}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($order->order_item)
+                                            {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->order_item->amount ? $order->order_item->amount : 0,2)}}        
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($order->order_item)
+                                            {{$order->currency ? $order->currency->symbol : ""}}{{number_format($order->total ? $order->total : 0,2)}}        
+                                        @endif
+                                    </td>
         
                                 </tr>
                             </tbody>
