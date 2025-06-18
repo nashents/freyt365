@@ -72,16 +72,22 @@ class Index extends Component
 
 
     public function store(){
-        $fuel_price = new FuelPrice;
-        $fuel_price->country_id = $this->selectedCountry;
-        $fuel_price->currency_id = $this->currency_id;
-        $fuel_price->fuel_station_id = $this->fuel_station_id;
-        $fuel_price->fuel_type_id = $this->fuel_type_id;
-        $fuel_price->pump_price = $this->pump_price;
+
+        $fuel_price = FuelPrice::firstOrNew([
+        'fuel_station_id' => $this->fuel_station_id,
+        'fuel_type_id'    => $this->fuel_type_id,
+        ]);
+
+        // Update or set other fields
+        $fuel_price->country_id   = $this->selectedCountry;
+        $fuel_price->currency_id  = $this->currency_id;
+        $fuel_price->pump_price   = $this->pump_price;
         $fuel_price->retail_price = $this->retail_price;
-        $fuel_price->stock_level = $this->stock_level;
-        $fuel_price->description = $this->description;
-        $fuel_price->status = $this->status;
+        $fuel_price->stock_level  = $this->stock_level;
+        $fuel_price->description  = $this->description;
+        $fuel_price->status       = $this->status;
+
+        // Save the record (insert if new or update if existing)
         $fuel_price->save();
 
         $this->dispatch('hide-fuel_priceModal');

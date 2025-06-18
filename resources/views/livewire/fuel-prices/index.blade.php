@@ -93,7 +93,7 @@
                                                                     <ul class="dropdown-menu">
                                                                         <li><a href="#" wire:click.prevent="edit({{$fuel_price->id}})" class="dropdown-item"><i class="fa fa-edit color-success"></i> Edit</a></li>
                                                                         <li>
-                                                                            <a href="#" wire:click="delete({{$fuel_price->id}})"
+                                                                            <a href="#" wire:click.prevent="delete({{$fuel_price->id}})"
                                                                             wire:confirm="Are you sure you want to delete this fuel price?" class="dropdown-item" ><i class="fa fa-trash color-danger"></i> Delete</a>
                                                                         </li>
                                                                     </ul>
