@@ -26,4 +26,17 @@ class FuelPrice extends Model
         return $this->belongsTo('App\Models\FuelType');
     }
 
+    protected $fillable = [
+        'fuel_station_id',
+        'user_id',
+        'country_id',
+        'currency_id',
+        'fuel_type_id',
+        'pump_price',
+        'retail_price',
+        'stock_level',
+        'description',
+        'status',
+    ];
+
 }
