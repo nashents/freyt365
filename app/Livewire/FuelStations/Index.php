@@ -115,7 +115,7 @@ class Index extends Component
          $working_schedule->last_day = $this->last_day;
          $working_schedule->start_time = $this->start_time;
          $working_schedule->end_time = $this->end_time;
-         $working_schedule->everyday = $this->everyday;
+         $working_schedule->everyday = $this->everyday ?? 0;
          $working_schedule->save();
 
 
@@ -217,7 +217,7 @@ class Index extends Component
         $working_schedule->last_day = $this->last_day;
         $working_schedule->start_time = $this->start_time;
         $working_schedule->end_time = $this->end_time;
-        $working_schedule->everyday = $this->everyday;
+        $working_schedule->everyday = $this->everyday ?? 0;
         
         $working_schedule->update();
 

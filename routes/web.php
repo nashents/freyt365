@@ -75,6 +75,7 @@ use App\Http\Controllers\ServiceProviderController;
 // Route::get('/', [PagesController::class, 'index'])->name('landing_page');
 
 Route::get('/',[LoginController::class, 'getLogin'])->name('login');
+Route::get('/login',[LoginController::class, 'getLogin'])->name('get-login');
 Route::post('/login',[LoginController::class, 'postLogin'])->name('postLogin');
 Route::get('/signup',[LoginController::class, 'getSignup'])->name('signup');
 Route::post('/signup',[LoginController::class, 'postSignup'])->name('post-signup');
