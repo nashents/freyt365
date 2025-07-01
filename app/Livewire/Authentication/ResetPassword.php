@@ -33,6 +33,7 @@ class ResetPassword extends Component
             $this->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
+                    'pin' => $password,
                     'password' => Hash::make($password),
                     'remember_token' => Str::random(60),
                 ])->save();

@@ -6,11 +6,15 @@
                 @if (!Auth::user()->is_admin())
                     <div class="card-header">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#userModal" type="button" class="btn btn-outline-primary"><i class="ri-add-circle-line"></i> New User</a>
-                    
                     </div>
                 @endif
-               
+                
                 <div class="card-body">
+                     <div class="col-md-3" style="float: right; padding-right:0px">
+                        <div class="form-group">
+                            <input type="text" wire:model.debounce.300ms="search" class="form-control" placeholder="Search users...">
+                        </div>
+                    </div>
                     <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                             <tr>
@@ -83,6 +87,14 @@
                     
                         </tbody>
                     </table>
+
+                    <nav class="text-center" style="float: right">
+                        <ul class="pagination rounded-corners">
+                            @if (isset($users))
+                                {{ $users->links() }} 
+                            @endif 
+                        </ul>
+                    </nav>    
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->
@@ -230,6 +242,11 @@
                                       <label class="radio-inline mt-2">
                                         <input type="radio" wire:model.debounce.300ms="use_email_as_username" value="Phonenumber" name="optradio">Phonenumber
                                       </label>
+                                </div>
+                                <div class="mb-10">
+                                        <input type="checkbox" wire:model.debounce.300ms="update_pin"   class="line-style" />
+                                        <label for="one" class="radio-label">Update User Pin</label>
+                                        @error('update_pin') <span class="text-danger error">{{ $message }}</span>@enderror
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -74,7 +74,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+       return view('users.show')->with([
+           'id' => $id,
+        ]);
     }
 
     /**

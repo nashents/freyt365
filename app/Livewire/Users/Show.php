@@ -6,7 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 
-class Profile extends Component
+class Show extends Component
 {
 
     public $user;
@@ -58,7 +58,6 @@ class Profile extends Component
         if (isset($this->password)) {
             $user->password = Hash::make($this->password);
         }
-      
         $user->update();
 
         $this->reset(['current_password', 'password', 'password_confirmation']);
@@ -73,6 +72,6 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.users.profile');
+        return view('livewire.users.show');
     }
 }

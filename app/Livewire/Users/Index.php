@@ -6,14 +6,24 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Jobs\AccountCreationSMS;
 use App\Mail\AccountCreationMail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class Index extends Component
 {
-    public $users;
+
+    
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+    public $search;
+    protected $queryString = ['search'];
+    
+    private $users;
     public $user_id;
     public $name;
     public $surname;
@@ -26,6 +36,7 @@ class Index extends Component
     public $role_id = [];
     public $status;
     public $admin;
+    public $update_pin = False;
   
 
     private function resetInputFields(){
@@ -147,13 +158,7 @@ class Index extends Component
 
         $user =  User::find($this->user_id);
         $user->name = $this->name;
-        if (Auth::user()->company->is_admin()) {
-            $user->is_admin = 1;
-            $user->category = "Admin";
-        }else{
-            $user->is_admin = 0;
-            $user->category = "Employee";
-        }
+       
         
         $user->status = $this->status;
         $user->surname = $this->surname;
@@ -165,7 +170,13 @@ class Index extends Component
         }elseif ($this->use_email_as_username == "Phonenumber") {
             $user->username = $this->phonenumber;
         }
-        $pin =  $user->pin;
+        if ($this->update_pin == True) {
+            $pin = $this->generatePIN();
+            $user->pin = $pin;
+            $user->password = bcrypt($pin);
+        }else{
+            $pin = $user->pin;
+        }
         $user->update();
         $user->roles()->detach();
         $user->roles()->sync($this->role_id);
@@ -187,6 +198,7 @@ class Index extends Component
     }
 
     public function delete($id){
+       
         $user = User::find($id);
         $user->roles()->detach();
         $user->delete();
@@ -201,12 +213,47 @@ class Index extends Component
     public function render()
     {
         if (Auth::user()->is_admin()) {
-            $this->users = User::orderBy('name','asc')->get();
+            if (filled($this->search)) {
+                return view('livewire.users.index',[
+                    'users' => User::where('name','LIKE', "%".$this->search."%")
+                    ->orWhere('surname','LIKE', "%".$this->search."%")
+                    ->orWhere(DB::raw("concat(name, ' ', surname)"), 'LIKE', "%".$this->search."%")
+                    ->orWhere('username','LIKE', "%".$this->search."%")
+                    ->orWhere('email','LIKE', "%".$this->search."%")
+                    ->orWhere('phonenumber','LIKE', "%".$this->search."%")
+                    ->orWhereHas('roles', function ($query) {
+                        return $query->where('name', 'like', '%'.$this->search.'%');
+                    })
+                    ->orderBy('name','asc')->orderBy('surname','asc')->paginate(10)
+                ]);
+            }else{
+                return view('livewire.users.index',[
+                'users' => User::orderBy('name','asc')->orderBy('surname','asc')->paginate(10)
+                ]);
+            }
+           
         }else{
-            $this->users = User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+            if (filled($this->search)) {
+                  return view('livewire.users.index',[
+                    'users' => User::where('company_id', Auth::user()->company_id)
+                    ->where('name','LIKE', "%".$this->search."%")
+                    ->orWhere('surname','LIKE', "%".$this->search."%")
+                    ->orWhere(DB::raw("concat(name, ' ', surname)"), 'LIKE', "%".$this->search."%")
+                    ->orWhere('username','LIKE', "%".$this->search."%")
+                    ->orWhere('email','LIKE', "%".$this->search."%")
+                    ->orWhere('phonenumber','LIKE', "%".$this->search."%")
+                    ->orWhereHas('roles', function ($query) {
+                        return $query->where('name', 'like', '%'.$this->search.'%');
+                    })
+                    ->orderBy('name','asc')->orderBy('surname','asc')->paginate(10)
+                ]);
+            }else{
+                return view('livewire.users.index',[
+                'users' => User::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->orderBy('surname','asc')->paginate(10)
+            ]);
+            }
+           
         }
-        return view('livewire.users.index',[
-            'users' => $this->users
-        ]);
+       
     }
 }
