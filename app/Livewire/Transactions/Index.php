@@ -482,14 +482,14 @@ class Index extends Component
         if (Auth::user()->is_admin || Auth::user()->company->type == "admin") {
             return view('livewire.transactions.index',[
             'from_bank_accounts' => $this->from_bank_accounts,
-            'transactions' => Transaction::where('authorization','approved')->orderBy('created_at','desc')->paginate(10)
+            'transactions' => Transaction::with('order','wallet')->where('authorization','approved')->orderBy('created_at','desc')->paginate(10)
         ]);
            
 
         }else {
          return view('livewire.transactions.index',[
             'from_bank_accounts' => $this->from_bank_accounts,
-            'transactions' => Transaction::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->paginate(10)
+            'transactions' => Transaction::with('order','wallet')->where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->paginate(10)
         ]);
        
 

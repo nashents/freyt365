@@ -69,9 +69,11 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a href="{{route('transactions.show',$transaction->id)}}" class="dropdown-item"><i class="fa fa-eye color-success"></i> View</a></li>
-                                                    @if (Auth::user()->is_admin() && $transaction->verification != "verified" && $transaction->authorization == "approved")
-                                                    <li><a href="#" wire:click.prevent="showVerify({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Verify</a></li>
-                                                    @endif
+                                                        @if (Auth::user()->is_admin() && $transaction->verification != "verified" && $transaction->authorization == "approved")
+                                                            @if (!isset($transaction->order))
+                                                                <li><a href="#" wire:click.prevent="showVerify({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Verify</a></li>
+                                                            @endif
+                                                        @endif
                                                     @if (!Auth::user()->company->is_admin())
                                                         @if (Auth::user()->id == $transaction->user_id)
                                                             @if ($transaction->verification == "pending")
