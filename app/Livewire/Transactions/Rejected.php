@@ -6,6 +6,7 @@ use App\Models\Wallet;
 use App\Models\Company;
 use Livewire\Component;
 use App\Models\Transaction;
+use Livewire\WithPagination;
 use App\Mail\TransactionMail;
 use App\Models\TransactionType;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,10 @@ use App\Mail\TransactionVerificationMail;
 
 class Rejected extends Component
 {
-    public $transactions;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
+    private $transactions;
     public $admin;
     public $transaction;
     public $transaction_id;
@@ -29,7 +33,7 @@ class Rejected extends Component
 
 
         $this->admin = Company::where('type','admin')->first();
-        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->get();
+      
 
     }
 
@@ -280,9 +284,8 @@ class Rejected extends Component
     public function render()
     {
 
-        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->get();
-        return view('livewire.transactions.rejected',[
-            'transactions' => $this->transactions
+         return view('livewire.transactions.rejected',[
+            'transactions' => Transaction::where('company_id', Auth::user()->company->id)->where('authorization','rejected')->orderBy('created_at','desc')->paginate(10)
         ]);
     }
 }

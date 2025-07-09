@@ -26,7 +26,7 @@
                                 <th>Auth</th>     
                                 @endif
                                 <th>Verified/Declined</th>
-                                <th>Actions</th>
+                             
                             </tr>
                         </thead>
 
@@ -56,23 +56,13 @@
                                         <td><span class="badge bg-{{($transaction->authorization == 'approved') ? 'primary' : (($transaction->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($transaction->authorization == 'approved') ? 'approved' : (($transaction->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
                                         @endif
                                         <td><span class="badge bg-{{($transaction->verification == 'verified') ? 'primary' : (($transaction->verification == 'declined') ? 'danger' : 'warning') }}">{{($transaction->verification == 'verified') ? 'verified' : (($transaction->verification == 'declined') ? 'declined' : 'pending') }}</span></td>
-                                        <td class="w-10 line-height-35 table-dropdown">
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-bars"></i>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                   
-                                                </ul>
-                                            </div>
-                                    </td>
+                                       
                                     </tr>
                                     @empty
                                         <tr>
                                             <td colspan="12">
                                                 <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                                    No Transactions Found ....
+                                                    No Approved Transactions Found ....
                                                 </div>
                                                
                                             </td>
@@ -81,6 +71,13 @@
                             @endif
                         </tbody>
                     </table>
+                     <nav class="text-center" style="float: right">
+                                <ul class="pagination rounded-corners">
+                                    @if (isset($transactions))
+                                        {{ $transactions->links() }} 
+                                    @endif 
+                                </ul>
+                            </nav>  
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->

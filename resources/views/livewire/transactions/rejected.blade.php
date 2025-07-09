@@ -1,7 +1,6 @@
 <div>
     <x-loading/>
     <div class="row">
-       
         <div>
              @include('includes.messages')
         </div>
@@ -65,10 +64,10 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     @if ($transaction->authorization == "pending" || $transaction->authorization == "rejected")
-                                                    <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
-                                                    @else   
-                                                    {{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format(0,2)}}    
-                                                    @endif  
+                                                         @if (!isset($transaction->order))
+                                                            <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
+                                                        @endif
+                                                    @endif
                                                 </ul>
                                             </div>
                                     </td>
@@ -77,7 +76,7 @@
                                         <tr>
                                             <td colspan="12">
                                                 <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                                    No Transactions Found ....
+                                                    No Rejected Transactions Found ....
                                                 </div>
                                                
                                             </td>
@@ -86,6 +85,13 @@
                             @endif
                         </tbody>
                     </table>
+                     <nav class="text-center" style="float: right">
+                                <ul class="pagination rounded-corners">
+                                    @if (isset($transactions))
+                                        {{ $transactions->links() }} 
+                                    @endif 
+                                </ul>
+                            </nav>  
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->
@@ -132,6 +138,16 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
    
+ 
+
+  
+
+  
+
+
+
+
+
 
 
 </div>

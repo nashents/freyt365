@@ -6,6 +6,7 @@ use App\Models\Wallet;
 use App\Models\Company;
 use Livewire\Component;
 use App\Models\Transaction;
+use Livewire\WithPagination;
 use App\Mail\TransactionMail;
 use App\Models\TransactionType;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,10 @@ use Illuminate\Support\Facades\Mail;
 class Approved extends Component
 {
 
-    public $transactions;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
+    private $transactions;
     public $transaction;
     public $transaction_id;
     public $authorization;
@@ -26,11 +30,7 @@ class Approved extends Component
 
 
     public function mount(){
-
         $this->admin = Company::where('type','admin')->first();
-
-        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','approved')->orderBy('created_at','desc')->get();
-
     }
 
    
@@ -279,10 +279,8 @@ class Approved extends Component
   
     public function render()
     {
-
-        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','approved')->orderBy('created_at','desc')->get();
         return view('livewire.transactions.approved',[
-            'transactions' => $this->transactions
+            'transactions' => Transaction::where('company_id', Auth::user()->company->id)->where('authorization','approved')->orderBy('created_at','desc')->paginate(10)
         ]);
     }
 }

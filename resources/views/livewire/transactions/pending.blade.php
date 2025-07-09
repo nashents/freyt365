@@ -64,7 +64,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     @if ($transaction->authorization == "pending" || $transaction->authorization == "rejected")
-                                                        @if (!$transaction->order)
+                                                         @if (!isset($transaction->order))
                                                             <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
                                                         @endif
                                                     @endif
@@ -76,7 +76,7 @@
                                         <tr>
                                             <td colspan="12">
                                                 <div style="text-align:center; text-color:grey; padding-top:5px; padding-bottom:5px; font-size:17px">
-                                                    No Transactions Found ....
+                                                    No Pending Transactions Found ....
                                                 </div>
                                                
                                             </td>
@@ -85,6 +85,13 @@
                             @endif
                         </tbody>
                     </table>
+                     <nav class="text-center" style="float: right">
+                                <ul class="pagination rounded-corners">
+                                    @if (isset($transactions))
+                                        {{ $transactions->links() }} 
+                                    @endif 
+                                </ul>
+                            </nav>  
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->

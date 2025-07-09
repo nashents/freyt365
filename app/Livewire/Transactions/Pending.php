@@ -6,6 +6,7 @@ use App\Models\Wallet;
 use App\Models\Company;
 use Livewire\Component;
 use App\Models\Transaction;
+use Livewire\WithPagination;
 use App\Mail\TransactionMail;
 use App\Models\TransactionType;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,11 @@ use App\Mail\TransactionVerificationMail;
 
 class Pending extends Component
 {
-    public $transactions;
+
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
+    private $transactions;
     public $transaction_id;
     public $authorization;
     public $authorized_by_id;
@@ -27,8 +32,6 @@ class Pending extends Component
 
     public function mount(){
         $this->admin = Company::where('type','admin')->first();
-        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
-
     }
 
     function generateTransactionReference($length = 6) {
@@ -279,9 +282,8 @@ class Pending extends Component
     public function render()
     {
 
-        $this->transactions = Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
-        return view('livewire.transactions.pending',[
-            'transactions' => $this->transactions
+         return view('livewire.transactions.pending',[
+            'transactions' => Transaction::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->paginate(10)
         ]);
     }
 }

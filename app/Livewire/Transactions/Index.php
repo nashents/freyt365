@@ -437,8 +437,6 @@ class Index extends Component
                 
             }
 
-       
-
         $this->dispatch('hide-verificationModal');
         $this->resetInputFields();
         $this->dispatch(
