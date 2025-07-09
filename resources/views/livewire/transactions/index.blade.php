@@ -26,10 +26,8 @@
                                 <th>Type</th>
                                 <th>Ccy</th>
                                 <th>Amt</th>
-                                @if (!Auth::user()->is_admin())
                                 <th>Auth</th>     
-                                @endif
-                                <th>Verified/Declined</th>
+                                <th>Verification</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -57,10 +55,14 @@
                                         </td>
                                         <td>{{$transaction->currency ? $transaction->currency->name : ""}}</td>
                                         <td>{{$transaction->currency ? $transaction->currency->symbol : ""}}{{number_format($transaction->amount,2)}}</td>
-                                        @if (!Auth::user()->is_admin())
                                         <td><span class="badge bg-{{($transaction->authorization == 'approved') ? 'primary' : (($transaction->authorization == 'rejected') ? 'danger' : 'warning') }}">{{($transaction->authorization == 'approved') ? 'approved' : (($transaction->authorization == 'rejected') ? 'rejected' : 'pending') }}</span></td>
-                                        @endif
-                                        <td><span class="badge bg-{{($transaction->verification == 'verified') ? 'primary' : (($transaction->verification == 'declined') ? 'danger' : 'warning') }}">{{($transaction->verification == 'verified') ? 'verified' : (($transaction->verification == 'declined') ? 'declined' : 'pending') }}</span></td>
+                                        <td>
+                                            @if ($transaction->order)
+                                                <span class="badge bg-{{($transaction->order->verification == 'verified') ? 'primary' : (($transaction->order->verification == 'declined') ? 'danger' : 'warning') }}">{{($transaction->order->verification == 'verified') ? 'verified' : (($transaction->order->verification == 'declined') ? 'declined' : 'pending') }}</span>        
+                                            @else 
+                                                <span class="badge bg-{{($transaction->verification == 'verified') ? 'primary' : (($transaction->verification == 'declined') ? 'danger' : 'warning') }}">{{($transaction->verification == 'verified') ? 'verified' : (($transaction->verification == 'declined') ? 'declined' : 'pending') }}</span>
+                                            @endif
+                                        </td>
                                         <td class="w-10 line-height-35 table-dropdown">
                                             <div class="dropdown">
                                                 <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
