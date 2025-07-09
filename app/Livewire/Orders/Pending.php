@@ -5,6 +5,7 @@ namespace App\Livewire\Orders;
 use App\Models\Order;
 use App\Models\Company;
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Mail\OrderVerificationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -12,7 +13,9 @@ use App\Mail\TransactionVerificationMail;
 
 class Pending extends Component
 {
-    public $orders;
+     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    private $orders;
     public $order;
     public $order_id;
     public $authorization;
@@ -23,8 +26,6 @@ class Pending extends Component
 
     public function mount(){
         $this->admin = Company::where('type','admin')->first();
-        $this->orders = Order::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->get();
-
     }
 
     private function resetInputFields(){
@@ -168,6 +169,8 @@ class Pending extends Component
 
     public function render()
     {
-        return view('livewire.orders.pending');
+        return view('livewire.orders.pending',[
+            'orders' =>  $this->orders = Order::where('company_id', Auth::user()->company->id)->where('authorization','pending')->orderBy('created_at','desc')->paginate(10)
+        ]);
     }
 }

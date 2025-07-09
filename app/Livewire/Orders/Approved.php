@@ -5,6 +5,7 @@ namespace App\Livewire\Orders;
 use App\Models\Order;
 use App\Models\Company;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TransactionVerificationMail;
@@ -12,7 +13,10 @@ use App\Mail\TransactionVerificationMail;
 class Approved extends Component
 {
 
-    public $orders;
+     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    
+    private $orders;
     public $order_id;
     public $authorization;
     public $authorized_by_id;
@@ -22,7 +26,7 @@ class Approved extends Component
 
     public function mount(){
         $this->admin = Company::where('type','admin')->first();
-        $this->orders = Order::where('company_id', Auth::user()->company->id)->where('authorization','approved')->orderBy('created_at','desc')->get();
+        
 
     }
 
@@ -127,6 +131,8 @@ class Approved extends Component
 
     public function render()
     {
-        return view('livewire.orders.approved');
+        return view('livewire.orders.approved',[
+            'orders' =>  $this->orders = Order::where('company_id', Auth::user()->company->id)->where('authorization','approved')->orderBy('created_at','desc')->paginate(10)
+        ]);
     }
 }

@@ -107,6 +107,13 @@
                     
                         </tbody>
                     </table>
+                      <nav class="text-center" style="float: right">
+                        <ul class="pagination rounded-corners">
+                            @if (isset($orders))
+                                {{ $orders->links() }} 
+                            @endif 
+                        </ul>
+                    </nav>  
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->
