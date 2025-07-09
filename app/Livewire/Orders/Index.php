@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Transaction;
+use Livewire\WithPagination;
 use App\Mail\TransactionMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Mail;
 class Index extends Component
 {
 
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+    
     public $wallets;
     public $selectedWallet;
     public $currency_id;
@@ -42,7 +47,7 @@ class Index extends Component
     public $admin;
     public $wallet_balance;
 
-    public $orders;
+    private $orders;
     public $order;
     public $order_id;
 
@@ -253,14 +258,15 @@ class Index extends Component
     public function render()
     {
         if (Auth::user()->is_admin || Auth::user()->company->is_admin()) {
-            $this->orders = Order::where('authorization','approved')->orderBy('created_at','desc')->get();
-
+            return view('livewire.orders.index',[
+                'orders' => Order::where('authorization','approved')->orderBy('created_at','desc')->paginate(10)
+            ]);
+        
         }else {
-            $this->orders = Order::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->get();
-
+            return view('livewire.orders.index',[
+                'orders' => Order::where('company_id', Auth::user()->company->id)->orderBy('created_at','desc')->paginate(10)
+            ]);
         }
-        return view('livewire.orders.index',[
-            'orders' => $this->orders
-        ]);
+       
     }
 }
