@@ -17,6 +17,7 @@
                             <tr>
                                 <th>Order#</th>
                                 <th>Order Summary</th>
+                                <th>Company</th>
                                 <th>Driver/Horse/Trailer(s)</th>
                                 <th>Collection Date</th>
                                 <th>Amount</th>
@@ -70,6 +71,7 @@
                                     @endif
                                 @endif
                                 </td>
+                                <td>{{$order->company ? $order->company->name : ""}}</td>
                                 <td>
                                     {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} {{$order->horse ? " / ".$order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}}
                                     @if ($order->trailers->count()>0)

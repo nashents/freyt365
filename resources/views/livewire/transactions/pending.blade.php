@@ -64,7 +64,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     @if ($transaction->authorization == "pending" || $transaction->authorization == "rejected")
-                                                    <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
+                                                        @if (!$transaction->order)
+                                                            <li><a href="#" wire:click.prevent="showAuthorize({{$transaction->id}})"  class="dropdown-item"><i class="fa fa-refresh color-success"></i> Authorize</a></li>
+                                                        @endif
                                                     @endif
                                                 </ul>
                                             </div>
