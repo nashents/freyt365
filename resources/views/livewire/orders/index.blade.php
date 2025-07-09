@@ -74,7 +74,7 @@
                                 @endif
                                 </td>
                                 @if (Auth::user()->is_admin())
-                                    <td>{{$transaction->company ? $transaction->company->name : ""}}</td>
+                                    <td>{{$order->company ? $order->company->name : ""}}</td>
                                 @endif
                                 <td>
                                     {{$order->driver ? $order->driver->name : ""}} {{$order->driver ? $order->driver->surname : ""}} {{$order->horse ? " / ".$order->horse->registration_number : ""}} {{$order->horse ? "(".$order->horse->fleet_number.")" : ""}}
