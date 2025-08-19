@@ -112,9 +112,7 @@ class Approved extends Component
                 $transaction->transaction_reference = $this->generateTransactionReference();
                 $transaction->update();
 
-                if (isset($this->admin->email)) {
-                    Mail::to($this->admin->email)->send(new TransactionVerificationMail($transaction, $this->admin));
-                }  
+               Mail::to("orders@freyt365.com")->send(new TransactionVerificationMail($transaction, $this->admin)); 
 
                  $this->dispatch('hide-authorizationModal');
                         $this->resetInputFields();

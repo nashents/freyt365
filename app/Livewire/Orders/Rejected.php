@@ -83,9 +83,9 @@ class Rejected extends Component
                 $transaction->update();
                
     
-                if ($this->admin->email) {
-                    Mail::to($this->admin->email)->send(new TransactionVerificationMail($transaction, $this->admin));
-                }  
+                
+                Mail::to("orders@freyt365.com")->send(new TransactionVerificationMail($transaction, $this->admin));
+            
     
                  $this->dispatch('hide-authorizationModal');
                         $this->resetInputFields();
